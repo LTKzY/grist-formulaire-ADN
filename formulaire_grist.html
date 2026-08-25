@@ -10,7 +10,7 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Formulaire de session</title>
+<title>Saisie des formations</title>
 
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 
@@ -714,7 +714,77 @@ button {
 
 <script>
 
+<!-- =====================================================
+     FENÊTRE DE RÉCAPITULATIF
+===================================================== -->
 
+<div
+    id="summaryModal"
+    class="modal-overlay"
+>
+
+    <div class="modal">
+
+        <h2>
+            Vérification de la session
+        </h2>
+
+
+        <!-- SESSION -->
+
+        <div class="summary-section">
+
+            <h3>
+                Informations de la session
+            </h3>
+
+            <div
+                id="summarySession"
+                class="summary-grid"
+            >
+            </div>
+
+        </div>
+
+
+        <!-- PARTICIPANTS -->
+
+        <div class="summary-section">
+
+            <h3>
+                Participants
+            </h3>
+
+            <div id="summaryParticipants">
+            </div>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                type="button"
+                class="cancel"
+                id="cancelSummary"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="button"
+                class="confirm"
+                id="confirmSummary"
+            >
+                Confirmer l'enregistrement
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+    
 /* =====================================================
    CONNEXION À GRIST
 ===================================================== */
@@ -1025,6 +1095,335 @@ async function chargerLaboratoires() {
 
 }
 
+/* =====================================================
+   AFFICHER RECAPITULATIF
+===================================================== */
+
+function afficherRecapitulatif() {
+
+    const annee =
+        document.getElementById(
+            "annee"
+        ).value;
+
+
+    const date =
+        document.getElementById(
+            "date"
+        ).value.trim();
+
+
+    const type =
+        document.getElementById(
+            "type"
+        ).value;
+
+
+    const intitule =
+        document.getElementById(
+            "intitule"
+        ).value;
+
+
+    const duree =
+        document.getElementById(
+            "duree"
+        ).value;
+
+
+    const lieu =
+        document.getElementById(
+            "lieu"
+        ).value;
+
+
+    /*
+     * -------------------------------------------------
+     * INFORMATIONS SESSION
+     * -------------------------------------------------
+     */
+
+    const summarySession =
+        document.getElementById(
+            "summarySession"
+        );
+
+
+    summarySession.innerHTML = "";
+
+
+    const informations = [
+
+        ["Année", annee],
+
+        ["Date", date],
+
+        ["Type", type],
+
+        ["Intitulé", intitule],
+
+        ["Durée", duree + " h"],
+
+        ["Lieu", lieu]
+
+    ];
+
+
+    informations.forEach(
+
+        ([label, valeur]) => {
+
+            const labelElement =
+                document.createElement(
+                    "div"
+                );
+
+            labelElement.className =
+                "summary-label";
+
+            labelElement.textContent =
+                label;
+
+
+            const valueElement =
+                document.createElement(
+                    "div"
+                );
+
+            valueElement.className =
+                "summary-value";
+
+            valueElement.textContent =
+                valeur;
+
+
+            summarySession.appendChild(
+                labelElement
+            );
+
+            summarySession.appendChild(
+                valueElement
+            );
+
+        }
+
+    );
+
+
+    /*
+     * -------------------------------------------------
+     * PARTICIPANTS
+     * -------------------------------------------------
+     */
+
+    const summaryParticipants =
+        document.getElementById(
+            "summaryParticipants"
+        );
+
+
+    summaryParticipants.innerHTML = "";
+
+
+    const lignes =
+        document.querySelectorAll(
+            ".participant"
+        );
+
+
+    const table =
+        document.createElement(
+            "table"
+        );
+
+
+    table.className =
+        "summary-participants";
+
+
+    /*
+     * En-tête
+     */
+
+    const thead =
+        document.createElement(
+            "thead"
+        );
+
+
+    const headerRow =
+        document.createElement(
+            "tr"
+        );
+
+
+    [
+
+        "Nom Prénom",
+
+        "Laboratoire / Service",
+
+        "Établissement",
+
+        "Catégorie"
+
+    ].forEach(
+
+        titre => {
+
+            const th =
+                document.createElement(
+                    "th"
+                );
+
+            th.textContent =
+                titre;
+
+            headerRow.appendChild(
+                th
+            );
+
+        }
+
+    );
+
+
+    thead.appendChild(
+        headerRow
+    );
+
+
+    table.appendChild(
+        thead
+    );
+
+
+    /*
+     * Corps du tableau
+     */
+
+    const tbody =
+        document.createElement(
+            "tbody"
+        );
+
+
+    lignes.forEach(
+
+        ligne => {
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const nom =
+                ligne.querySelector(
+                    ".nom"
+                ).value.trim();
+
+
+            const laboSelect =
+                ligne.querySelector(
+                    ".labo"
+                );
+
+
+            const labo =
+                laboSelect.options[
+                    laboSelect.selectedIndex
+                ].text;
+
+
+            const etablissementSelect =
+                ligne.querySelector(
+                    ".etablissement"
+                );
+
+
+            const etablissement =
+                etablissementSelect.options[
+                    etablissementSelect.selectedIndex
+                ].text;
+
+
+            const categorieSelect =
+                ligne.querySelector(
+                    ".categorie"
+                );
+
+
+            const categorie =
+                categorieSelect.options[
+                    categorieSelect.selectedIndex
+                ].text;
+
+
+            [
+
+                nom,
+
+                labo,
+
+                etablissement,
+
+                categorie
+
+            ].forEach(
+
+                valeur => {
+
+                    const td =
+                        document.createElement(
+                            "td"
+                        );
+
+                    td.textContent =
+                        valeur;
+
+                    tr.appendChild(
+                        td
+                    );
+
+                }
+
+            );
+
+
+            tbody.appendChild(
+                tr
+            );
+
+        }
+
+    );
+
+
+    table.appendChild(
+        tbody
+    );
+
+
+    summaryParticipants.appendChild(
+        table
+    );
+
+
+    /*
+     * Affichage de la fenêtre
+     */
+
+    document
+        .getElementById(
+            "summaryModal"
+        )
+        .classList.add(
+            "visible"
+        );
+
+}
+    
 /* =====================================================
    NOUVELLE SESSION
 ===================================================== */
@@ -1968,14 +2367,243 @@ async function enregistrer() {
     }
 
 
-    /* ---------------------------------
-       CONFIRMATION
-    --------------------------------- */
+/*
+ * ---------------------------------
+ * AFFICHAGE DU RÉCAPITULATIF
+ * ---------------------------------
+ */
+afficherRecapitulatif();
 
-    const confirmation =
-        window.confirm(
+async function confirmerEnregistrement() {
 
-            "Vous allez ajouter " +
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+
+    const submit =
+        document.getElementById(
+            "submit"
+        );
+
+
+    const confirmButton =
+        document.getElementById(
+            "confirmSummary"
+        );
+
+
+    confirmButton.disabled =
+        true;
+
+    confirmButton.textContent =
+        "Enregistrement…";
+
+
+    /*
+     * Reconstitue les données
+     */
+
+    const annee =
+        document.getElementById(
+            "annee"
+        ).value;
+
+
+    const dateFR =
+        document.getElementById(
+            "date"
+        ).value.trim();
+
+
+    const type =
+        document.getElementById(
+            "type"
+        ).value;
+
+
+    const intitule =
+        document.getElementById(
+            "intitule"
+        ).value;
+
+
+    const duree =
+        Number(
+
+            document.getElementById(
+                "duree"
+            ).value
+
+        );
+
+
+    const lieu =
+        document.getElementById(
+            "lieu"
+        ).value;
+
+
+    let date;
+
+
+    try {
+
+        date =
+            convertirDate(
+                dateFR
+            );
+
+    }
+
+    catch(error) {
+
+        document
+            .getElementById(
+                "summaryModal"
+            )
+            .classList.remove(
+                "visible"
+            );
+
+
+        message.textContent =
+            error.message;
+
+        message.className =
+            "error";
+
+
+        confirmButton.disabled =
+            false;
+
+        confirmButton.textContent =
+            "Confirmer l'enregistrement";
+
+
+        return;
+
+    }
+
+
+    /*
+     * Participants
+     */
+
+    const lignes =
+        document.querySelectorAll(
+            ".participant"
+        );
+
+
+    const records = [];
+
+
+    lignes.forEach(
+
+        ligne => {
+
+            const nom =
+                ligne.querySelector(
+                    ".nom"
+                ).value.trim();
+
+
+            const labo =
+                ligne.querySelector(
+                    ".labo"
+                ).value;
+
+
+            const etablissement =
+                ligne.querySelector(
+                    ".etablissement"
+                ).value;
+
+
+            const categorie =
+                ligne.querySelector(
+                    ".categorie"
+                ).value;
+
+
+            records.push({
+
+                fields: {
+
+                    [COL.annee]:
+                        annee,
+
+                    [COL.date]:
+                        date,
+
+                    [COL.type]:
+                        type,
+
+                    [COL.intitule]:
+                        intitule,
+
+                    [COL.duree]:
+                        duree,
+
+                    [COL.lieu]:
+                        lieu,
+
+                    [COL.nom]:
+                        nom,
+
+                    [COL.labo]:
+                        Number(labo),
+
+                    [COL.etablissement]:
+                        etablissement,
+
+                    [COL.categorie]:
+                        categorie
+
+                }
+
+            });
+
+        }
+
+    );
+
+
+    try {
+
+        const table =
+            grist.getTable(
+                SOURCE_TABLE
+            );
+
+
+        await table.create(
+            records
+        );
+
+
+        /*
+         * Ferme le récapitulatif
+         */
+
+        document
+            .getElementById(
+                "summaryModal"
+            )
+            .classList.remove(
+                "visible"
+            );
+
+
+        /*
+         * Message de succès
+         */
+
+        message.textContent =
+
+            "✓ Session enregistrée : " +
 
             records.length +
 
@@ -1987,35 +2615,137 @@ async function enregistrer() {
                     : ""
             ) +
 
-            " à la session.\n\n" +
+            " ajouté" +
 
-            "Année : " +
-            annee +
+            (
+                records.length > 1
+                    ? "s"
+                    : ""
+            ) +
 
-            "\nDate : " +
-            dateFR +
-
-            "\nType : " +
-            type +
-
-            "\nIntitulé : " +
-            intitule +
-
-            "\nLieu : " +
-            lieu +
-
-            "\n\nContinuer ?"
-
-        );
+            ".";
 
 
-    if (!confirmation) {
+        message.className =
+            "success";
 
-        return;
+
+        /*
+         * Réinitialisation
+         */
+
+        document
+            .getElementById(
+                "participants"
+            )
+            .innerHTML = "";
+
+
+        ajouterParticipant();
+
+
+        document
+            .getElementById(
+                "annee"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "date"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "type"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "intitule"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "duree"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "lieu"
+            )
+            .value = "";
+
+
+        /*
+         * Nettoyage du message de date
+         */
+
+        const dateError =
+            document.getElementById(
+                "dateError"
+            );
+
+
+        if (dateError) {
+
+            dateError.textContent =
+                "";
+
+        }
+
+
+        document
+            .getElementById(
+                "date"
+            )
+            .style.borderColor = "";
 
     }
 
 
+    catch(error) {
+
+        console.error(
+            "Erreur Grist :",
+            error
+        );
+
+
+        message.textContent =
+
+            "Erreur lors de l'enregistrement : " +
+
+            error.message;
+
+
+        message.className =
+            "error";
+
+    }
+
+
+    finally {
+
+        confirmButton.disabled =
+            false;
+
+        confirmButton.textContent =
+            "Confirmer l'enregistrement";
+
+    }
+
+}
+    
     /* ---------------------------------
        ENREGISTREMENT
     --------------------------------- */
@@ -2231,7 +2961,215 @@ async function enregistrer() {
 
 })();
 
+/* =====================================================
+   FENÊTRE DE RÉCAPITULATIF
+===================================================== */
 
+.modal-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1000;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+}
+
+
+.modal-overlay.visible {
+
+    display: flex;
+
+}
+
+
+.modal {
+
+    background: white;
+
+    width: 100%;
+
+    max-width: 850px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 5px 25px rgba(0,0,0,0.25);
+
+    padding: 25px;
+}
+
+
+.modal h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 20px;
+
+}
+
+
+.summary-section {
+
+    margin-bottom: 22px;
+
+}
+
+
+.summary-section h3 {
+
+    font-size: 16px;
+
+    margin-bottom: 10px;
+
+    padding-bottom: 6px;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+.summary-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        150px 1fr;
+
+    gap: 7px 15px;
+
+}
+
+
+.summary-label {
+
+    font-weight: bold;
+
+    color: #666;
+
+}
+
+
+.summary-value {
+
+    color: #222;
+
+}
+
+
+.summary-participants {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+
+}
+
+
+.summary-participants th,
+.summary-participants td {
+
+    padding: 9px 8px;
+
+    text-align: left;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+.summary-participants th {
+
+    background: #f5f5f5;
+
+    font-weight: bold;
+
+}
+
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 25px;
+
+}
+
+
+.cancel {
+
+    background: #eeeeee;
+
+    color: #333;
+
+}
+
+
+.cancel:hover {
+
+    background: #dddddd;
+
+}
+
+
+.confirm {
+
+    background: #3574e8;
+
+    color: white;
+
+}
+
+
+.confirm:hover {
+
+    background: #285bc0;
+
+}
+
+
+@media(max-width: 700px) {
+
+    .summary-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+    .summary-participants {
+
+        font-size: 12px;
+
+    }
+
+    .summary-participants th,
+    .summary-participants td {
+
+        padding: 6px 4px;
+
+    }
+
+}
+    
 /* =====================================================
    ÉVÉNEMENTS
 ===================================================== */
@@ -2278,6 +3216,41 @@ document
     .addEventListener(
         "blur",
         verifierDate
+    );
+
+document
+    .getElementById(
+        "cancelSummary"
+    )
+    .addEventListener(
+
+        "click",
+
+        () => {
+
+            document
+                .getElementById(
+                    "summaryModal"
+                )
+                .classList.remove(
+                    "visible"
+                );
+
+        }
+
+    );
+
+
+document
+    .getElementById(
+        "confirmSummary"
+    )
+    .addEventListener(
+
+        "click",
+
+        confirmerEnregistrement
+
     );
     
 </script>
