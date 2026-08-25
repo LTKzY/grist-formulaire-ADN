@@ -1880,6 +1880,11 @@ let laboratoires = [];
 
 let participantCounter = 0;
 
+/* =====================================================
+   PROTECTION DOUBLE SOUMISSION
+===================================================== */
+
+let enregistrementEnCours = false;
 
 /* =====================================================
    OUTILS
@@ -3132,6 +3137,19 @@ function convertirDate(
 
 async function confirmerEnregistrement() {
 
+    /*
+     * Protection contre les doubles clics / doubles soumissions.
+     * Si un enregistrement est déjà en cours,
+     * on ne fait absolument rien.
+     */
+
+    if (enregistrementEnCours) {
+
+        return;
+
+    }
+
+
     if (
         !validerSession() ||
         !validerParticipants()
@@ -3140,6 +3158,13 @@ async function confirmerEnregistrement() {
         return;
 
     }
+
+
+    /*
+     * Verrouillage immédiat
+     */
+
+    enregistrementEnCours = true;
 
 
     const confirmButton =
@@ -3196,8 +3221,13 @@ async function confirmerEnregistrement() {
 
                     [COL.laboratoire]:
                         participant.laboratoire
-        ? ["L", Number(participant.laboratoire)]
-        : null,
+                            ? [
+                                "L",
+                                Number(
+                                    participant.laboratoire
+                                )
+                              ]
+                            : null,
 
                     [COL.etablissement]:
                         participant.etablissement,
@@ -3213,8 +3243,7 @@ async function confirmerEnregistrement() {
 
 
         /*
-         * C'EST ICI SEULEMENT que les données
-         * sont envoyées dans Grist.
+         * Envoi dans Grist
          */
 
         await grist.docApi.applyUserActions(
@@ -3235,6 +3264,10 @@ async function confirmerEnregistrement() {
 
         );
 
+
+        /*
+         * Succès
+         */
 
         afficherMessage(
 
@@ -3258,6 +3291,12 @@ async function confirmerEnregistrement() {
         mettreAJourProgression(3);
 
 
+        /*
+         * On conserve le verrou :
+         * la session vient d'être enregistrée,
+         * il ne faut surtout pas pouvoir la renvoyer.
+         */
+
     }
 
     catch(error) {
@@ -3277,6 +3316,15 @@ async function confirmerEnregistrement() {
         );
 
 
+        /*
+         * En cas d'erreur uniquement,
+         * on autorise une nouvelle tentative.
+         */
+
+        enregistrementEnCours =
+            false;
+
+
         confirmButton.disabled =
             false;
 
@@ -3287,7 +3335,6 @@ async function confirmerEnregistrement() {
     }
 
 }
-
 
 /* =====================================================
    NOUVELLE SESSION
@@ -3374,7 +3421,8 @@ function nouvelleSession() {
         "message"
     ).textContent =
         "";
-
+      
+    enregistrementEnCours = false;
 
     document.getElementById(
         "confirmButton"
