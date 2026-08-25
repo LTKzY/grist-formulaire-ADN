@@ -501,42 +501,6 @@ input::placeholder {
 
 }
 
-/* =====================================================
-   ERREUR DATE
-===================================================== */
-
-.field-error {
-
-    min-height: 18px;
-
-    margin-top: -2px;
-
-    color: var(--error);
-
-    font-size: 12px;
-
-    font-weight: 500;
-
-}
-
-
-input.input-error {
-
-    border-color: var(--error);
-
-    background: var(--error-bg);
-
-}
-
-
-input.input-error:focus {
-
-    border-color: var(--error);
-
-    box-shadow:
-        0 0 0 3px rgba(185, 28, 28, 0.10);
-
-}
 
 /* =====================================================
    PARTICIPANTS HEADER
@@ -1513,25 +1477,18 @@ input.input-error:focus {
 
             <div class="field">
 
-                <div class="field">
+                <label for="date">
+                    Date
+                </label>
 
-    <label for="date">
-        Date
-    </label>
+                <input
+                    type="text"
+                    id="date"
+                    placeholder="DD-MM-YYYY"
+                    maxlength="10"
+                    required>
 
-    <input
-        type="text"
-        id="date"
-        placeholder="DD-MM-YYYY"
-        maxlength="10"
-        required>
-
-    <div
-        id="dateError"
-        class="field-error">
-    </div>
-
-</div>
+            </div>
 
 
             <div class="field">
@@ -1923,11 +1880,6 @@ let laboratoires = [];
 
 let participantCounter = 0;
 
-/* =====================================================
-   PROTECTION DOUBLE SOUMISSION
-===================================================== */
-
-let enregistrementEnCours = false;
 
 /* =====================================================
    OUTILS
@@ -2654,72 +2606,7 @@ function dateValide(dateString) {
 
 }
 
-/* =====================================================
-   VALIDATION VISUELLE DE LA DATE
-===================================================== */
 
-function validerDateVisuellement() {
-
-    const dateInput =
-        document.getElementById("date");
-
-    const dateError =
-        document.getElementById("dateError");
-
-
-    const valeur =
-        dateInput.value.trim();
-
-
-    /*
-     * Champ vide
-     */
-
-    if (!valeur) {
-
-        dateInput.classList.remove(
-            "input-error"
-        );
-
-        dateError.textContent = "";
-
-        return false;
-
-    }
-
-
-    /*
-     * Date incorrecte
-     */
-
-    if (!dateValide(valeur)) {
-
-        dateInput.classList.add(
-            "input-error"
-        );
-
-        dateError.textContent =
-            "La date doit être saisie au format DD-MM-YYYY et correspondre à une date valide.";
-
-        return false;
-
-    }
-
-
-    /*
-     * Date correcte
-     */
-
-    dateInput.classList.remove(
-        "input-error"
-    );
-
-    dateError.textContent = "";
-
-    return true;
-
-}
-      
 /* =====================================================
    MESSAGE
 ===================================================== */
@@ -2875,12 +2762,20 @@ function validerSession() {
 
 
     if (
-    !validerDateVisuellement()
-) {
+        !dateValide(
+            session.date
+        )
+    ) {
 
-    return false;
+        afficherMessage(
+            "La date doit être saisie au format DD-MM-YYYY et correspondre à une date valide.",
+            "error"
+        );
 
-}
+        return false;
+
+    }
+
 
     return true;
 
@@ -3237,19 +3132,6 @@ function convertirDate(
 
 async function confirmerEnregistrement() {
 
-    /*
-     * Protection contre les doubles clics / doubles soumissions.
-     * Si un enregistrement est déjà en cours,
-     * on ne fait absolument rien.
-     */
-
-    if (enregistrementEnCours) {
-
-        return;
-
-    }
-
-
     if (
         !validerSession() ||
         !validerParticipants()
@@ -3258,13 +3140,6 @@ async function confirmerEnregistrement() {
         return;
 
     }
-
-
-    /*
-     * Verrouillage immédiat
-     */
-
-    enregistrementEnCours = true;
 
 
     const confirmButton =
@@ -3321,13 +3196,8 @@ async function confirmerEnregistrement() {
 
                     [COL.laboratoire]:
                         participant.laboratoire
-                            ? [
-                                "L",
-                                Number(
-                                    participant.laboratoire
-                                )
-                              ]
-                            : null,
+        ? ["L", Number(participant.laboratoire)]
+        : null,
 
                     [COL.etablissement]:
                         participant.etablissement,
@@ -3343,7 +3213,8 @@ async function confirmerEnregistrement() {
 
 
         /*
-         * Envoi dans Grist
+         * C'EST ICI SEULEMENT que les données
+         * sont envoyées dans Grist.
          */
 
         await grist.docApi.applyUserActions(
@@ -3364,10 +3235,6 @@ async function confirmerEnregistrement() {
 
         );
 
-
-        /*
-         * Succès
-         */
 
         afficherMessage(
 
@@ -3391,12 +3258,6 @@ async function confirmerEnregistrement() {
         mettreAJourProgression(3);
 
 
-        /*
-         * On conserve le verrou :
-         * la session vient d'être enregistrée,
-         * il ne faut surtout pas pouvoir la renvoyer.
-         */
-
     }
 
     catch(error) {
@@ -3416,15 +3277,6 @@ async function confirmerEnregistrement() {
         );
 
 
-        /*
-         * En cas d'erreur uniquement,
-         * on autorise une nouvelle tentative.
-         */
-
-        enregistrementEnCours =
-            false;
-
-
         confirmButton.disabled =
             false;
 
@@ -3435,6 +3287,7 @@ async function confirmerEnregistrement() {
     }
 
 }
+
 
 /* =====================================================
    NOUVELLE SESSION
@@ -3451,17 +3304,6 @@ function nouvelleSession() {
         "date"
     ).value = "";
 
-
-    document.getElementById(
-    "date"
-).classList.remove(
-    "input-error"
-);
-
-
-document.getElementById(
-    "dateError"
-).textContent = "";  
 
     document.getElementById(
         "type"
@@ -3532,8 +3374,7 @@ document.getElementById(
         "message"
     ).textContent =
         "";
-      
-    enregistrementEnCours = false;
+
 
     document.getElementById(
         "confirmButton"
