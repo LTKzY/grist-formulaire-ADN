@@ -10,10 +10,9 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Saisie des formations</title>
+<title>Formulaire de session</title>
 
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
-
 
 <style>
 
@@ -26,154 +25,93 @@
 }
 
 body {
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: Arial, Helvetica, sans-serif;
     margin: 0;
-
     padding: 25px;
-
     background: #f7f7f7;
-
     color: #333;
 }
 
 .container {
-
     max-width: 1200px;
-
     margin: auto;
 }
 
 h1 {
-
     font-size: 26px;
-
     margin-top: 0;
-
     margin-bottom: 25px;
 }
 
 h2 {
-
     font-size: 19px;
-
     margin-top: 0;
-
     margin-bottom: 20px;
 }
 
-.action-buttons {
-
-    display: flex;
-
-    gap: 10px;
-
-}
-
-.new-session {
-
-    background: #eeeeee;
-
-    color: #333;
-
-}
-
-.new-session:hover {
-
-    background: #dddddd;
-
-}
 
 /* =====================================================
    SECTIONS
 ===================================================== */
 
 .section {
-
     background: white;
-
     padding: 22px;
-
     margin-bottom: 20px;
-
     border-radius: 9px;
-
-    box-shadow:
-        0 1px 4px rgba(0,0,0,0.12);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12);
 }
 
 
 /* =====================================================
-   CHAMPS SESSION
+   CHAMPS
 ===================================================== */
 
 .grid {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(250px, 1fr));
-
+    grid-template-columns: repeat(2, minmax(250px, 1fr));
     gap: 18px;
 }
 
 .field {
-
     display: flex;
-
     flex-direction: column;
 }
 
 label {
-
     font-weight: bold;
-
     margin-bottom: 6px;
-
     font-size: 14px;
 }
 
 input,
 select {
-
     width: 100%;
-
     padding: 9px 10px;
-
     min-height: 40px;
-
-    border:
-        1px solid #c8c8c8;
-
+    border: 1px solid #c8c8c8;
     border-radius: 6px;
-
     background: white;
-
     font-size: 14px;
 }
 
 input:focus,
 select:focus {
-
     outline: none;
-
     border-color: #3574e8;
-
-    box-shadow:
-        0 0 0 2px rgba(53,116,232,0.12);
+    box-shadow: 0 0 0 2px rgba(53,116,232,0.12);
 }
 
 .help {
-
     margin-top: 5px;
-
     font-size: 12px;
-
     color: #777;
+}
+
+.field-error {
+    margin-top: 5px;
+    font-size: 12px;
+    min-height: 16px;
 }
 
 
@@ -182,42 +120,30 @@ select:focus {
 ===================================================== */
 
 .participant-header {
-
     display: grid;
-
     grid-template-columns:
         1.2fr
         1.3fr
         1.5fr
         1.3fr
         42px;
-
     gap: 8px;
-
     margin-bottom: 8px;
-
     font-size: 12px;
-
     font-weight: bold;
-
     color: #666;
 }
 
 .participant {
-
     display: grid;
-
     grid-template-columns:
         1.2fr
         1.3fr
         1.5fr
         1.3fr
         42px;
-
     gap: 8px;
-
     margin-bottom: 10px;
-
     align-items: center;
 }
 
@@ -227,71 +153,63 @@ select:focus {
 ===================================================== */
 
 button {
-
     border: none;
-
     border-radius: 6px;
-
     padding: 10px 17px;
-
     cursor: pointer;
-
     font-size: 14px;
-
     font-weight: bold;
 }
 
 .add {
-
     background: #eeeeee;
-
     color: #333;
-
     margin-top: 10px;
 }
 
 .add:hover {
-
     background: #dddddd;
 }
 
 .delete {
-
     width: 40px;
-
     height: 40px;
-
     padding: 0;
-
     background: #eeeeee;
-
     font-size: 20px;
 }
 
 .delete:hover {
-
     background: #dddddd;
 }
 
 .submit {
-
     background: #3574e8;
-
     color: white;
-
     font-size: 15px;
 }
 
 .submit:hover {
-
     background: #285bc0;
 }
 
 .submit:disabled {
-
     opacity: 0.6;
-
     cursor: wait;
+}
+
+.new-session {
+    background: #eeeeee;
+    color: #333;
+}
+
+.new-session:hover {
+    background: #dddddd;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
 }
 
 
@@ -300,15 +218,10 @@ button {
 ===================================================== */
 
 .buttons {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     margin-top: 20px;
-
     gap: 15px;
 }
 
@@ -318,35 +231,130 @@ button {
 ===================================================== */
 
 #message {
-
     min-height: 20px;
-
     font-weight: bold;
-
     font-size: 14px;
 }
 
 .success {
-
     color: #16803c;
 }
 
 .error {
-
     color: #c62828;
 }
 
-.field-error {
 
-    margin-top: 5px;
+/* =====================================================
+   MODALE DE RECAPITULATIF
+===================================================== */
 
-    font-size: 12px;
-
-    color: #c62828;
-
-    min-height: 16px;
-
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
+
+.modal-overlay.visible {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.25);
+    padding: 25px;
+}
+
+.modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.summary-section {
+    margin-bottom: 22px;
+}
+
+.summary-section h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #ddd;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 7px 15px;
+}
+
+.summary-label {
+    font-weight: bold;
+    color: #666;
+}
+
+.summary-value {
+    color: #222;
+}
+
+.summary-participants {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.summary-participants th,
+.summary-participants td {
+    padding: 9px 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.summary-participants th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.cancel {
+    background: #eeeeee;
+    color: #333;
+}
+
+.cancel:hover {
+    background: #dddddd;
+}
+
+.confirm {
+    background: #3574e8;
+    color: white;
+}
+
+.confirm:hover {
+    background: #285bc0;
+}
+
+.confirm:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -354,37 +362,44 @@ button {
 @media(max-width: 900px) {
 
     .grid {
-
         grid-template-columns: 1fr;
     }
 
     .participant-header {
-
         display: none;
     }
 
     .participant {
-
         grid-template-columns: 1fr;
-
         padding: 12px;
-
-        border:
-            1px solid #ddd;
-
+        border: 1px solid #ddd;
         border-radius: 7px;
     }
 
     .delete {
-
         width: 100%;
     }
 
     .buttons {
-
         flex-direction: column;
-
         align-items: stretch;
+    }
+
+    .action-buttons {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .action-buttons button {
+        width: 100%;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .summary-participants {
+        font-size: 12px;
     }
 
 }
@@ -396,9 +411,7 @@ button {
 
 <body>
 
-
 <div class="container">
-
 
 <h1>
     Nouvelle session
@@ -406,7 +419,7 @@ button {
 
 
 <!-- =====================================================
-     INFORMATIONS DE LA SESSION
+     INFORMATIONS SESSION
 ===================================================== -->
 
 <div class="section">
@@ -415,11 +428,8 @@ button {
     Informations de la session
 </h2>
 
-
 <div class="grid">
 
-
-<!-- ANNÉE -->
 
 <div class="field">
 
@@ -427,41 +437,22 @@ button {
     Année *
 </label>
 
-<select
-    id="annee"
-    required
->
+<select id="annee" required>
 
 <option value="">
     -- Choisir --
 </option>
 
-<option value="2026-2027">
-    2026-2027
-</option>
-
-<option value="2025-2026">
-    2025-2026
-</option>
-
-<option value="2024-2025">
-    2024-2025
-</option>
-
-<option value="2023-2024">
-    2023-2024
-</option>
-
-<option value="2022-2023">
-    2022-2023
-</option>
+<option value="2026-2027">2026-2027</option>
+<option value="2025-2026">2025-2026</option>
+<option value="2024-2025">2024-2025</option>
+<option value="2023-2024">2023-2024</option>
+<option value="2022-2023">2022-2023</option>
 
 </select>
 
 </div>
 
-
-<!-- DATE -->
 
 <div class="field">
 
@@ -478,20 +469,18 @@ button {
     required
 >
 
+<div class="help">
+    Format : 25-08-2026
+</div>
+
 <div
     id="dateError"
     class="field-error"
 >
 </div>
 
-<div class="help">
-    Format : 25-08-2026
 </div>
 
-</div>
-
-
-<!-- TYPE -->
 
 <div class="field">
 
@@ -499,10 +488,7 @@ button {
     Type *
 </label>
 
-<select
-    id="type"
-    required
->
+<select id="type" required>
 
 <option value="">
     -- Choisir --
@@ -525,18 +511,13 @@ button {
 </div>
 
 
-<!-- INTITULÉ -->
-
 <div class="field">
 
 <label for="intitule">
     Intitulé *
 </label>
 
-<select
-    id="intitule"
-    required
->
+<select id="intitule" required>
 
 <option value="">
     -- Choisir --
@@ -563,8 +544,6 @@ button {
 </div>
 
 
-<!-- DURÉE -->
-
 <div class="field">
 
 <label for="duree">
@@ -582,39 +561,22 @@ button {
 </div>
 
 
-<!-- LIEU -->
-
 <div class="field">
 
 <label for="lieu">
     Lieu *
 </label>
 
-<select
-    id="lieu"
-    required
->
+<select id="lieu" required>
 
 <option value="">
     -- Choisir --
 </option>
 
-<option value="Visio">
-    Visio
-</option>
-
-<option value="Caen">
-    Caen
-</option>
-
-<option value="Le Havre">
-    Le Havre
-</option>
-
-<option value="Rouen">
-    Rouen
-</option>
-
+<option value="Visio">Visio</option>
+<option value="Caen">Caen</option>
+<option value="Le Havre">Le Havre</option>
+<option value="Rouen">Rouen</option>
 <option value="Intervention Labo">
     Intervention Labo
 </option>
@@ -623,11 +585,9 @@ button {
 
 </div>
 
-
 </div>
 
 </div>
-
 
 
 <!-- =====================================================
@@ -640,33 +600,18 @@ button {
     Participants
 </h2>
 
-
 <div class="participant-header">
 
-<div>
-    Nom Prénom
-</div>
-
-<div>
-    Laboratoire / Service
-</div>
-
-<div>
-    Etablissement
-</div>
-
-<div>
-    Catégorie
-</div>
-
+<div>Nom Prénom</div>
+<div>Laboratoire / Service</div>
+<div>Etablissement</div>
+<div>Catégorie</div>
 <div></div>
 
 </div>
 
-
 <div id="participants">
 </div>
-
 
 <button
     type="button"
@@ -704,18 +649,13 @@ button {
 
 </div>
 
+</div>
 
 </div>
 
-
-</div>
-
-
-
-<script>
 
 <!-- =====================================================
-     FENÊTRE DE RÉCAPITULATIF
+     MODALE RECAPITULATIF
 ===================================================== -->
 
 <div
@@ -723,76 +663,73 @@ button {
     class="modal-overlay"
 >
 
-    <div class="modal">
+<div class="modal">
 
-        <h2>
-            Vérification de la session
-        </h2>
-
-
-        <!-- SESSION -->
-
-        <div class="summary-section">
-
-            <h3>
-                Informations de la session
-            </h3>
-
-            <div
-                id="summarySession"
-                class="summary-grid"
-            >
-            </div>
-
-        </div>
+<h2>
+    Vérification de la session
+</h2>
 
 
-        <!-- PARTICIPANTS -->
+<div class="summary-section">
 
-        <div class="summary-section">
+<h3>
+    Informations de la session
+</h3>
 
-            <h3>
-                Participants
-            </h3>
-
-            <div id="summaryParticipants">
-            </div>
-
-        </div>
-
-
-        <div class="modal-actions">
-
-            <button
-                type="button"
-                class="cancel"
-                id="cancelSummary"
-            >
-                Annuler
-            </button>
-
-            <button
-                type="button"
-                class="confirm"
-                id="confirmSummary"
-            >
-                Confirmer l'enregistrement
-            </button>
-
-        </div>
-
-    </div>
+<div
+    id="summarySession"
+    class="summary-grid"
+>
+</div>
 
 </div>
-    
+
+
+<div class="summary-section">
+
+<h3>
+    Participants
+</h3>
+
+<div id="summaryParticipants">
+</div>
+
+</div>
+
+
+<div class="modal-actions">
+
+<button
+    type="button"
+    class="cancel"
+    id="cancelSummary"
+>
+    Annuler
+</button>
+
+<button
+    type="button"
+    class="confirm"
+    id="confirmSummary"
+>
+    Confirmer l'enregistrement
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
 /* =====================================================
-   CONNEXION À GRIST
+   CONNEXION GRIST
 ===================================================== */
 
 grist.ready({
-
     requiredAccess: "full"
-
 });
 
 
@@ -800,63 +737,30 @@ grist.ready({
    CONFIGURATION
 ===================================================== */
 
-const SOURCE_TABLE =
-    "T2022_2026";
+const SOURCE_TABLE = "T2022_2026";
 
-const LAB_TABLE =
-    "Liste_laboratoires";
-
-
-/*
- * Colonnes de T2022_2026
- */
+const LAB_TABLE = "Liste_laboratoires";
 
 const COL = {
 
-    annee:
-        "Annee",
-
-    date:
-        "Date",
-
-    type:
-        "Type",
-
-    intitule:
-        "Intitule",
-
-    duree:
-        "Duree_heures_",
-
-    nom:
-        "Nom_Prenom",
-
-    labo:
-        "Laboratoire_Service",
-
-    etablissement:
-        "Etablissement",
-
-    categorie:
-        "Categorie",
-
-    lieu:
-        "Lieu"
+    annee: "Annee",
+    date: "Date",
+    type: "Type",
+    intitule: "Intitule",
+    duree: "Duree_heures_",
+    nom: "Nom_Prenom",
+    labo: "Laboratoire_Service",
+    etablissement: "Etablissement",
+    categorie: "Categorie",
+    lieu: "Lieu"
 
 };
 
-
-/*
- * Colonne affichée dans
- * Liste_laboratoires
- */
-
-const LAB_DISPLAY_COL =
-    "Nom_abrege";
+const LAB_DISPLAY_COL = "Nom_abrege";
 
 
 /* =====================================================
-   LISTES CHOICE
+   CHOICES
 ===================================================== */
 
 const ETABLISSEMENTS = [
@@ -887,7 +791,6 @@ const ETABLISSEMENTS = [
 
 ];
 
-
 const CATEGORIES = [
 
     "Doctorant",
@@ -898,45 +801,22 @@ const CATEGORIES = [
 ];
 
 
-const TYPES = [
-
-    "Campagne annuelle ADN",
-    "Formation doctorale",
-    "Intervention Labo"
-
-];
-
-
-const INTITULES = [
-
-    "Sensibilisation",
-    "PGD",
-    "Entrepôts",
-    "Data_papers"
-
-];
-
-
-const LIEUX = [
-
-    "Visio",
-    "Caen",
-    "Le Havre",
-    "Rouen",
-    "Intervention Labo"
-
-];
-
-
 /* =====================================================
-   VARIABLE LABORATOIRES
+   LABORATOIRES
 ===================================================== */
 
 let laboratoires = [];
 
 
 /* =====================================================
-   CHARGEMENT DES LABORATOIRES
+   DONNÉES EN ATTENTE DE CONFIRMATION
+===================================================== */
+
+let recordsEnAttente = [];
+
+
+/* =====================================================
+   CHARGEMENT LABORATOIRES
 ===================================================== */
 
 async function chargerLaboratoires() {
@@ -946,26 +826,12 @@ async function chargerLaboratoires() {
             LAB_TABLE
         );
 
-
     console.log(
         "Données Liste_laboratoires :",
         data
     );
 
-
     laboratoires = [];
-
-
-    /*
-     * fetchTable() renvoie normalement
-     * un objet de ce type :
-     *
-     * {
-     *     id: [1,2,3],
-     *     Nom_abrege: ["Labo A","Labo B","Labo C"]
-     * }
-     */
-
 
     if (
         !data ||
@@ -978,33 +844,17 @@ async function chargerLaboratoires() {
 
     }
 
-
     const ids =
         data.id || [];
 
-
-    /*
-     * On accepte plusieurs noms possibles
-     * pour la colonne au cas où Grist
-     * renverrait le nom affiché.
-     */
-
     const noms =
-
         data[LAB_DISPLAY_COL]
-
         ??
-
         data["$" + LAB_DISPLAY_COL]
-
         ??
-
         data["Nom abrégé"]
-
         ??
-
         [];
-
 
     if (
         !Array.isArray(ids) ||
@@ -1012,17 +862,10 @@ async function chargerLaboratoires() {
     ) {
 
         throw new Error(
-
             "Impossible de trouver les colonnes id et Nom_abrege dans Liste_laboratoires."
-
         );
 
     }
-
-
-    /*
-     * Reconstruction des lignes
-     */
 
     for (
         let i = 0;
@@ -1030,27 +873,19 @@ async function chargerLaboratoires() {
         i++
     ) {
 
-        const nom =
-            noms[i];
-
+        const nom = noms[i];
 
         if (
-
             nom !== null &&
-
             nom !== undefined &&
-
             String(nom).trim() !== ""
-
         ) {
 
             laboratoires.push({
 
-                id:
-                    ids[i],
+                id: ids[i],
 
-                nom:
-                    String(nom)
+                nom: String(nom)
 
             });
 
@@ -1058,556 +893,34 @@ async function chargerLaboratoires() {
 
     }
 
-
-    /*
-     * Tri alphabétique
-     */
-
     laboratoires.sort(
-
         (a, b) =>
-
             a.nom.localeCompare(
-
                 b.nom,
-
                 "fr",
-
                 {
-                    sensitivity:
-                        "base"
+                    sensitivity: "base"
                 }
-
             )
-
-    );
-
-
-    console.log(
-
-        "Laboratoires chargés :",
-
-        laboratoires.length,
-
-        laboratoires
-
     );
 
 }
 
+
 /* =====================================================
-   AFFICHER RECAPITULATIF
-===================================================== */
-
-function afficherRecapitulatif() {
-
-    const annee =
-        document.getElementById(
-            "annee"
-        ).value;
-
-
-    const date =
-        document.getElementById(
-            "date"
-        ).value.trim();
-
-
-    const type =
-        document.getElementById(
-            "type"
-        ).value;
-
-
-    const intitule =
-        document.getElementById(
-            "intitule"
-        ).value;
-
-
-    const duree =
-        document.getElementById(
-            "duree"
-        ).value;
-
-
-    const lieu =
-        document.getElementById(
-            "lieu"
-        ).value;
-
-
-    /*
-     * -------------------------------------------------
-     * INFORMATIONS SESSION
-     * -------------------------------------------------
-     */
-
-    const summarySession =
-        document.getElementById(
-            "summarySession"
-        );
-
-
-    summarySession.innerHTML = "";
-
-
-    const informations = [
-
-        ["Année", annee],
-
-        ["Date", date],
-
-        ["Type", type],
-
-        ["Intitulé", intitule],
-
-        ["Durée", duree + " h"],
-
-        ["Lieu", lieu]
-
-    ];
-
-
-    informations.forEach(
-
-        ([label, valeur]) => {
-
-            const labelElement =
-                document.createElement(
-                    "div"
-                );
-
-            labelElement.className =
-                "summary-label";
-
-            labelElement.textContent =
-                label;
-
-
-            const valueElement =
-                document.createElement(
-                    "div"
-                );
-
-            valueElement.className =
-                "summary-value";
-
-            valueElement.textContent =
-                valeur;
-
-
-            summarySession.appendChild(
-                labelElement
-            );
-
-            summarySession.appendChild(
-                valueElement
-            );
-
-        }
-
-    );
-
-
-    /*
-     * -------------------------------------------------
-     * PARTICIPANTS
-     * -------------------------------------------------
-     */
-
-    const summaryParticipants =
-        document.getElementById(
-            "summaryParticipants"
-        );
-
-
-    summaryParticipants.innerHTML = "";
-
-
-    const lignes =
-        document.querySelectorAll(
-            ".participant"
-        );
-
-
-    const table =
-        document.createElement(
-            "table"
-        );
-
-
-    table.className =
-        "summary-participants";
-
-
-    /*
-     * En-tête
-     */
-
-    const thead =
-        document.createElement(
-            "thead"
-        );
-
-
-    const headerRow =
-        document.createElement(
-            "tr"
-        );
-
-
-    [
-
-        "Nom Prénom",
-
-        "Laboratoire / Service",
-
-        "Établissement",
-
-        "Catégorie"
-
-    ].forEach(
-
-        titre => {
-
-            const th =
-                document.createElement(
-                    "th"
-                );
-
-            th.textContent =
-                titre;
-
-            headerRow.appendChild(
-                th
-            );
-
-        }
-
-    );
-
-
-    thead.appendChild(
-        headerRow
-    );
-
-
-    table.appendChild(
-        thead
-    );
-
-
-    /*
-     * Corps du tableau
-     */
-
-    const tbody =
-        document.createElement(
-            "tbody"
-        );
-
-
-    lignes.forEach(
-
-        ligne => {
-
-            const tr =
-                document.createElement(
-                    "tr"
-                );
-
-
-            const nom =
-                ligne.querySelector(
-                    ".nom"
-                ).value.trim();
-
-
-            const laboSelect =
-                ligne.querySelector(
-                    ".labo"
-                );
-
-
-            const labo =
-                laboSelect.options[
-                    laboSelect.selectedIndex
-                ].text;
-
-
-            const etablissementSelect =
-                ligne.querySelector(
-                    ".etablissement"
-                );
-
-
-            const etablissement =
-                etablissementSelect.options[
-                    etablissementSelect.selectedIndex
-                ].text;
-
-
-            const categorieSelect =
-                ligne.querySelector(
-                    ".categorie"
-                );
-
-
-            const categorie =
-                categorieSelect.options[
-                    categorieSelect.selectedIndex
-                ].text;
-
-
-            [
-
-                nom,
-
-                labo,
-
-                etablissement,
-
-                categorie
-
-            ].forEach(
-
-                valeur => {
-
-                    const td =
-                        document.createElement(
-                            "td"
-                        );
-
-                    td.textContent =
-                        valeur;
-
-                    tr.appendChild(
-                        td
-                    );
-
-                }
-
-            );
-
-
-            tbody.appendChild(
-                tr
-            );
-
-        }
-
-    );
-
-
-    table.appendChild(
-        tbody
-    );
-
-
-    summaryParticipants.appendChild(
-        table
-    );
-
-
-    /*
-     * Affichage de la fenêtre
-     */
-
-    document
-        .getElementById(
-            "summaryModal"
-        )
-        .classList.add(
-            "visible"
-        );
-
-}
-    
-/* =====================================================
-   NOUVELLE SESSION
-===================================================== */
-
-function nouvelleSession() {
-
-    const participants =
-        document.getElementById(
-            "participants"
-        );
-
-
-    /*
-     * Vérifie si le formulaire contient
-     * déjà des informations
-     */
-
-    const annee =
-        document.getElementById(
-            "annee"
-        ).value;
-
-    const date =
-        document.getElementById(
-            "date"
-        ).value;
-
-    const type =
-        document.getElementById(
-            "type"
-        ).value;
-
-    const intitule =
-        document.getElementById(
-            "intitule"
-        ).value;
-
-    const duree =
-        document.getElementById(
-            "duree"
-        ).value;
-
-    const lieu =
-        document.getElementById(
-            "lieu"
-        ).value;
-
-
-    const nombreParticipants =
-        participants.querySelectorAll(
-            ".participant"
-        ).length;
-
-
-    /*
-     * On considère qu'il y a des données
-     * si un champ est rempli ou si plusieurs
-     * participants existent.
-     */
-
-    const formulaireCommence =
-
-        annee ||
-        date ||
-        type ||
-        intitule ||
-        duree ||
-        lieu ||
-        nombreParticipants > 1;
-
-
-    /*
-     * Demande confirmation uniquement
-     * si nécessaire.
-     */
-
-    if (formulaireCommence) {
-
-        const confirmation =
-            window.confirm(
-
-                "Les informations actuellement saisies vont être supprimées.\n\n" +
-                "Voulez-vous commencer une nouvelle session ?"
-
-            );
-
-
-        if (!confirmation) {
-
-            return;
-
-        }
-
-    }
-
-
-    /*
-     * Réinitialisation des informations
-     * de session.
-     */
-
-    document
-        .getElementById("annee")
-        .value = "";
-
-    document
-        .getElementById("date")
-        .value = "";
-
-    document
-        .getElementById("type")
-        .value = "";
-
-    document
-        .getElementById("intitule")
-        .value = "";
-
-    document
-        .getElementById("duree")
-        .value = "";
-
-    document
-        .getElementById("lieu")
-        .value = "";
-
-
-    /*
-     * Suppression de tous les participants.
-     */
-
-    participants.innerHTML = "";
-
-
-    /*
-     * Création d'un participant vide.
-     */
-
-    ajouterParticipant();
-
-
-    /*
-     * Efface le message précédent.
-     */
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-    message.textContent = "";
-
-    message.className = "";
-
-
-    /*
-     * Replace le curseur sur l'année.
-     */
-
-    document
-        .getElementById("annee")
-        .focus();
-
-}
-    
-/* =====================================================
-   AJOUT D'OPTIONS
+   AJOUT OPTIONS
 ===================================================== */
 
 function ajouterOptions(
-
     select,
     valeurs,
     placeholder
-
 ) {
 
     const defaultOption =
-        document.createElement(
-            "option"
-        );
+        document.createElement("option");
 
-
-    defaultOption.value =
-        "";
+    defaultOption.value = "";
 
     defaultOption.textContent =
         placeholder;
@@ -1618,14 +931,11 @@ function ajouterOptions(
     defaultOption.selected =
         true;
 
-
     select.appendChild(
         defaultOption
     );
 
-
     valeurs.forEach(
-
         valeur => {
 
             const option =
@@ -1633,119 +943,87 @@ function ajouterOptions(
                     "option"
                 );
 
+            option.value = valeur;
 
-            option.value =
-                valeur;
-
-            option.textContent =
-                valeur;
-
+            option.textContent = valeur;
 
             select.appendChild(
                 option
             );
 
         }
-
     );
 
 }
 
 
 /* =====================================================
-   AJOUT D'UN PARTICIPANT
+   AJOUT PARTICIPANT
 ===================================================== */
 
 function ajouterParticipant() {
-
 
     const container =
         document.getElementById(
             "participants"
         );
 
-
     const div =
         document.createElement(
             "div"
         );
 
-
     div.className =
         "participant";
 
 
-    /* ---------------------------------
-       NOM PRÉNOM
-    --------------------------------- */
+    /* NOM */
 
     const nom =
         document.createElement(
             "input"
         );
 
+    nom.type = "text";
 
-    nom.type =
-        "text";
-
-    nom.className =
-        "nom";
+    nom.className = "nom";
 
     nom.placeholder =
         "Nom Prénom";
 
-    nom.required =
-        true;
+    nom.required = true;
 
 
-    /* ---------------------------------
-       LABORATOIRE
-    --------------------------------- */
+    /* LABORATOIRE */
 
     const labo =
         document.createElement(
             "select"
         );
 
+    labo.className = "labo";
 
-    labo.className =
-        "labo";
-
-    labo.required =
-        true;
-
+    labo.required = true;
 
     const laboDefault =
         document.createElement(
             "option"
         );
 
-
-    laboDefault.value =
-        "";
+    laboDefault.value = "";
 
     laboDefault.textContent =
         "-- Laboratoire --";
 
-    laboDefault.disabled =
-        true;
+    laboDefault.disabled = true;
 
-    laboDefault.selected =
-        true;
-
+    laboDefault.selected = true;
 
     labo.appendChild(
         laboDefault
     );
 
-
-    /*
-     * On utilise row.nom,
-     * construit dans chargerLaboratoires()
-     */
-
     laboratoires.forEach(
-
         row => {
 
             const option =
@@ -1753,44 +1031,26 @@ function ajouterParticipant() {
                     "option"
                 );
 
-
-            /*
-             * IMPORTANT :
-             * la valeur envoyée à Grist
-             * est l'ID de la ligne
-             */
-
             option.value =
                 row.id;
 
-
-            /*
-             * Le texte affiché est
-             * Nom abrégé
-             */
-
             option.textContent =
                 row.nom;
-
 
             labo.appendChild(
                 option
             );
 
         }
-
     );
 
 
-    /* ---------------------------------
-       ETABLISSEMENT
-    --------------------------------- */
+    /* ETABLISSEMENT */
 
     const etablissement =
         document.createElement(
             "select"
         );
-
 
     etablissement.className =
         "etablissement";
@@ -1798,27 +1058,19 @@ function ajouterParticipant() {
     etablissement.required =
         true;
 
-
     ajouterOptions(
-
         etablissement,
-
         ETABLISSEMENTS,
-
         "-- Etablissement --"
-
     );
 
 
-    /* ---------------------------------
-       CATÉGORIE
-    --------------------------------- */
+    /* CATEGORIE */
 
     const categorie =
         document.createElement(
             "select"
         );
-
 
     categorie.className =
         "categorie";
@@ -1826,102 +1078,63 @@ function ajouterParticipant() {
     categorie.required =
         true;
 
-
     ajouterOptions(
-
         categorie,
-
         CATEGORIES,
-
         "-- Catégorie --"
-
     );
 
 
-    /* ---------------------------------
-       BOUTON SUPPRESSION
-    --------------------------------- */
+    /* SUPPRIMER */
 
     const supprimer =
         document.createElement(
             "button"
         );
 
-
-    supprimer.type =
-        "button";
+    supprimer.type = "button";
 
     supprimer.className =
         "delete";
 
-    supprimer.textContent =
-        "×";
+    supprimer.textContent = "×";
 
     supprimer.title =
         "Supprimer ce participant";
 
-
     supprimer.addEventListener(
-
         "click",
-
         () => {
-
             div.remove();
-
         }
-
     );
 
 
-    /* ---------------------------------
-       AJOUT AU DOM
-    --------------------------------- */
+    div.appendChild(nom);
 
-    div.appendChild(
-        nom
-    );
+    div.appendChild(labo);
 
-    div.appendChild(
-        labo
-    );
+    div.appendChild(etablissement);
 
-    div.appendChild(
-        etablissement
-    );
+    div.appendChild(categorie);
 
-    div.appendChild(
-        categorie
-    );
+    div.appendChild(supprimer);
 
-    div.appendChild(
-        supprimer
-    );
-
-
-    container.appendChild(
-        div
-    );
+    container.appendChild(div);
 
 }
 
 
 /* =====================================================
-   CONVERSION DATE
+   VALIDATION DATE
 ===================================================== */
 
 function convertirDate(dateFR) {
-
-    /*
-     * Vérifie exactement le format :
-     * DD-MM-YYYY
-     */
 
     const match =
         dateFR.match(
             /^(\d{2})-(\d{2})-(\d{4})$/
         );
-
 
     if (!match) {
 
@@ -1930,7 +1143,6 @@ function convertirDate(dateFR) {
         );
 
     }
-
 
     const jour =
         Number(match[1]);
@@ -1941,10 +1153,6 @@ function convertirDate(dateFR) {
     const annee =
         Number(match[3]);
 
-
-    /*
-     * Vérification basique
-     */
 
     if (
         mois < 1 ||
@@ -1970,10 +1178,6 @@ function convertirDate(dateFR) {
     }
 
 
-    /*
-     * Création de la date
-     */
-
     const date =
         new Date(
             Date.UTC(
@@ -1984,28 +1188,10 @@ function convertirDate(dateFR) {
         );
 
 
-    /*
-     * Vérification des dates impossibles
-     *
-     * Exemple :
-     * 31-02-2026
-     */
-
     if (
-
-        date.getUTCFullYear()
-            !== annee
-
-        ||
-
-        date.getUTCMonth()
-            !== mois - 1
-
-        ||
-
-        date.getUTCDate()
-            !== jour
-
+        date.getUTCFullYear() !== annee ||
+        date.getUTCMonth() !== mois - 1 ||
+        date.getUTCDate() !== jour
     ) {
 
         throw new Error(
@@ -2015,22 +1201,20 @@ function convertirDate(dateFR) {
     }
 
 
-    /*
-     * Retourne la date au format
-     * attendu par Grist.
-     */
-
     return (
 
         `${annee}-` +
-
         `${String(mois).padStart(2, "0")}-` +
-
         `${String(jour).padStart(2, "0")}`
 
     );
 
 }
+
+
+/* =====================================================
+   VALIDATION VISUELLE DATE
+===================================================== */
 
 function verifierDate() {
 
@@ -2044,15 +1228,9 @@ function verifierDate() {
             "dateError"
         );
 
-
     const valeur =
         input.value.trim();
 
-
-    /*
-     * Champ vide :
-     * la validation "required" s'en chargera.
-     */
 
     if (!valeur) {
 
@@ -2069,11 +1247,6 @@ function verifierDate() {
 
         convertirDate(valeur);
 
-
-        /*
-         * Date correcte
-         */
-
         error.textContent =
             "✓ Date valide";
 
@@ -2083,16 +1256,11 @@ function verifierDate() {
         input.style.borderColor =
             "#16803c";
 
-
         return true;
 
     }
 
     catch (e) {
-
-        /*
-         * Date incorrecte
-         */
 
         error.textContent =
             e.message;
@@ -2103,75 +1271,45 @@ function verifierDate() {
         input.style.borderColor =
             "#c62828";
 
-
         return false;
 
     }
 
 }
+
+
 /* =====================================================
-   ENREGISTREMENT
+   CONSTRUCTION DES RECORDS
 ===================================================== */
 
-async function enregistrer() {
-
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
-    const submit =
-        document.getElementById(
-            "submit"
-        );
-
-
-    message.textContent =
-        "";
-
-    message.className =
-        "";
-
-
-    /* ---------------------------------
-       INFORMATIONS SESSION
-    --------------------------------- */
+function construireRecords() {
 
     const annee =
         document.getElementById(
             "annee"
         ).value;
 
-
     const dateFR =
         document.getElementById(
             "date"
         ).value.trim();
-
 
     const type =
         document.getElementById(
             "type"
         ).value;
 
-
     const intitule =
         document.getElementById(
             "intitule"
         ).value;
 
-
     const duree =
         Number(
-
             document.getElementById(
                 "duree"
             ).value
-
         );
-
 
     const lieu =
         document.getElementById(
@@ -2179,67 +1317,30 @@ async function enregistrer() {
         ).value;
 
 
-    /* ---------------------------------
-       VALIDATION
-    --------------------------------- */
+    /* VALIDATION SESSION */
 
     if (
-
         !annee ||
-
         !dateFR ||
-
         !type ||
-
         !intitule ||
-
         !Number.isFinite(duree) ||
-
         duree < 0 ||
-
         !lieu
-
     ) {
 
-        message.textContent =
-            "Merci de remplir tous les champs de session.";
-
-        message.className =
-            "error";
-
-        return;
+        throw new Error(
+            "Merci de remplir tous les champs de session."
+        );
 
     }
 
 
-    let date;
+    const date =
+        convertirDate(dateFR);
 
 
-    try {
-
-        date =
-            convertirDate(
-                dateFR
-            );
-
-    }
-
-    catch (error) {
-
-        message.textContent =
-            error.message;
-
-        message.className =
-            "error";
-
-        return;
-
-    }
-
-
-    /* ---------------------------------
-       PARTICIPANTS
-    --------------------------------- */
+    /* PARTICIPANTS */
 
     const lignes =
         document.querySelectorAll(
@@ -2251,257 +1352,17 @@ async function enregistrer() {
         lignes.length === 0
     ) {
 
-        message.textContent =
-            "Ajoutez au moins un participant.";
-
-        message.className =
-            "error";
-
-        return;
+        throw new Error(
+            "Ajoutez au moins un participant."
+        );
 
     }
-
-
-    const records = [];
-
-
-    for (
-        const ligne of lignes
-    ) {
-
-
-        const nom =
-            ligne.querySelector(
-                ".nom"
-            ).value.trim();
-
-
-        const labo =
-            ligne.querySelector(
-                ".labo"
-            ).value;
-
-
-        const etablissement =
-            ligne.querySelector(
-                ".etablissement"
-            ).value;
-
-
-        const categorie =
-            ligne.querySelector(
-                ".categorie"
-            ).value;
-
-
-        if (
-
-            !nom ||
-
-            !labo ||
-
-            !etablissement ||
-
-            !categorie
-
-        ) {
-
-            message.textContent =
-                "Tous les champs des participants doivent être remplis.";
-
-            message.className =
-                "error";
-
-            return;
-
-        }
-
-
-        records.push({
-
-            fields: {
-
-                /*
-                 * INFORMATIONS SESSION
-                 */
-
-                [COL.annee]:
-                    annee,
-
-                [COL.date]:
-                    date,
-
-                [COL.type]:
-                    type,
-
-                [COL.intitule]:
-                    intitule,
-
-                [COL.duree]:
-                    duree,
-
-                [COL.lieu]:
-                    lieu,
-
-
-                /*
-                 * INFORMATIONS PARTICIPANT
-                 */
-
-                [COL.nom]:
-                    nom,
-
-                [COL.labo]:
-                    Number(labo),
-
-                [COL.etablissement]:
-                    etablissement,
-
-                [COL.categorie]:
-                    categorie
-
-            }
-
-        });
-
-    }
-
-
-/*
- * ---------------------------------
- * AFFICHAGE DU RÉCAPITULATIF
- * ---------------------------------
- */
-afficherRecapitulatif();
-
-async function confirmerEnregistrement() {
-
-    const message =
-        document.getElementById(
-            "message"
-        );
-
-
-    const submit =
-        document.getElementById(
-            "submit"
-        );
-
-
-    const confirmButton =
-        document.getElementById(
-            "confirmSummary"
-        );
-
-
-    confirmButton.disabled =
-        true;
-
-    confirmButton.textContent =
-        "Enregistrement…";
-
-
-    /*
-     * Reconstitue les données
-     */
-
-    const annee =
-        document.getElementById(
-            "annee"
-        ).value;
-
-
-    const dateFR =
-        document.getElementById(
-            "date"
-        ).value.trim();
-
-
-    const type =
-        document.getElementById(
-            "type"
-        ).value;
-
-
-    const intitule =
-        document.getElementById(
-            "intitule"
-        ).value;
-
-
-    const duree =
-        Number(
-
-            document.getElementById(
-                "duree"
-            ).value
-
-        );
-
-
-    const lieu =
-        document.getElementById(
-            "lieu"
-        ).value;
-
-
-    let date;
-
-
-    try {
-
-        date =
-            convertirDate(
-                dateFR
-            );
-
-    }
-
-    catch(error) {
-
-        document
-            .getElementById(
-                "summaryModal"
-            )
-            .classList.remove(
-                "visible"
-            );
-
-
-        message.textContent =
-            error.message;
-
-        message.className =
-            "error";
-
-
-        confirmButton.disabled =
-            false;
-
-        confirmButton.textContent =
-            "Confirmer l'enregistrement";
-
-
-        return;
-
-    }
-
-
-    /*
-     * Participants
-     */
-
-    const lignes =
-        document.querySelectorAll(
-            ".participant"
-        );
 
 
     const records = [];
 
 
     lignes.forEach(
-
         ligne => {
 
             const nom =
@@ -2509,23 +1370,34 @@ async function confirmerEnregistrement() {
                     ".nom"
                 ).value.trim();
 
-
             const labo =
                 ligne.querySelector(
                     ".labo"
                 ).value;
-
 
             const etablissement =
                 ligne.querySelector(
                     ".etablissement"
                 ).value;
 
-
             const categorie =
                 ligne.querySelector(
                     ".categorie"
                 ).value;
+
+
+            if (
+                !nom ||
+                !labo ||
+                !etablissement ||
+                !categorie
+            ) {
+
+                throw new Error(
+                    "Tous les champs des participants doivent être remplis."
+                );
+
+            }
 
 
             records.push({
@@ -2567,8 +1439,381 @@ async function confirmerEnregistrement() {
             });
 
         }
-
     );
+
+
+    return records;
+
+}
+
+
+/* =====================================================
+   AFFICHER RECAPITULATIF
+===================================================== */
+
+function afficherRecapitulatif() {
+
+    const annee =
+        document.getElementById(
+            "annee"
+        ).value;
+
+    const date =
+        document.getElementById(
+            "date"
+        ).value.trim();
+
+    const type =
+        document.getElementById(
+            "type"
+        ).value;
+
+    const intitule =
+        document.getElementById(
+            "intitule"
+        ).value;
+
+    const duree =
+        document.getElementById(
+            "duree"
+        ).value;
+
+    const lieu =
+        document.getElementById(
+            "lieu"
+        ).value;
+
+
+    /* SESSION */
+
+    const summarySession =
+        document.getElementById(
+            "summarySession"
+        );
+
+    summarySession.innerHTML = "";
+
+
+    const informations = [
+
+        ["Année", annee],
+        ["Date", date],
+        ["Type", type],
+        ["Intitulé", intitule],
+        ["Durée", duree + " h"],
+        ["Lieu", lieu]
+
+    ];
+
+
+    informations.forEach(
+        ([label, valeur]) => {
+
+            const labelElement =
+                document.createElement(
+                    "div"
+                );
+
+            labelElement.className =
+                "summary-label";
+
+            labelElement.textContent =
+                label;
+
+
+            const valueElement =
+                document.createElement(
+                    "div"
+                );
+
+            valueElement.className =
+                "summary-value";
+
+            valueElement.textContent =
+                valeur;
+
+
+            summarySession.appendChild(
+                labelElement
+            );
+
+            summarySession.appendChild(
+                valueElement
+            );
+
+        }
+    );
+
+
+    /* PARTICIPANTS */
+
+    const summaryParticipants =
+        document.getElementById(
+            "summaryParticipants"
+        );
+
+    summaryParticipants.innerHTML = "";
+
+
+    const lignes =
+        document.querySelectorAll(
+            ".participant"
+        );
+
+
+    const table =
+        document.createElement(
+            "table"
+        );
+
+    table.className =
+        "summary-participants";
+
+
+    const thead =
+        document.createElement(
+            "thead"
+        );
+
+    const headerRow =
+        document.createElement(
+            "tr"
+        );
+
+
+    [
+        "Nom Prénom",
+        "Laboratoire / Service",
+        "Etablissement",
+        "Catégorie"
+    ].forEach(
+        titre => {
+
+            const th =
+                document.createElement(
+                    "th"
+                );
+
+            th.textContent =
+                titre;
+
+            headerRow.appendChild(th);
+
+        }
+    );
+
+
+    thead.appendChild(
+        headerRow
+    );
+
+    table.appendChild(
+        thead
+    );
+
+
+    const tbody =
+        document.createElement(
+            "tbody"
+        );
+
+
+    lignes.forEach(
+        ligne => {
+
+            const tr =
+                document.createElement(
+                    "tr"
+                );
+
+
+            const nom =
+                ligne.querySelector(
+                    ".nom"
+                ).value.trim();
+
+
+            const laboSelect =
+                ligne.querySelector(
+                    ".labo"
+                );
+
+            const labo =
+                laboSelect.options[
+                    laboSelect.selectedIndex
+                ].text;
+
+
+            const etablissementSelect =
+                ligne.querySelector(
+                    ".etablissement"
+                );
+
+            const etablissement =
+                etablissementSelect.options[
+                    etablissementSelect.selectedIndex
+                ].text;
+
+
+            const categorieSelect =
+                ligne.querySelector(
+                    ".categorie"
+                );
+
+            const categorie =
+                categorieSelect.options[
+                    categorieSelect.selectedIndex
+                ].text;
+
+
+            [
+                nom,
+                labo,
+                etablissement,
+                categorie
+            ].forEach(
+                valeur => {
+
+                    const td =
+                        document.createElement(
+                            "td"
+                        );
+
+                    td.textContent =
+                        valeur;
+
+                    tr.appendChild(td);
+
+                }
+            );
+
+
+            tbody.appendChild(tr);
+
+        }
+    );
+
+
+    table.appendChild(
+        tbody
+    );
+
+    summaryParticipants.appendChild(
+        table
+    );
+
+
+    document
+        .getElementById(
+            "summaryModal"
+        )
+        .classList.add(
+            "visible"
+        );
+
+}
+
+
+/* =====================================================
+   ENREGISTRER = VALIDATION + RECAP
+===================================================== */
+
+function enregistrer() {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent = "";
+
+    message.className = "";
+
+
+    try {
+
+        /*
+         * Validation complète.
+         *
+         * Si la date est incorrecte,
+         * l'erreur est interceptée ici.
+         */
+
+        recordsEnAttente =
+            construireRecords();
+
+
+        /*
+         * Si tout est correct,
+         * afficher le récapitulatif.
+         */
+
+        afficherRecapitulatif();
+
+    }
+
+    catch(error) {
+
+        message.textContent =
+            error.message;
+
+        message.className =
+            "error";
+
+
+        /*
+         * Si l'erreur concerne la date,
+         * on réaffiche aussi son message
+         * sous le champ.
+         */
+
+        if (
+            error.message.includes("date")
+            ||
+            error.message.includes("Date")
+        ) {
+
+            verifierDate();
+
+        }
+
+    }
+
+}
+
+
+/* =====================================================
+   CONFIRMER ENREGISTREMENT
+===================================================== */
+
+async function confirmerEnregistrement() {
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    const confirmButton =
+        document.getElementById(
+            "confirmSummary"
+        );
+
+
+    if (
+        !recordsEnAttente ||
+        recordsEnAttente.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    confirmButton.disabled =
+        true;
+
+    confirmButton.textContent =
+        "Enregistrement…";
 
 
     try {
@@ -2580,12 +1825,12 @@ async function confirmerEnregistrement() {
 
 
         await table.create(
-            records
+            recordsEnAttente
         );
 
 
         /*
-         * Ferme le récapitulatif
+         * Fermer la fenêtre
          */
 
         document
@@ -2598,19 +1843,19 @@ async function confirmerEnregistrement() {
 
 
         /*
-         * Message de succès
+         * Message succès
          */
 
         message.textContent =
 
             "✓ Session enregistrée : " +
 
-            records.length +
+            recordsEnAttente.length +
 
             " participant" +
 
             (
-                records.length > 1
+                recordsEnAttente.length > 1
                     ? "s"
                     : ""
             ) +
@@ -2618,13 +1863,12 @@ async function confirmerEnregistrement() {
             " ajouté" +
 
             (
-                records.length > 1
+                recordsEnAttente.length > 1
                     ? "s"
                     : ""
             ) +
 
             ".";
-
 
         message.className =
             "success";
@@ -2686,22 +1930,13 @@ async function confirmerEnregistrement() {
             .value = "";
 
 
-        /*
-         * Nettoyage du message de date
-         */
-
         const dateError =
             document.getElementById(
                 "dateError"
             );
 
 
-        if (dateError) {
-
-            dateError.textContent =
-                "";
-
-        }
+        dateError.textContent = "";
 
 
         document
@@ -2710,8 +1945,10 @@ async function confirmerEnregistrement() {
             )
             .style.borderColor = "";
 
-    }
 
+        recordsEnAttente = [];
+
+    }
 
     catch(error) {
 
@@ -2722,17 +1959,13 @@ async function confirmerEnregistrement() {
 
 
         message.textContent =
-
             "Erreur lors de l'enregistrement : " +
-
             error.message;
-
 
         message.className =
             "error";
 
     }
-
 
     finally {
 
@@ -2745,161 +1978,158 @@ async function confirmerEnregistrement() {
     }
 
 }
-    
-    /* ---------------------------------
-       ENREGISTREMENT
-    --------------------------------- */
-
-    submit.disabled =
-        true;
-
-    submit.textContent =
-        "Enregistrement…";
 
 
-    try {
+/* =====================================================
+   NOUVELLE SESSION
+===================================================== */
+
+function nouvelleSession() {
+
+    const participants =
+        document.getElementById(
+            "participants"
+        );
 
 
-        const table =
-            grist.getTable(
-                SOURCE_TABLE
+    const formulaireCommence =
+
+        document.getElementById(
+            "annee"
+        ).value
+
+        ||
+
+        document.getElementById(
+            "date"
+        ).value
+
+        ||
+
+        document.getElementById(
+            "type"
+        ).value
+
+        ||
+
+        document.getElementById(
+            "intitule"
+        ).value
+
+        ||
+
+        document.getElementById(
+            "duree"
+        ).value
+
+        ||
+
+        document.getElementById(
+            "lieu"
+        ).value
+
+        ||
+
+        participants.querySelectorAll(
+            ".participant"
+        ).length > 1;
+
+
+    if (formulaireCommence) {
+
+        const confirmation =
+            window.confirm(
+
+                "Les informations actuellement saisies vont être supprimées.\n\n" +
+                "Voulez-vous commencer une nouvelle session ?"
+
             );
 
 
-        await table.create(
-            records
+        if (!confirmation) {
+
+            return;
+
+        }
+
+    }
+
+
+    document
+        .getElementById(
+            "annee"
+        ).value = "";
+
+
+    document
+        .getElementById(
+            "date"
+        ).value = "";
+
+
+    document
+        .getElementById(
+            "type"
+        ).value = "";
+
+
+    document
+        .getElementById(
+            "intitule"
+        ).value = "";
+
+
+    document
+        .getElementById(
+            "duree"
+        ).value = "";
+
+
+    document
+        .getElementById(
+            "lieu"
+        ).value = "";
+
+
+    participants.innerHTML = "";
+
+
+    ajouterParticipant();
+
+
+    const message =
+        document.getElementById(
+            "message"
         );
 
+    message.textContent = "";
 
-        /* ---------------------------------
-           MESSAGE SUCCÈS
-        --------------------------------- */
-
-        message.textContent =
-
-            "✓ Session enregistrée : " +
-
-            records.length +
-
-            " participant" +
-
-            (
-                records.length > 1
-                    ? "s"
-                    : ""
-            ) +
-
-            " ajouté" +
-
-            (
-                records.length > 1
-                    ? "s"
-                    : ""
-            ) +
-
-            ".";
+    message.className = "";
 
 
-        message.className =
-            "success";
-
-
-        /* ---------------------------------
-           RESET
-        --------------------------------- */
-
-        document
-            .getElementById(
-                "participants"
-            )
-            .innerHTML =
-            "";
-
-
-        ajouterParticipant();
-
-
-        document
-            .getElementById(
-                "annee"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "date"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "type"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "intitule"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "duree"
-            )
-            .value =
-            "";
-
-
-        document
-            .getElementById(
-                "lieu"
-            )
-            .value =
-            "";
-
-    }
-
-
-    catch(error) {
-
-
-        console.error(
-            "Erreur Grist :",
-            error
+    const dateError =
+        document.getElementById(
+            "dateError"
         );
 
-
-        message.textContent =
-
-            "Erreur lors de l'enregistrement : " +
-
-            error.message;
+    dateError.textContent = "";
 
 
-        message.className =
-            "error";
+    document
+        .getElementById(
+            "date"
+        )
+        .style.borderColor = "";
 
-    }
+
+    recordsEnAttente = [];
 
 
-    finally {
-
-        submit.disabled =
-            false;
-
-        submit.textContent =
-            "Enregistrer la session";
-
-    }
+    document
+        .getElementById(
+            "annee"
+        )
+        .focus();
 
 }
 
@@ -2910,49 +2140,26 @@ async function confirmerEnregistrement() {
 
 (async function() {
 
-
     try {
-
-
-        /*
-         * On charge les laboratoires
-         * AVANT de créer la première
-         * ligne participant.
-         */
 
         await chargerLaboratoires();
 
-
-        /*
-         * Création de la première ligne
-         */
-
         ajouterParticipant();
-
 
     }
 
-
     catch(error) {
 
-
-        console.error(
-            error
-        );
-
+        console.error(error);
 
         const message =
             document.getElementById(
                 "message"
             );
 
-
         message.textContent =
-
             "Impossible de charger les laboratoires : " +
-
             error.message;
-
 
         message.className =
             "error";
@@ -2961,215 +2168,7 @@ async function confirmerEnregistrement() {
 
 })();
 
-/* =====================================================
-   FENÊTRE DE RÉCAPITULATIF
-===================================================== */
 
-.modal-overlay {
-
-    display: none;
-
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0, 0, 0, 0.45);
-
-    z-index: 1000;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 20px;
-}
-
-
-.modal-overlay.visible {
-
-    display: flex;
-
-}
-
-
-.modal {
-
-    background: white;
-
-    width: 100%;
-
-    max-width: 850px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    border-radius: 10px;
-
-    box-shadow:
-        0 5px 25px rgba(0,0,0,0.25);
-
-    padding: 25px;
-}
-
-
-.modal h2 {
-
-    margin-top: 0;
-
-    margin-bottom: 20px;
-
-}
-
-
-.summary-section {
-
-    margin-bottom: 22px;
-
-}
-
-
-.summary-section h3 {
-
-    font-size: 16px;
-
-    margin-bottom: 10px;
-
-    padding-bottom: 6px;
-
-    border-bottom: 1px solid #ddd;
-
-}
-
-
-.summary-grid {
-
-    display: grid;
-
-    grid-template-columns:
-        150px 1fr;
-
-    gap: 7px 15px;
-
-}
-
-
-.summary-label {
-
-    font-weight: bold;
-
-    color: #666;
-
-}
-
-
-.summary-value {
-
-    color: #222;
-
-}
-
-
-.summary-participants {
-
-    width: 100%;
-
-    border-collapse: collapse;
-
-    font-size: 13px;
-
-}
-
-
-.summary-participants th,
-.summary-participants td {
-
-    padding: 9px 8px;
-
-    text-align: left;
-
-    border-bottom: 1px solid #ddd;
-
-}
-
-
-.summary-participants th {
-
-    background: #f5f5f5;
-
-    font-weight: bold;
-
-}
-
-
-.modal-actions {
-
-    display: flex;
-
-    justify-content: flex-end;
-
-    gap: 10px;
-
-    margin-top: 25px;
-
-}
-
-
-.cancel {
-
-    background: #eeeeee;
-
-    color: #333;
-
-}
-
-
-.cancel:hover {
-
-    background: #dddddd;
-
-}
-
-
-.confirm {
-
-    background: #3574e8;
-
-    color: white;
-
-}
-
-
-.confirm:hover {
-
-    background: #285bc0;
-
-}
-
-
-@media(max-width: 700px) {
-
-    .summary-grid {
-
-        grid-template-columns: 1fr;
-
-    }
-
-    .summary-participants {
-
-        font-size: 12px;
-
-    }
-
-    .summary-participants th,
-    .summary-participants td {
-
-        padding: 6px 4px;
-
-    }
-
-}
-    
 /* =====================================================
    ÉVÉNEMENTS
 ===================================================== */
@@ -3179,11 +2178,8 @@ document
         "addParticipant"
     )
     .addEventListener(
-
         "click",
-
         ajouterParticipant
-
     );
 
 
@@ -3192,40 +2188,37 @@ document
         "submit"
     )
     .addEventListener(
-
         "click",
-
         enregistrer
-
     );
+
 
 document
     .getElementById(
         "newSession"
     )
     .addEventListener(
-
         "click",
-
         nouvelleSession
-
     );
 
+
 document
-    .getElementById("date")
+    .getElementById(
+        "date"
+    )
     .addEventListener(
         "blur",
         verifierDate
     );
+
 
 document
     .getElementById(
         "cancelSummary"
     )
     .addEventListener(
-
         "click",
-
         () => {
 
             document
@@ -3237,7 +2230,6 @@ document
                 );
 
         }
-
     );
 
 
@@ -3246,13 +2238,10 @@ document
         "confirmSummary"
     )
     .addEventListener(
-
         "click",
-
         confirmerEnregistrement
-
     );
-    
+
 </script>
 
 </body>
