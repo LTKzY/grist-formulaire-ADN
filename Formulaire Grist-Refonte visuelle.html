@@ -779,63 +779,29 @@ input::placeholder {
 ===================================================== */
 
 .new-session-wrapper {
-
     display: flex;
-
-    justify-content: flex-end;
-
+    justify-content: center;
     margin-bottom: 14px;
-
 }
-
 
 .new-session {
-
-    min-width: 220px;
-
-    min-height: 47px;
-
-    padding: 12px 24px;
-
-    border: 1px solid var(--violet-soft);
-
-    border-radius: 9px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #FFFFFF,
-            #F5F3FF
-        );
-
-    color: var(--violet-dark);
-
+    border: none;
+    background: transparent;
+    color: var(--violet);
     font-size: 14px;
-
     font-weight: 700;
-
     cursor: pointer;
-
-    box-shadow:
-        0 3px 10px rgba(76, 29, 149, 0.08);
-
+    padding: 8px 18px;
+    border-radius: 8px;
     transition:
-        transform 0.12s ease,
-        box-shadow 0.12s ease,
-        background 0.12s ease;
-
+        background 0.15s ease,
+        color 0.15s ease;
 }
 
-
 .new-session:hover {
-
+    color: var(--violet-dark);
     background: var(--violet-pale);
-
-    transform: translateY(-1px);
-
-    box-shadow:
-        0 5px 14px rgba(76, 29, 149, 0.13);
-
+    text-decoration: none;
 }
 
 
