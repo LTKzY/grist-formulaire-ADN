@@ -10,12 +10,16 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>Saisie d'une session</title>
+<title>Formulaire de session</title>
 
 <script src="https://docs.getgrist.com/grist-plugin-api.js"></script>
 
 
 <style>
+
+/* =====================================================
+   GENERAL
+===================================================== */
 
 * {
     box-sizing: border-box;
@@ -37,14 +41,12 @@ body {
     color: #333;
 }
 
-
 .container {
 
     max-width: 1200px;
 
     margin: auto;
 }
-
 
 h1 {
 
@@ -55,7 +57,6 @@ h1 {
     margin-bottom: 25px;
 }
 
-
 h2 {
 
     font-size: 19px;
@@ -65,6 +66,10 @@ h2 {
     margin-bottom: 20px;
 }
 
+
+/* =====================================================
+   SECTIONS
+===================================================== */
 
 .section {
 
@@ -81,6 +86,10 @@ h2 {
 }
 
 
+/* =====================================================
+   CHAMPS SESSION
+===================================================== */
+
 .grid {
 
     display: grid;
@@ -91,14 +100,12 @@ h2 {
     gap: 18px;
 }
 
-
 .field {
 
     display: flex;
 
     flex-direction: column;
 }
-
 
 label {
 
@@ -108,7 +115,6 @@ label {
 
     font-size: 14px;
 }
-
 
 input,
 select {
@@ -129,7 +135,6 @@ select {
     font-size: 14px;
 }
 
-
 input:focus,
 select:focus {
 
@@ -141,7 +146,6 @@ select:focus {
         0 0 0 2px rgba(53,116,232,0.12);
 }
 
-
 .help {
 
     margin-top: 5px;
@@ -152,9 +156,9 @@ select:focus {
 }
 
 
-/* -------------------------
+/* =====================================================
    PARTICIPANTS
-------------------------- */
+===================================================== */
 
 .participant-header {
 
@@ -178,7 +182,6 @@ select:focus {
     color: #666;
 }
 
-
 .participant {
 
     display: grid;
@@ -198,50 +201,9 @@ select:focus {
 }
 
 
-.delete {
-
-    width: 40px;
-
-    height: 40px;
-
-    padding: 0;
-
-    border: none;
-
-    border-radius: 6px;
-
-    background: #eeeeee;
-
-    cursor: pointer;
-
-    font-size: 20px;
-}
-
-
-.delete:hover {
-
-    background: #dddddd;
-}
-
-
-/* -------------------------
+/* =====================================================
    BOUTONS
-------------------------- */
-
-.buttons {
-
-    display: flex;
-
-    justify-content:
-        space-between;
-
-    align-items: center;
-
-    margin-top: 20px;
-
-    gap: 15px;
-}
-
+===================================================== */
 
 button {
 
@@ -258,20 +220,37 @@ button {
     font-weight: bold;
 }
 
-
 .add {
 
     background: #eeeeee;
 
     color: #333;
-}
 
+    margin-top: 10px;
+}
 
 .add:hover {
 
     background: #dddddd;
 }
 
+.delete {
+
+    width: 40px;
+
+    height: 40px;
+
+    padding: 0;
+
+    background: #eeeeee;
+
+    font-size: 20px;
+}
+
+.delete:hover {
+
+    background: #dddddd;
+}
 
 .submit {
 
@@ -282,12 +261,10 @@ button {
     font-size: 15px;
 }
 
-
 .submit:hover {
 
     background: #285bc0;
 }
-
 
 .submit:disabled {
 
@@ -297,9 +274,27 @@ button {
 }
 
 
-/* -------------------------
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.buttons {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 20px;
+
+    gap: 15px;
+}
+
+
+/* =====================================================
    MESSAGES
-------------------------- */
+===================================================== */
 
 #message {
 
@@ -310,12 +305,10 @@ button {
     font-size: 14px;
 }
 
-
 .success {
 
     color: #16803c;
 }
-
 
 .error {
 
@@ -323,9 +316,9 @@ button {
 }
 
 
-/* -------------------------
+/* =====================================================
    RESPONSIVE
-------------------------- */
+===================================================== */
 
 @media(max-width: 900px) {
 
@@ -349,8 +342,6 @@ button {
             1px solid #ddd;
 
         border-radius: 7px;
-
-        margin-bottom: 15px;
     }
 
     .delete {
@@ -384,8 +375,8 @@ button {
 
 
 <!-- =====================================================
-     INFORMATIONS SESSION
-====================================================== -->
+     INFORMATIONS DE LA SESSION
+===================================================== -->
 
 <div class="section">
 
@@ -451,7 +442,7 @@ button {
     id="date"
     type="text"
     placeholder="DD-MM-YYYY"
-    pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-[0-9]{4}$"
+    maxlength="10"
     required
 >
 
@@ -479,15 +470,15 @@ button {
     -- Choisir --
 </option>
 
-<option>
+<option value="Campagne annuelle ADN">
     Campagne annuelle ADN
 </option>
 
-<option>
+<option value="Formation doctorale">
     Formation doctorale
 </option>
 
-<option>
+<option value="Intervention Labo">
     Intervention Labo
 </option>
 
@@ -513,19 +504,19 @@ button {
     -- Choisir --
 </option>
 
-<option>
+<option value="Sensibilisation">
     Sensibilisation
 </option>
 
-<option>
+<option value="PGD">
     PGD
 </option>
 
-<option>
+<option value="Entrepôts">
     Entrepôts
 </option>
 
-<option>
+<option value="Data_papers">
     Data_papers
 </option>
 
@@ -570,23 +561,23 @@ button {
     -- Choisir --
 </option>
 
-<option>
+<option value="Visio">
     Visio
 </option>
 
-<option>
+<option value="Caen">
     Caen
 </option>
 
-<option>
+<option value="Le Havre">
     Le Havre
 </option>
 
-<option>
+<option value="Rouen">
     Rouen
 </option>
 
-<option>
+<option value="Intervention Labo">
     Intervention Labo
 </option>
 
@@ -603,10 +594,9 @@ button {
 
 <!-- =====================================================
      PARTICIPANTS
-====================================================== -->
+===================================================== -->
 
 <div class="section">
-
 
 <h2>
     Participants
@@ -676,9 +666,8 @@ button {
 
 
 /* =====================================================
-   CONFIGURATION GRIST
-====================================================== */
-
+   CONNEXION À GRIST
+===================================================== */
 
 grist.ready({
 
@@ -687,16 +676,19 @@ grist.ready({
 });
 
 
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
 const SOURCE_TABLE =
     "T2022_2026";
-
 
 const LAB_TABLE =
     "Liste_laboratoires";
 
 
 /*
- * Identifiants exacts des colonnes
+ * Colonnes de T2022_2026
  */
 
 const COL = {
@@ -735,66 +727,42 @@ const COL = {
 
 
 /*
- * Colonne utilisée pour afficher
- * les laboratoires
+ * Colonne affichée dans
+ * Liste_laboratoires
  */
 
 const LAB_DISPLAY_COL =
     "Nom_abrege";
 
 
-
 /* =====================================================
-   LISTES DE CHOIX
-====================================================== */
-
+   LISTES CHOICE
+===================================================== */
 
 const ETABLISSEMENTS = [
 
     "Université de Caen Normandie",
-
     "Université de Rouen Normandie",
-
     "INSA Rouen Normandie",
-
     "Information manquante",
-
     "Université Le Havre Normandie",
-
     "ENSICAEN",
-
     "UniLaSalle",
-
     "Normandie Université",
-
     "Autre",
-
     "Autre Normandie",
-
     "Centre François Baclesse",
-
     "CHU de Rouen Normandie",
-
     "EM Normandie",
-
     "Builders École d’ingénieurs",
-
     "Ensa Normandie",
-
     "Cesi",
-
     "ESIGELEC",
-
     "ESADHaR",
-
     "ésam Caen/Cherbourg",
-
     "Neoma Business School",
-
     "CHU de Caen Normandie",
-
     "CROUS Normandie",
-
     "GIP LABÉO"
 
 ];
@@ -803,11 +771,8 @@ const ETABLISSEMENTS = [
 const CATEGORIES = [
 
     "Doctorant",
-
     "Personnel d'appui à la recherche",
-
     "Enseignant-chercheur",
-
     "Autre"
 
 ];
@@ -816,9 +781,7 @@ const CATEGORIES = [
 const TYPES = [
 
     "Campagne annuelle ADN",
-
     "Formation doctorale",
-
     "Intervention Labo"
 
 ];
@@ -827,11 +790,8 @@ const TYPES = [
 const INTITULES = [
 
     "Sensibilisation",
-
     "PGD",
-
     "Entrepôts",
-
     "Data_papers"
 
 ];
@@ -840,26 +800,24 @@ const INTITULES = [
 const LIEUX = [
 
     "Visio",
-
     "Caen",
-
     "Le Havre",
-
     "Rouen",
-
     "Intervention Labo"
 
 ];
 
 
-
 /* =====================================================
-   LABORATOIRES
-====================================================== */
-
+   VARIABLE LABORATOIRES
+===================================================== */
 
 let laboratoires = [];
 
+
+/* =====================================================
+   CHARGEMENT DES LABORATOIRES
+===================================================== */
 
 async function chargerLaboratoires() {
 
@@ -868,45 +826,111 @@ async function chargerLaboratoires() {
             LAB_TABLE
         );
 
-    /*
-     * Grist renvoie les données sous forme :
-     *
-     * {
-     *   id: [1, 2, 3],
-     *   Nom_abrege: ["Labo A", "Labo B", "Labo C"]
-     * }
-     *
-     * On transforme cela en :
-     *
-     * [
-     *   {id: 1, Nom_abrege: "Labo A"},
-     *   {id: 2, Nom_abrege: "Labo B"},
-     *   {id: 3, Nom_abrege: "Labo C"}
-     * ]
-     */
 
-    const ids = data.id || [];
+    console.log(
+        "Données Liste_laboratoires :",
+        data
+    );
 
-    const noms =
-        data[LAB_DISPLAY_COL] || [];
 
     laboratoires = [];
 
-    for (let i = 0; i < ids.length; i++) {
 
-        const nom = noms[i];
+    /*
+     * fetchTable() renvoie normalement
+     * un objet de ce type :
+     *
+     * {
+     *     id: [1,2,3],
+     *     Nom_abrege: ["Labo A","Labo B","Labo C"]
+     * }
+     */
+
+
+    if (
+        !data ||
+        typeof data !== "object"
+    ) {
+
+        throw new Error(
+            "Format inattendu des données de Liste_laboratoires."
+        );
+
+    }
+
+
+    const ids =
+        data.id || [];
+
+
+    /*
+     * On accepte plusieurs noms possibles
+     * pour la colonne au cas où Grist
+     * renverrait le nom affiché.
+     */
+
+    const noms =
+
+        data[LAB_DISPLAY_COL]
+
+        ??
+
+        data["$" + LAB_DISPLAY_COL]
+
+        ??
+
+        data["Nom abrégé"]
+
+        ??
+
+        [];
+
+
+    if (
+        !Array.isArray(ids) ||
+        !Array.isArray(noms)
+    ) {
+
+        throw new Error(
+
+            "Impossible de trouver les colonnes id et Nom_abrege dans Liste_laboratoires."
+
+        );
+
+    }
+
+
+    /*
+     * Reconstruction des lignes
+     */
+
+    for (
+        let i = 0;
+        i < ids.length;
+        i++
+    ) {
+
+        const nom =
+            noms[i];
+
 
         if (
+
             nom !== null &&
+
             nom !== undefined &&
+
             String(nom).trim() !== ""
+
         ) {
 
             laboratoires.push({
 
-                id: ids[i],
+                id:
+                    ids[i],
 
-                [LAB_DISPLAY_COL]: nom
+                nom:
+                    String(nom)
 
             });
 
@@ -920,294 +944,49 @@ async function chargerLaboratoires() {
      */
 
     laboratoires.sort(
+
         (a, b) =>
 
-            String(
-                a[LAB_DISPLAY_COL]
-            ).localeCompare(
+            a.nom.localeCompare(
 
-                String(
-                    b[LAB_DISPLAY_COL]
-                ),
+                b.nom,
 
                 "fr",
 
                 {
-                    sensitivity: "base"
+                    sensitivity:
+                        "base"
                 }
 
             )
+
+    );
+
+
+    console.log(
+
+        "Laboratoires chargés :",
+
+        laboratoires.length,
+
+        laboratoires
+
     );
 
 }
-
-
-/* =====================================================
-   CRÉATION D'UNE LIGNE PARTICIPANT
-====================================================== */
-
-
-function ajouterParticipant() {
-
-
-    const container =
-        document.getElementById(
-            "participants"
-        );
-
-
-    const div =
-        document.createElement(
-            "div"
-        );
-
-
-    div.className =
-        "participant";
-
-
-    /* -------------------------
-       NOM
-    ------------------------- */
-
-
-    const nom =
-        document.createElement(
-            "input"
-        );
-
-
-    nom.type =
-        "text";
-
-    nom.className =
-        "nom";
-
-    nom.placeholder =
-        "Nom Prénom";
-
-    nom.required =
-        true;
-
-
-
-    /* -------------------------
-       LABORATOIRE
-    ------------------------- */
-
-
-    const labo =
-        document.createElement(
-            "select"
-        );
-
-
-    labo.className =
-        "labo";
-
-    labo.required =
-        true;
-
-
-    const laboDefault =
-        document.createElement(
-            "option"
-        );
-
-
-    laboDefault.value =
-        "";
-
-    laboDefault.textContent =
-        "-- Laboratoire --";
-
-    laboDefault.disabled =
-        true;
-
-    laboDefault.selected =
-        true;
-
-
-    labo.appendChild(
-        laboDefault
-    );
-
-
-    laboratoires.forEach(
-        row => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-
-            /*
-             * Une Ref Grist doit recevoir
-             * l'identifiant de la ligne
-             */
-
-            option.value =
-                row.id;
-
-
-            option.textContent =
-                row[
-                    LAB_DISPLAY_COL
-                ];
-
-
-            labo.appendChild(
-                option
-            );
-
-        }
-    );
-
-
-
-    /* -------------------------
-       ETABLISSEMENT
-    ------------------------- */
-
-
-    const etablissement =
-        document.createElement(
-            "select"
-        );
-
-
-    etablissement.className =
-        "etablissement";
-
-    etablissement.required =
-        true;
-
-
-    ajouterOptions(
-
-        etablissement,
-
-        ETABLISSEMENTS,
-
-        "-- Etablissement --"
-
-    );
-
-
-
-    /* -------------------------
-       CATÉGORIE
-    ------------------------- */
-
-
-    const categorie =
-        document.createElement(
-            "select"
-        );
-
-
-    categorie.className =
-        "categorie";
-
-    categorie.required =
-        true;
-
-
-    ajouterOptions(
-
-        categorie,
-
-        CATEGORIES,
-
-        "-- Catégorie --"
-
-    );
-
-
-
-    /* -------------------------
-       SUPPRESSION
-    ------------------------- */
-
-
-    const supprimer =
-        document.createElement(
-            "button"
-        );
-
-
-    supprimer.type =
-        "button";
-
-    supprimer.className =
-        "delete";
-
-    supprimer.textContent =
-        "×";
-
-    supprimer.title =
-        "Supprimer ce participant";
-
-
-    supprimer.addEventListener(
-
-        "click",
-
-        () => {
-
-            div.remove();
-
-        }
-
-    );
-
-
-
-    div.appendChild(
-        nom
-    );
-
-    div.appendChild(
-        labo
-    );
-
-    div.appendChild(
-        etablissement
-    );
-
-    div.appendChild(
-        categorie
-    );
-
-    div.appendChild(
-        supprimer
-    );
-
-
-    container.appendChild(
-        div
-    );
-
-}
-
 
 
 /* =====================================================
    AJOUT D'OPTIONS
-====================================================== */
-
+===================================================== */
 
 function ajouterOptions(
 
     select,
-
     valeurs,
-
     placeholder
 
 ) {
-
 
     const defaultOption =
         document.createElement(
@@ -1261,16 +1040,266 @@ function ajouterOptions(
 }
 
 
+/* =====================================================
+   AJOUT D'UN PARTICIPANT
+===================================================== */
+
+function ajouterParticipant() {
+
+
+    const container =
+        document.getElementById(
+            "participants"
+        );
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "participant";
+
+
+    /* ---------------------------------
+       NOM PRÉNOM
+    --------------------------------- */
+
+    const nom =
+        document.createElement(
+            "input"
+        );
+
+
+    nom.type =
+        "text";
+
+    nom.className =
+        "nom";
+
+    nom.placeholder =
+        "Nom Prénom";
+
+    nom.required =
+        true;
+
+
+    /* ---------------------------------
+       LABORATOIRE
+    --------------------------------- */
+
+    const labo =
+        document.createElement(
+            "select"
+        );
+
+
+    labo.className =
+        "labo";
+
+    labo.required =
+        true;
+
+
+    const laboDefault =
+        document.createElement(
+            "option"
+        );
+
+
+    laboDefault.value =
+        "";
+
+    laboDefault.textContent =
+        "-- Laboratoire --";
+
+    laboDefault.disabled =
+        true;
+
+    laboDefault.selected =
+        true;
+
+
+    labo.appendChild(
+        laboDefault
+    );
+
+
+    /*
+     * On utilise row.nom,
+     * construit dans chargerLaboratoires()
+     */
+
+    laboratoires.forEach(
+
+        row => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            /*
+             * IMPORTANT :
+             * la valeur envoyée à Grist
+             * est l'ID de la ligne
+             */
+
+            option.value =
+                row.id;
+
+
+            /*
+             * Le texte affiché est
+             * Nom abrégé
+             */
+
+            option.textContent =
+                row.nom;
+
+
+            labo.appendChild(
+                option
+            );
+
+        }
+
+    );
+
+
+    /* ---------------------------------
+       ETABLISSEMENT
+    --------------------------------- */
+
+    const etablissement =
+        document.createElement(
+            "select"
+        );
+
+
+    etablissement.className =
+        "etablissement";
+
+    etablissement.required =
+        true;
+
+
+    ajouterOptions(
+
+        etablissement,
+
+        ETABLISSEMENTS,
+
+        "-- Etablissement --"
+
+    );
+
+
+    /* ---------------------------------
+       CATÉGORIE
+    --------------------------------- */
+
+    const categorie =
+        document.createElement(
+            "select"
+        );
+
+
+    categorie.className =
+        "categorie";
+
+    categorie.required =
+        true;
+
+
+    ajouterOptions(
+
+        categorie,
+
+        CATEGORIES,
+
+        "-- Catégorie --"
+
+    );
+
+
+    /* ---------------------------------
+       BOUTON SUPPRESSION
+    --------------------------------- */
+
+    const supprimer =
+        document.createElement(
+            "button"
+        );
+
+
+    supprimer.type =
+        "button";
+
+    supprimer.className =
+        "delete";
+
+    supprimer.textContent =
+        "×";
+
+    supprimer.title =
+        "Supprimer ce participant";
+
+
+    supprimer.addEventListener(
+
+        "click",
+
+        () => {
+
+            div.remove();
+
+        }
+
+    );
+
+
+    /* ---------------------------------
+       AJOUT AU DOM
+    --------------------------------- */
+
+    div.appendChild(
+        nom
+    );
+
+    div.appendChild(
+        labo
+    );
+
+    div.appendChild(
+        etablissement
+    );
+
+    div.appendChild(
+        categorie
+    );
+
+    div.appendChild(
+        supprimer
+    );
+
+
+    container.appendChild(
+        div
+    );
+
+}
+
 
 /* =====================================================
    CONVERSION DATE
-====================================================== */
-
+===================================================== */
 
 function convertirDate(
-
     dateFR
-
 ) {
 
 
@@ -1322,10 +1351,7 @@ function convertirDate(
 
 
     /*
-     * Vérifie que la date existe réellement.
-     *
-     * Exemple :
-     * 31-02-2026 → erreur
+     * Vérification des dates impossibles
      */
 
     if (
@@ -1355,7 +1381,7 @@ function convertirDate(
 
 
     /*
-     * Format utilisé pour Grist
+     * Format ISO pour Grist
      */
 
     return (
@@ -1371,11 +1397,9 @@ function convertirDate(
 }
 
 
-
 /* =====================================================
    ENREGISTREMENT
-====================================================== */
-
+===================================================== */
 
 async function enregistrer() {
 
@@ -1399,11 +1423,9 @@ async function enregistrer() {
         "";
 
 
-
-    /* -------------------------
-       SESSION
-    ------------------------- */
-
+    /* ---------------------------------
+       INFORMATIONS SESSION
+    --------------------------------- */
 
     const annee =
         document.getElementById(
@@ -1445,11 +1467,9 @@ async function enregistrer() {
         ).value;
 
 
-
-    /* -------------------------
-       VALIDATION SESSION
-    ------------------------- */
-
+    /* ---------------------------------
+       VALIDATION
+    --------------------------------- */
 
     if (
 
@@ -1505,11 +1525,9 @@ async function enregistrer() {
     }
 
 
-
-    /* -------------------------
+    /* ---------------------------------
        PARTICIPANTS
-    ------------------------- */
-
+    --------------------------------- */
 
     const lignes =
         document.querySelectorAll(
@@ -1532,9 +1550,7 @@ async function enregistrer() {
     }
 
 
-
     const records = [];
-
 
 
     for (
@@ -1566,7 +1582,6 @@ async function enregistrer() {
             ).value;
 
 
-
         if (
 
             !nom ||
@@ -1590,13 +1605,12 @@ async function enregistrer() {
         }
 
 
-
         records.push({
 
             fields: {
 
                 /*
-                 * SESSION
+                 * INFORMATIONS SESSION
                  */
 
                 [COL.annee]:
@@ -1619,7 +1633,7 @@ async function enregistrer() {
 
 
                 /*
-                 * PARTICIPANT
+                 * INFORMATIONS PARTICIPANT
                  */
 
                 [COL.nom]:
@@ -1641,11 +1655,9 @@ async function enregistrer() {
     }
 
 
-
-    /* -------------------------
+    /* ---------------------------------
        CONFIRMATION
-    ------------------------- */
-
+    --------------------------------- */
 
     const confirmation =
         window.confirm(
@@ -1691,15 +1703,12 @@ async function enregistrer() {
     }
 
 
-
-    /* -------------------------
-       ENREGISTREMENT GRIST
-    ------------------------- */
-
+    /* ---------------------------------
+       ENREGISTREMENT
+    --------------------------------- */
 
     submit.disabled =
         true;
-
 
     submit.textContent =
         "Enregistrement…";
@@ -1719,11 +1728,9 @@ async function enregistrer() {
         );
 
 
-
-        /* -------------------------
-           SUCCÈS
-        ------------------------- */
-
+        /* ---------------------------------
+           MESSAGE SUCCÈS
+        --------------------------------- */
 
         message.textContent =
 
@@ -1754,11 +1761,9 @@ async function enregistrer() {
             "success";
 
 
-
-        /* -------------------------
-           RESET PARTICIPANTS
-        ------------------------- */
-
+        /* ---------------------------------
+           RESET
+        --------------------------------- */
 
         document
             .getElementById(
@@ -1770,13 +1775,6 @@ async function enregistrer() {
 
         ajouterParticipant();
 
-
-
-        /*
-         * On remet uniquement
-         * les champs de session
-         * à zéro.
-         */
 
         document
             .getElementById(
@@ -1825,14 +1823,14 @@ async function enregistrer() {
             .value =
             "";
 
-
-
     }
+
 
     catch(error) {
 
 
         console.error(
+            "Erreur Grist :",
             error
         );
 
@@ -1855,7 +1853,6 @@ async function enregistrer() {
         submit.disabled =
             false;
 
-
         submit.textContent =
             "Enregistrer la session";
 
@@ -1864,11 +1861,9 @@ async function enregistrer() {
 }
 
 
-
 /* =====================================================
    INITIALISATION
-====================================================== */
-
+===================================================== */
 
 (async function() {
 
@@ -1876,12 +1871,17 @@ async function enregistrer() {
     try {
 
 
+        /*
+         * On charge les laboratoires
+         * AVANT de créer la première
+         * ligne participant.
+         */
+
         await chargerLaboratoires();
 
 
         /*
-         * On crée une première ligne
-         * de participant.
+         * Création de la première ligne
          */
 
         ajouterParticipant();
@@ -1889,7 +1889,13 @@ async function enregistrer() {
 
     }
 
+
     catch(error) {
+
+
+        console.error(
+            error
+        );
 
 
         const message =
@@ -1913,11 +1919,9 @@ async function enregistrer() {
 })();
 
 
-
 /* =====================================================
    ÉVÉNEMENTS
-====================================================== */
-
+===================================================== */
 
 document
     .getElementById(
