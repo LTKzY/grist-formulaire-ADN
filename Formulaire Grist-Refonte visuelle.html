@@ -247,8 +247,6 @@ body {
 }
 
 
-/* Étape active */
-
 .progress-step.active {
 
     color: var(--violet-dark);
@@ -273,8 +271,6 @@ body {
 }
 
 
-/* Étape terminée */
-
 .progress-step.completed {
 
     color: var(--success);
@@ -290,8 +286,6 @@ body {
 
 }
 
-
-/* Ligne entre les étapes */
 
 .progress-line {
 
@@ -554,9 +548,23 @@ input::placeholder {
 
     position: relative;
 
-    margin-bottom: 12px;
+    display: grid;
 
-    padding: 14px 15px;
+    /*
+     * Numéro | champs | X
+     */
+    grid-template-columns:
+        32px
+        minmax(0, 1fr)
+        36px;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 10px;
+
+    padding: 11px 10px 11px 12px;
 
     background:
         linear-gradient(
@@ -587,23 +595,8 @@ input::placeholder {
 
 
 /* =====================================================
-   PARTICIPANT HEADER
+   NUMÉRO PARTICIPANT
 ===================================================== */
-
-.participant-header {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 12px;
-
-    margin-bottom: 10px;
-
-}
-
 
 .participant-title {
 
@@ -611,13 +604,11 @@ input::placeholder {
 
     align-items: center;
 
-    gap: 8px;
+    justify-content: center;
+
+    width: 32px;
 
     color: var(--violet-dark);
-
-    font-size: 13px;
-
-    font-weight: 700;
 
 }
 
@@ -630,9 +621,9 @@ input::placeholder {
 
     justify-content: center;
 
-    width: 25px;
+    width: 28px;
 
-    height: 25px;
+    height: 28px;
 
     border-radius: 50%;
 
@@ -641,6 +632,20 @@ input::placeholder {
     color: var(--violet-dark);
 
     font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/*
+ * Le texte "Participant" n'est plus affiché.
+ * Le numéro suffit et permet de gagner de la place.
+ */
+
+.participant-title {
+
+    font-size: 0;
 
 }
 
@@ -654,11 +659,16 @@ input::placeholder {
     display: grid;
 
     grid-template-columns:
-        1.5fr 1.25fr 1.25fr 1fr;
+        1.5fr
+        1.25fr
+        1.25fr
+        1fr;
 
     gap: 10px;
 
     align-items: end;
+
+    min-width: 0;
 
 }
 
@@ -669,9 +679,17 @@ input::placeholder {
 
 .delete-participant {
 
-    width: 30px;
+    display: flex;
 
-    height: 30px;
+    align-items: center;
+
+    justify-content: center;
+
+    justify-self: center;
+
+    width: 32px;
+
+    height: 32px;
 
     padding: 0;
 
@@ -683,11 +701,11 @@ input::placeholder {
 
     color: #B91C1C;
 
-    font-size: 21px;
+    font-size: 23px;
 
     line-height: 1;
 
-    font-weight: 800;
+    font-weight: 900;
 
     cursor: pointer;
 
@@ -750,6 +768,8 @@ input::placeholder {
 
     font-weight: 600;
 
+    cursor: pointer;
+
     transition:
         background 0.15s ease,
         border-color 0.15s ease,
@@ -779,29 +799,49 @@ input::placeholder {
 ===================================================== */
 
 .new-session-wrapper {
+
     display: flex;
+
     justify-content: center;
+
+    width: 100%;
+
     margin-bottom: 14px;
+
 }
 
+
 .new-session {
+
     border: none;
+
     background: transparent;
+
     color: var(--violet);
+
     font-size: 14px;
+
     font-weight: 700;
+
     cursor: pointer;
+
     padding: 8px 18px;
+
     border-radius: 8px;
+
     transition:
         background 0.15s ease,
         color 0.15s ease;
+
 }
 
+
 .new-session:hover {
+
     color: var(--violet-dark);
+
     background: var(--violet-pale);
-    text-decoration: none;
+
 }
 
 
@@ -991,6 +1031,8 @@ input::placeholder {
 
     font-weight: 700;
 
+    cursor: pointer;
+
     box-shadow:
         0 4px 12px rgba(76, 29, 149, 0.22);
 
@@ -1110,6 +1152,28 @@ input::placeholder {
    RESPONSIVE
 ===================================================== */
 
+@media (max-width: 900px) {
+
+    .participant {
+
+        grid-template-columns:
+            32px
+            minmax(0, 1fr)
+            36px;
+
+    }
+
+
+    .participant-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
 @media (max-width: 720px) {
 
     body {
@@ -1134,6 +1198,27 @@ input::placeholder {
     }
 
 
+    .participant {
+
+        grid-template-columns:
+            32px
+            minmax(0, 1fr)
+            36px;
+
+        align-items: start;
+
+        padding: 12px 8px;
+
+    }
+
+
+    .participant-title {
+
+        padding-top: 6px;
+
+    }
+
+
     .participant-grid {
 
         grid-template-columns: 1fr;
@@ -1141,9 +1226,9 @@ input::placeholder {
     }
 
 
-    .participant-header {
+    .delete-participant {
 
-        margin-bottom: 12px;
+        margin-top: 3px;
 
     }
 
@@ -1185,14 +1270,14 @@ input::placeholder {
 
     .new-session-wrapper {
 
-        justify-content: stretch;
+        justify-content: center;
 
     }
 
 
     .new-session {
 
-        width: 100%;
+        width: auto;
 
     }
 
@@ -1501,8 +1586,6 @@ input::placeholder {
         </h2>
 
 
-        <!-- SESSION -->
-
         <div class="recap-section">
 
             <h3 class="recap-title">
@@ -1602,8 +1685,6 @@ input::placeholder {
         </div>
 
 
-        <!-- PARTICIPANTS -->
-
         <div class="recap-section">
 
             <h3 class="recap-title">
@@ -1664,7 +1745,7 @@ input::placeholder {
 
 
     <!-- =================================================
-         ACTIONS
+         ACTIONS PARTICIPANTS
     ================================================== -->
 
     <div class="actions"
@@ -1681,6 +1762,10 @@ input::placeholder {
 
     </div>
 
+
+    <!-- =================================================
+         ACTIONS RÉCAPITULATIF
+    ================================================== -->
 
     <div class="actions"
          id="recapActions"
@@ -1875,10 +1960,6 @@ function mettreAJourProgression(etape) {
         );
 
 
-    /*
-     * Réinitialisation
-     */
-
     session.classList.remove(
         "active",
         "completed"
@@ -1903,10 +1984,6 @@ function mettreAJourProgression(etape) {
     );
 
 
-    /*
-     * Étape 1
-     */
-
     if (etape === 1) {
 
         session.classList.add(
@@ -1915,10 +1992,6 @@ function mettreAJourProgression(etape) {
 
     }
 
-
-    /*
-     * Étape 2
-     */
 
     if (etape === 2) {
 
@@ -1936,10 +2009,6 @@ function mettreAJourProgression(etape) {
 
     }
 
-
-    /*
-     * Étape 3
-     */
 
     if (etape === 3) {
 
@@ -2215,28 +2284,15 @@ function ajouterParticipant() {
 
     participant.innerHTML = `
 
-        <div class="participant-header">
+        <div class="participant-title">
 
-            <div class="participant-title">
+            <span class="participant-number">
+                ${participantCounter}
+            </span>
 
-                <span class="participant-number">
-                    ${participantCounter}
-                </span>
-
+            <span>
                 Participant
-
-            </div>
-
-
-            <button
-                type="button"
-                class="delete-participant"
-                title="Supprimer ce participant"
-                aria-label="Supprimer ce participant">
-
-                ×
-
-            </button>
+            </span>
 
         </div>
 
@@ -2317,6 +2373,17 @@ function ajouterParticipant() {
 
 
         </div>
+
+
+        <button
+            type="button"
+            class="delete-participant"
+            title="Supprimer ce participant"
+            aria-label="Supprimer ce participant">
+
+            ×
+
+        </button>
 
     `;
 
@@ -2789,10 +2856,6 @@ function afficherRecapitulatif() {
         recupererParticipants();
 
 
-    /*
-     * Informations session
-     */
-
     document.getElementById(
         "recapAnnee"
     ).textContent =
@@ -2831,10 +2894,6 @@ function afficherRecapitulatif() {
         session.lieu;
 
 
-    /*
-     * Tableau participants
-     */
-
     const tbody =
         document.getElementById(
             "recapParticipantsBody"
@@ -2853,10 +2912,6 @@ function afficherRecapitulatif() {
                 );
 
 
-            /*
-             * Nom
-             */
-
             const nom =
                 document.createElement(
                     "td"
@@ -2865,10 +2920,6 @@ function afficherRecapitulatif() {
             nom.textContent =
                 participant.nom;
 
-
-            /*
-             * Laboratoire
-             */
 
             const labo =
                 document.createElement(
@@ -2892,10 +2943,6 @@ function afficherRecapitulatif() {
                     : participant.laboratoire;
 
 
-            /*
-             * Etablissement
-             */
-
             const etablissement =
                 document.createElement(
                     "td"
@@ -2904,10 +2951,6 @@ function afficherRecapitulatif() {
             etablissement.textContent =
                 participant.etablissement;
 
-
-            /*
-             * Catégorie
-             */
 
             const categorie =
                 document.createElement(
@@ -2932,10 +2975,6 @@ function afficherRecapitulatif() {
         }
     );
 
-
-    /*
-     * Affichage des cartes
-     */
 
     document.getElementById(
         "sessionCard"
@@ -2984,10 +3023,6 @@ function afficherRecapitulatif() {
 
 function passerAuRecapitulatif() {
 
-    /*
-     * Vérifier les informations de session
-     */
-
     if (
         !validerSession()
     ) {
@@ -2997,10 +3032,6 @@ function passerAuRecapitulatif() {
     }
 
 
-    /*
-     * Vérifier les participants
-     */
-
     if (
         !validerParticipants()
     ) {
@@ -3009,10 +3040,6 @@ function passerAuRecapitulatif() {
 
     }
 
-
-    /*
-     * Afficher le récapitulatif
-     */
 
     afficherRecapitulatif();
 
@@ -3388,9 +3415,8 @@ document
 
 
 /*
- * IMPORTANT :
- * Ce bouton ne sauvegarde plus dans Grist.
- * Il ouvre maintenant le récapitulatif.
+ * Ce bouton ouvre le récapitulatif.
+ * Il n'écrit rien dans Grist.
  */
 
 document
@@ -3441,16 +3467,8 @@ document
 
     try {
 
-        /*
-         * Progression initiale
-         */
-
         mettreAJourProgression(1);
 
-
-        /*
-         * Charger les Choices depuis Grist
-         */
 
         const choix =
             await chargerChoixDepuisGrist();
@@ -3480,23 +3498,11 @@ document
             choix[COL.lieu] || [];
 
 
-        /*
-         * Remplir les champs de session
-         */
-
         remplirChoixSession();
 
 
-        /*
-         * Charger les laboratoires
-         */
-
         await chargerLaboratoires();
 
-
-        /*
-         * Ajouter le premier participant
-         */
 
         ajouterParticipant();
 
