@@ -391,16 +391,16 @@ input::placeholder {
 
 
 /* =====================================================
-   PARTICIPANT CARD
+   PARTICIPANT
 ===================================================== */
 
 .participant {
 
     position: relative;
 
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 
-    padding: 19px 20px 20px;
+    padding: 12px 12px 12px 16px;
 
     background:
         linear-gradient(
@@ -430,15 +430,19 @@ input::placeholder {
 }
 
 
+/* =====================================================
+   PARTICIPANT HEADER
+===================================================== */
+
 .participant-header {
 
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
 
-    margin-bottom: 16px;
+    justify-content: flex-start;
+
+    margin: 0;
 
 }
 
@@ -457,6 +461,8 @@ input::placeholder {
 
     font-weight: 700;
 
+    min-width: 115px;
+
 }
 
 
@@ -471,6 +477,8 @@ input::placeholder {
     width: 27px;
 
     height: 27px;
+
+    flex: 0 0 27px;
 
     border-radius: 50%;
 
@@ -492,32 +500,125 @@ input::placeholder {
     display: grid;
 
     grid-template-columns:
-        1.3fr 1fr 1fr;
+        minmax(180px, 1.35fr)
+        minmax(180px, 1.35fr)
+        minmax(150px, 1fr)
+        minmax(145px, 1fr)
+        32px;
 
-    gap: 16px;
+    align-items: end;
+
+    gap: 10px;
+
+    flex: 1;
 
 }
 
 
-.participant-grid .name-field {
+.participant-grid .field {
 
-    grid-column: 1 / -1;
+    min-width: 0;
+
+}
+
+
+.participant-grid label {
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
+
+
+.participant-grid input,
+.participant-grid select {
+
+    min-height: 40px;
+
+    padding: 8px 10px;
 
 }
 
 
 /* =====================================================
-   BUTTONS
+   PARTICIPANT ROW
 ===================================================== */
 
-button {
+.participant {
 
-    font-family: inherit;
+    display: flex;
 
-    cursor: pointer;
+    align-items: flex-end;
+
+    gap: 12px;
 
 }
 
+
+/* =====================================================
+   DELETE BUTTON
+===================================================== */
+
+.delete-participant {
+
+    width: 32px;
+
+    height: 40px;
+
+    flex: 0 0 32px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #B91C1C;
+
+    font-size: 19px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.1s ease;
+
+}
+
+
+.delete-participant:hover {
+
+    background: #FEF2F2;
+
+    color: #991B1B;
+
+}
+
+
+.delete-participant:active {
+
+    transform: scale(0.94);
+
+}
+
+
+/* =====================================================
+   ADD PARTICIPANT
+===================================================== */
 
 .add-participant {
 
@@ -570,34 +671,6 @@ button {
 .add-participant:active {
 
     transform: translateY(1px);
-
-}
-
-
-/*
- * Le bouton supprimer conserve son fonctionnement.
- * Les styles sont volontairement simples pour ne
- * pas modifier son comportement actuel.
- */
-
-.delete-participant {
-
-    border: none;
-
-    background: transparent;
-
-    color: #B91C1C;
-
-    font-size: 13px;
-
-    cursor: pointer;
-
-}
-
-
-.delete-participant:hover {
-
-    text-decoration: underline;
 
 }
 
@@ -693,35 +766,74 @@ button {
 
     display: flex;
 
-    justify-content: flex-end;
+    width: 100%;
 
-    margin-bottom: 14px;
+    margin-bottom: 24px;
 
 }
 
 
 .new-session {
 
-    border: none;
+    width: 100%;
 
-    background: transparent;
+    min-height: 58px;
 
-    color: var(--violet);
+    padding: 15px 24px;
 
-    font-size: 13px;
+    border: 1px solid var(--violet-soft);
 
-    font-weight: 600;
+    border-radius: var(--radius);
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFFFFF 0%,
+            #F5F3FF 100%
+        );
+
+    color: var(--violet-dark);
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    text-align: left;
 
     cursor: pointer;
+
+    box-shadow:
+        0 3px 14px rgba(76, 29, 149, 0.055);
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        box-shadow 0.15s ease,
+        transform 0.1s ease;
 
 }
 
 
 .new-session:hover {
 
-    color: var(--violet-dark);
+    background:
+        linear-gradient(
+            135deg,
+            #F5F3FF,
+            #EDE9FE
+        );
 
-    text-decoration: underline;
+    border-color: var(--violet);
+
+    box-shadow:
+        0 5px 18px rgba(109, 40, 217, 0.12);
+
+}
+
+
+.new-session:active {
+
+    transform: translateY(1px);
 
 }
 
@@ -775,6 +887,54 @@ button {
    RESPONSIVE
 ===================================================== */
 
+@media (max-width: 900px) {
+
+    .participant {
+
+        align-items: stretch;
+
+        flex-direction: column;
+
+        gap: 10px;
+
+    }
+
+
+    .participant-header {
+
+        margin-bottom: 0;
+
+    }
+
+
+    .participant-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+
+    .delete-participant {
+
+        position: absolute;
+
+        right: 10px;
+
+        top: 10px;
+
+    }
+
+
+    .participant-title {
+
+        padding-right: 35px;
+
+    }
+
+}
+
+
 @media (max-width: 720px) {
 
     body {
@@ -806,13 +966,6 @@ button {
     }
 
 
-    .participant-grid .name-field {
-
-        grid-column: auto;
-
-    }
-
-
     .participants-header {
 
         align-items: flex-start;
@@ -832,6 +985,13 @@ button {
     .btn-primary {
 
         width: 100%;
+
+    }
+
+
+    .new-session {
+
+        min-height: 54px;
 
     }
 
@@ -1271,10 +1431,6 @@ async function chargerChoixDepuisGrist() {
         i++
     ) {
 
-        /*
-         * T2022_2026 = parentId 1
-         */
-
         if (
             parentIds[i] !== 1
         ) {
@@ -1512,22 +1668,13 @@ function ajouterParticipant() {
 
             </div>
 
-
-            <button
-                type="button"
-                class="delete-participant">
-
-                Supprimer
-
-            </button>
-
         </div>
 
 
         <div class="participant-grid">
 
 
-            <div class="field name-field">
+            <div class="field">
 
                 <label>
                     Nom, Prénom
@@ -1597,6 +1744,17 @@ function ajouterParticipant() {
                 </select>
 
             </div>
+
+
+            <button
+                type="button"
+                class="delete-participant"
+                title="Supprimer ce participant"
+                aria-label="Supprimer ce participant">
+
+                ×
+
+            </button>
 
 
         </div>
@@ -2069,11 +2227,6 @@ function convertirDate(
         Number(parts[2]);
 
 
-    /*
-     * Grist attend une date sous forme
-     * de timestamp Unix en secondes.
-     */
-
     return (
         Date.UTC(
             annee,
@@ -2202,14 +2355,8 @@ async function enregistrerSession() {
         );
 
 
-        /*
-         * Désactiver temporairement
-         * le formulaire enregistré.
-         */
-
         saveButton.textContent =
             "✓ Session enregistrée";
-
 
     }
 
@@ -2358,10 +2505,6 @@ document
 
     try {
 
-        /*
-         * Charger les Choices depuis Grist
-         */
-
         const choix =
             await chargerChoixDepuisGrist();
 
@@ -2390,23 +2533,11 @@ document
             choix[COL.lieu] || [];
 
 
-        /*
-         * Remplir les champs de session
-         */
-
         remplirChoixSession();
 
 
-        /*
-         * Charger les laboratoires
-         */
-
         await chargerLaboratoires();
 
-
-        /*
-         * Ajouter le premier participant
-         */
 
         ajouterParticipant();
 
