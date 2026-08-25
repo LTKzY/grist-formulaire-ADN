@@ -856,19 +856,15 @@ for (
     i++
 ) {
 
-    console.log({
-
-        index: i,
-
-        parentId: parentIds[i],
-
-        label: labels[i],
-
-        type: types[i],
-
-        widgetOptions: widgetOptions[i]
-
-    });
+    console.log(
+    "COLONNE",
+    i,
+    "parentId =", parentIds[i],
+    "label =", labels[i],
+    "colId =", metadata.colId?.[i],
+    "type =", types[i],
+    "widgetOptions =", widgetOptions[i]
+);
 
 }
 
