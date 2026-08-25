@@ -438,17 +438,9 @@ button {
 </label>
 
 <select id="annee" required>
-
-<option value="">
-    -- Choisir --
-</option>
-
-<option value="2026-2027">2026-2027</option>
-<option value="2025-2026">2025-2026</option>
-<option value="2024-2025">2024-2025</option>
-<option value="2023-2024">2023-2024</option>
-<option value="2022-2023">2022-2023</option>
-
+    <option value="">
+        -- Choisir --
+    </option>
 </select>
 
 </div>
@@ -489,23 +481,9 @@ button {
 </label>
 
 <select id="type" required>
-
-<option value="">
-    -- Choisir --
-</option>
-
-<option value="Campagne annuelle ADN">
-    Campagne annuelle ADN
-</option>
-
-<option value="Formation doctorale">
-    Formation doctorale
-</option>
-
-<option value="Intervention Labo">
-    Intervention Labo
-</option>
-
+    <option value="">
+        -- Choisir --
+    </option>
 </select>
 
 </div>
@@ -518,27 +496,9 @@ button {
 </label>
 
 <select id="intitule" required>
-
-<option value="">
-    -- Choisir --
-</option>
-
-<option value="Sensibilisation">
-    Sensibilisation
-</option>
-
-<option value="PGD">
-    PGD
-</option>
-
-<option value="Entrepôts">
-    Entrepôts
-</option>
-
-<option value="Data_papers">
-    Data_papers
-</option>
-
+    <option value="">
+        -- Choisir --
+    </option>
 </select>
 
 </div>
@@ -568,19 +528,9 @@ button {
 </label>
 
 <select id="lieu" required>
-
-<option value="">
-    -- Choisir --
-</option>
-
-<option value="Visio">Visio</option>
-<option value="Caen">Caen</option>
-<option value="Le Havre">Le Havre</option>
-<option value="Rouen">Rouen</option>
-<option value="Intervention Labo">
-    Intervention Labo
-</option>
-
+    <option value="">
+        -- Choisir --
+    </option>
 </select>
 
 </div>
@@ -590,6 +540,54 @@ button {
 </div>
 
 
+/* =====================================================
+   REMPLIR CHOIX SESSION
+===================================================== */
+
+function remplirChoixSession() {
+
+    const annee =
+        document.getElementById("annee");
+
+    const type =
+        document.getElementById("type");
+
+    const intitule =
+        document.getElementById("intitule");
+
+    const lieu =
+        document.getElementById("lieu");
+
+
+    ajouterOptions(
+        annee,
+        CHOIX_ANNEE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        type,
+        CHOIX_TYPE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        intitule,
+        CHOIX_INTITULE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        lieu,
+        CHOIX_LIEU,
+        "-- Choisir --"
+    );
+
+}
+    
 <!-- =====================================================
      PARTICIPANTS
 ===================================================== -->
@@ -763,50 +761,248 @@ const LAB_DISPLAY_COL = "Nom_abrege";
    CHOICES
 ===================================================== */
 
-const ETABLISSEMENTS = [
+async function chargerChoixDepuisGrist() {
 
-    "Université de Caen Normandie",
-    "Université de Rouen Normandie",
-    "INSA Rouen Normandie",
-    "Information manquante",
-    "Université Le Havre Normandie",
-    "ENSICAEN",
-    "UniLaSalle",
-    "Normandie Université",
-    "Autre",
-    "Autre Normandie",
-    "Centre François Baclesse",
-    "CHU de Rouen Normandie",
-    "EM Normandie",
-    "Builders École d’ingénieurs",
-    "Ensa Normandie",
-    "Cesi",
-    "ESIGELEC",
-    "ESADHaR",
-    "ésam Caen/Cherbourg",
-    "Neoma Business School",
-    "CHU de Caen Normandie",
-    "CROUS Normandie",
-    "GIP LABÉO"
+    const metadata =
+        await grist.docApi.fetchTable(
+            "_grist_Tables_column"
+        );
 
-];
-
-const CATEGORIES = [
-
-    "Doctorant",
-    "Personnel d'appui à la recherche",
-    "Enseignant-chercheur",
-    "Autre"
-
-];
+    const tables =
+        await grist.docApi.fetchTable(
+            "_grist_Tables"
+        );
 
 
+    /*
+     * Trouver l'identifiant de T2022_2026
+     */
+
+    const tableId =
+        tables.tableId || [];
+
+    const tableName =
+        tables.tableName || [];
+
+    let targetTableId = null;
+
+
+    for (
+        let i = 0;
+        i < tableName.length;
+        i++
+    ) {
+
+        if (
+            tableName[i] === SOURCE_TABLE
+        ) {
+
+            targetTableId =
+                tableId[i];
+
+            break;
+
+        }
+
+    }
+
+
+    if (!targetTableId) {
+
+        throw new Error(
+            "Impossible de trouver la table " +
+            SOURCE_TABLE
+        );
+
+    }
+
+
+    /*
+     * Colonnes de la table
+     */
+
+    const parentId =
+        metadata.parentId || [];
+
+    const colId =
+        metadata.colId || [];
+
+    const colType =
+        metadata.type || [];
+
+    const colLabel =
+        metadata.label || [];
+
+    const colWidgetOptions =
+        metadata.widgetOptions || [];
+
+
+    const choix = {};
+
+
+    const colonnesRecherchees = [
+
+        COL.annee,
+        COL.type,
+        COL.intitule,
+        COL.etablissement,
+        COL.categorie,
+        COL.lieu
+
+    ];
+
+
+    /*
+     * Parcours des colonnes
+     */
+
+    for (
+        let i = 0;
+        i < parentId.length;
+        i++
+    ) {
+
+        if (
+            parentId[i] !== targetTableId
+        ) {
+
+            continue;
+
+        }
+
+
+        const nomColonne =
+            colLabel[i];
+
+
+        if (
+            !colonnesRecherchees.includes(
+                nomColonne
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        /*
+         * Vérification que c'est bien
+         * une colonne Choice.
+         */
+
+        if (
+            colType[i] !== "Choice"
+        ) {
+
+            console.warn(
+                `La colonne ${nomColonne} n'est pas de type Choice.`
+            );
+
+            continue;
+
+        }
+
+
+        /*
+         * Les choix sont stockés dans
+         * widgetOptions sous forme JSON.
+         */
+
+        let options = {};
+
+        try {
+
+            options =
+                JSON.parse(
+                    colWidgetOptions[i] || "{}"
+                );
+
+        }
+
+        catch(error) {
+
+            console.error(
+                "Impossible de lire les options de",
+                nomColonne,
+                error
+            );
+
+            continue;
+
+        }
+
+
+        /*
+         * Selon la version de Grist,
+         * les choix sont stockés dans choices.
+         */
+
+        const values =
+            options.choices || [];
+
+
+        choix[nomColonne] =
+            values.map(
+                choice => {
+
+                    /*
+                     * Certaines versions retournent
+                     * directement une chaîne.
+                     */
+
+                    if (
+                        typeof choice === "string"
+                    ) {
+
+                        return choice;
+
+                    }
+
+
+                    /*
+                     * D'autres peuvent retourner
+                     * un objet.
+                     */
+
+                    return (
+                        choice.label ??
+                        choice.value ??
+                        choice.name ??
+                        ""
+                    );
+
+                }
+            )
+            .filter(
+                value =>
+                    value !== ""
+            );
+
+    }
+
+
+    console.log(
+        "Choix récupérés depuis Grist :",
+        choix
+    );
+
+
+    return choix;
+
+}
+    
 /* =====================================================
    LABORATOIRES
 ===================================================== */
 
 let laboratoires = [];
-
+let CHOIX_ANNEE = [];
+let CHOIX_TYPE = [];
+let CHOIX_INTITULE = [];
+let CHOIX_ETABLISSEMENT = [];
+let CHOIX_CATEGORIE = [];
+let CHOIX_LIEU = [];
 
 /* =====================================================
    DONNÉES EN ATTENTE DE CONFIRMATION
@@ -1058,11 +1254,11 @@ function ajouterParticipant() {
     etablissement.required =
         true;
 
-    ajouterOptions(
-        etablissement,
-        ETABLISSEMENTS,
-        "-- Etablissement --"
-    );
+ajouterOptions(
+    etablissement,
+    CHOIX_ETABLISSEMENT,
+    "-- Etablissement --"
+);
 
 
     /* CATEGORIE */
@@ -1078,12 +1274,11 @@ function ajouterParticipant() {
     categorie.required =
         true;
 
-    ajouterOptions(
-        categorie,
-        CATEGORIES,
-        "-- Catégorie --"
-    );
-
+ajouterOptions(
+    categorie,
+    CHOIX_CATEGORIE,
+    "-- Catégorie --"
+);
 
     /* SUPPRIMER */
 
@@ -2142,7 +2337,55 @@ function nouvelleSession() {
 
     try {
 
+        /*
+         * Charger les Choice depuis Grist
+         */
+
+        const choix =
+            await chargerChoixDepuisGrist();
+
+
+        CHOIX_ANNEE =
+            choix[COL.annee] || [];
+
+
+        CHOIX_TYPE =
+            choix[COL.type] || [];
+
+
+        CHOIX_INTITULE =
+            choix[COL.intitule] || [];
+
+
+        CHOIX_ETABLISSEMENT =
+            choix[COL.etablissement] || [];
+
+
+        CHOIX_CATEGORIE =
+            choix[COL.categorie] || [];
+
+
+        CHOIX_LIEU =
+            choix[COL.lieu] || [];
+
+
+        /*
+         * Remplir les listes du formulaire
+         */
+
+        remplirChoixSession();
+
+
+        /*
+         * Charger les laboratoires
+         */
+
         await chargerLaboratoires();
+
+
+        /*
+         * Ajouter le premier participant
+         */
 
         ajouterParticipant();
 
@@ -2158,7 +2401,7 @@ function nouvelleSession() {
             );
 
         message.textContent =
-            "Impossible de charger les laboratoires : " +
+            "Impossible de charger les choix depuis Grist : " +
             error.message;
 
         message.className =
@@ -2167,7 +2410,6 @@ function nouvelleSession() {
     }
 
 })();
-
 
 /* =====================================================
    ÉVÉNEMENTS
