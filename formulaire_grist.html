@@ -868,23 +868,59 @@ async function chargerLaboratoires() {
             LAB_TABLE
         );
 
+    /*
+     * Grist renvoie les données sous forme :
+     *
+     * {
+     *   id: [1, 2, 3],
+     *   Nom_abrege: ["Labo A", "Labo B", "Labo C"]
+     * }
+     *
+     * On transforme cela en :
+     *
+     * [
+     *   {id: 1, Nom_abrege: "Labo A"},
+     *   {id: 2, Nom_abrege: "Labo B"},
+     *   {id: 3, Nom_abrege: "Labo C"}
+     * ]
+     */
 
-    laboratoires =
-        data
+    const ids = data.id || [];
 
-        .filter(row =>
+    const noms =
+        data[LAB_DISPLAY_COL] || [];
 
-            row[LAB_DISPLAY_COL] !== null &&
+    laboratoires = [];
 
-            row[LAB_DISPLAY_COL] !== undefined &&
+    for (let i = 0; i < ids.length; i++) {
 
-            String(
-                row[LAB_DISPLAY_COL]
-            ).trim() !== ""
+        const nom = noms[i];
 
-        )
+        if (
+            nom !== null &&
+            nom !== undefined &&
+            String(nom).trim() !== ""
+        ) {
 
-        .sort((a, b) =>
+            laboratoires.push({
+
+                id: ids[i],
+
+                [LAB_DISPLAY_COL]: nom
+
+            });
+
+        }
+
+    }
+
+
+    /*
+     * Tri alphabétique
+     */
+
+    laboratoires.sort(
+        (a, b) =>
 
             String(
                 a[LAB_DISPLAY_COL]
@@ -897,16 +933,13 @@ async function chargerLaboratoires() {
                 "fr",
 
                 {
-                    sensitivity:
-                        "base"
+                    sensitivity: "base"
                 }
 
             )
-
-        );
+    );
 
 }
-
 
 
 /* =====================================================
