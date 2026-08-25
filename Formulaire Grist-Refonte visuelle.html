@@ -164,6 +164,70 @@ body {
 
 }
 
+<!-- =================================================
+     INDICATEUR DE PROGRESSION
+================================================== -->
+
+<div class="progress" id="progress">
+
+    <div
+        class="progress-step active"
+        id="progressStep1">
+
+        <span class="progress-number">
+            1
+        </span>
+
+        <span>
+            Session
+        </span>
+
+    </div>
+
+
+    <div
+        class="progress-line"
+        id="progressLine1">
+    </div>
+
+
+    <div
+        class="progress-step"
+        id="progressStep2">
+
+        <span class="progress-number">
+            2
+        </span>
+
+        <span>
+            Participants
+        </span>
+
+    </div>
+
+
+    <div
+        class="progress-line"
+        id="progressLine2">
+    </div>
+
+
+    <div
+        class="progress-step"
+        id="progressStep3">
+
+        <span class="progress-number">
+            3
+        </span>
+
+        <span>
+            Récapitulatif
+        </span>
+
+    </div>
+
+</div>
+      
 
 /* =====================================================
    CARDS
@@ -1023,7 +1087,197 @@ input::placeholder {
         </p>
 
     </div>
+      
+/* =====================================================
+   INDICATEUR DE PROGRESSION
+===================================================== */
 
+.progress {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    margin-bottom: 24px;
+
+    padding: 18px 24px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    box-shadow:
+        0 3px 14px rgba(76, 29, 149, 0.055);
+
+}
+
+
+.progress-step {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #9B95A8;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        color 0.2s ease;
+
+}
+
+
+.progress-number {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 30px;
+
+    height: 30px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #F0EDF5;
+
+    color: #8E879B;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+/* Étape active */
+
+.progress-step.active {
+
+    color: var(--violet-dark);
+
+}
+
+
+.progress-step.active .progress-number {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--violet-dark),
+            var(--violet)
+        );
+
+    color: white;
+
+    box-shadow:
+        0 0 0 4px var(--violet-pale);
+
+}
+
+
+/* Étape terminée */
+
+.progress-step.completed {
+
+    color: var(--success);
+
+}
+
+
+.progress-step.completed .progress-number {
+
+    background: var(--success);
+
+    color: white;
+
+}
+
+
+/* Ligne entre les étapes */
+
+.progress-line {
+
+    flex: 1;
+
+    height: 2px;
+
+    margin: 0 14px;
+
+    background: #E5E1EF;
+
+    transition:
+        background 0.2s ease;
+
+}
+
+
+.progress-line.completed {
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--success),
+            var(--violet-soft)
+        );
+
+}
+
+
+/* =====================================================
+   RESPONSIVE PROGRESSION
+===================================================== */
+
+@media (max-width: 600px) {
+
+    .progress {
+
+        padding: 15px;
+
+    }
+
+
+    .progress-step {
+
+        gap: 0;
+
+    }
+
+
+    .progress-step span:not(.progress-number) {
+
+        display: none;
+
+    }
+
+
+    .progress-line {
+
+        margin: 0 8px;
+
+    }
+
+}
 
     <!-- =================================================
          NOUVELLE SESSION
@@ -1858,7 +2112,7 @@ function ajouterParticipant() {
 
 
     mettreAJourCompteur();
-
+    mettreAJourProgression();
 }
 
 
@@ -2108,7 +2362,171 @@ function recupererParticipants() {
 
 }
 
+/* =====================================================
+   INDICATEUR DE PROGRESSION
+===================================================== */
 
+function mettreAJourProgression() {
+
+    const session =
+        recupererSession();
+
+
+    const participants =
+        recupererParticipants();
+
+
+    /*
+     * Étape 1 :
+     * les informations obligatoires de session
+     */
+
+    const sessionComplete =
+
+        !!session.annee &&
+        !!session.type &&
+        !!session.intitule &&
+        !!session.date &&
+        !!session.lieu &&
+        dateValide(session.date);
+
+
+    /*
+     * Étape 2 :
+     * au moins un participant correctement rempli
+     */
+
+    const participantsComplets =
+        participants.length > 0 &&
+        participants.every(
+            participant =>
+                participant.nom &&
+                participant.laboratoire &&
+                participant.etablissement &&
+                participant.categorie
+        );
+
+
+    const step1 =
+        document.getElementById(
+            "progressStep1"
+        );
+
+    const step2 =
+        document.getElementById(
+            "progressStep2"
+        );
+
+    const step3 =
+        document.getElementById(
+            "progressStep3"
+        );
+
+    const line1 =
+        document.getElementById(
+            "progressLine1"
+        );
+
+    const line2 =
+        document.getElementById(
+            "progressLine2"
+        );
+
+
+    /*
+     * Réinitialisation
+     */
+
+    step1.classList.remove(
+        "active",
+        "completed"
+    );
+
+    step2.classList.remove(
+        "active",
+        "completed"
+    );
+
+    step3.classList.remove(
+        "active",
+        "completed"
+    );
+
+    line1.classList.remove(
+        "completed"
+    );
+
+    line2.classList.remove(
+        "completed"
+    );
+
+
+    /*
+     * SESSION
+     */
+
+    if (!sessionComplete) {
+
+        step1.classList.add(
+            "active"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * SESSION terminée
+     */
+
+    step1.classList.add(
+        "completed"
+    );
+
+    line1.classList.add(
+        "completed"
+    );
+
+
+    /*
+     * PARTICIPANTS
+     */
+
+    if (!participantsComplets) {
+
+        step2.classList.add(
+            "active"
+        );
+
+        return;
+
+    }
+
+
+    /*
+     * PARTICIPANTS terminés
+     */
+
+    step2.classList.add(
+        "completed"
+    );
+
+    line2.classList.add(
+        "completed"
+    );
+
+
+    /*
+     * RÉCAPITULATIF
+     */
+
+    step3.classList.add(
+        "active"
+    );
+
+}
+      
 /* =====================================================
    VALIDATION
 ===================================================== */
@@ -2461,7 +2879,7 @@ function nouvelleSession() {
 
 
     ajouterParticipant();
-
+    mettreAJourProgression();
 }
 
 
@@ -2498,6 +2916,56 @@ document
         nouvelleSession
     );
 
+/* =====================================================
+   MISE À JOUR DE LA PROGRESSION
+===================================================== */
+
+document
+    .getElementById("annee")
+    .addEventListener(
+        "change",
+        mettreAJourProgression
+    );
+
+
+document
+    .getElementById("type")
+    .addEventListener(
+        "change",
+        mettreAJourProgression
+    );
+
+
+document
+    .getElementById("intitule")
+    .addEventListener(
+        "change",
+        mettreAJourProgression
+    );
+
+
+document
+    .getElementById("date")
+    .addEventListener(
+        "input",
+        mettreAJourProgression
+    );
+
+
+document
+    .getElementById("lieu")
+    .addEventListener(
+        "change",
+        mettreAJourProgression
+    );
+
+
+document
+    .getElementById("duree")
+    .addEventListener(
+        "input",
+        mettreAJourProgression
+    );
 
 /* =====================================================
    INITIALISATION
