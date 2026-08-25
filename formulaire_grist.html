@@ -768,74 +768,11 @@ async function chargerChoixDepuisGrist() {
         );
 
 
-    const tables =
-        await grist.docApi.fetchTable(
-            "_grist_Tables"
-        );
-
-
-    /*
-     * Dans _grist_Tables :
-     *
-     * id       = identifiant interne
-     * tableId  = nom interne de la table
-     */
-
-    const tableIds =
-        tables.tableId || [];
-
-    const ids =
-        tables.id || [];
-
-
-    let targetTableId = null;
-
-
-    for (
-        let i = 0;
-        i < tableIds.length;
-        i++
-    ) {
-
-        if (
-            tableIds[i] === SOURCE_TABLE
-        ) {
-
-            targetTableId =
-                ids[i];
-
-            break;
-
-        }
-
-    }
-
-
-    if (
-        targetTableId === null ||
-        targetTableId === undefined
-    ) {
-
-        throw new Error(
-            "Impossible de trouver la table " +
-            SOURCE_TABLE
-        );
-
-    }
-
-
-    console.log(
-        "ID interne de T2022_2026 :",
-        targetTableId
-    );
-
-
-    /*
-     * Récupération des colonnes
-     */
-
     const parentIds =
         metadata.parentId || [];
+
+    const colIds =
+        metadata.colId || [];
 
     const labels =
         metadata.label || [];
@@ -846,31 +783,10 @@ async function chargerChoixDepuisGrist() {
     const widgetOptions =
         metadata.widgetOptions || [];
 
-    console.log(
-    "=== COLONNES GRIST ==="
-);
 
-for (
-    let i = 0;
-    i < parentIds.length;
-    i++
-) {
-
-    console.log(
-    "COLONNE",
-    i,
-    "parentId =", parentIds[i],
-    "label =", labels[i],
-    "colId =", metadata.colId?.[i],
-    "type =", types[i],
-    "widgetOptions =", widgetOptions[i]
-);
-
-}
-
-    
-    const choix = {};
-
+    /*
+     * Colonnes Choice que nous voulons récupérer
+     */
 
     const colonnesRecherchees = [
 
@@ -884,6 +800,15 @@ for (
     ];
 
 
+    const choix = {};
+
+
+    /*
+     * On parcourt les colonnes de T2022_2026
+     *
+     * Son parentId est 1 dans ton document.
+     */
+
     for (
         let i = 0;
         i < parentIds.length;
@@ -891,12 +816,12 @@ for (
     ) {
 
         /*
-         * On ne regarde que les colonnes
-         * appartenant à T2022_2026.
+         * Ne garder que les colonnes
+         * de T2022_2026
          */
 
         if (
-            parentIds[i] !== targetTableId
+            parentIds[i] !== 1
         ) {
 
             continue;
@@ -904,13 +829,17 @@ for (
         }
 
 
-        const nomColonne =
-            labels[i];
+        /*
+         * On utilise colId et non label
+         */
+
+        const colId =
+            colIds[i];
 
 
         if (
             !colonnesRecherchees.includes(
-                nomColonne
+                colId
             )
         ) {
 
@@ -919,21 +848,18 @@ for (
         }
 
 
-        console.log(
-            "Colonne trouvée :",
-            nomColonne,
-            "Type :",
-            types[i]
-        );
-
+        /*
+         * Vérification du type
+         */
 
         if (
             types[i] !== "Choice"
         ) {
 
             console.warn(
-                nomColonne +
-                " n'est pas une colonne Choice."
+                "La colonne " +
+                colId +
+                " n'est pas de type Choice."
             );
 
             continue;
@@ -941,8 +867,11 @@ for (
         }
 
 
-        let options = {};
+        /*
+         * Lecture des options de la colonne
+         */
 
+        let options = {};
 
         try {
 
@@ -956,8 +885,8 @@ for (
         catch(error) {
 
             console.error(
-                "Erreur de lecture des options de " +
-                nomColonne,
+                "Impossible de lire les options de " +
+                colId,
                 error
             );
 
@@ -970,37 +899,19 @@ for (
          * Récupération des choix
          */
 
-        const values =
-            options.choices || [];
+        choix[colId] =
+            Array.isArray(
+                options.choices
+            )
+                ? options.choices
+                : [];
 
 
-        choix[nomColonne] =
-            values
-                .map(
-                    choice => {
-
-                        if (
-                            typeof choice === "string"
-                        ) {
-
-                            return choice;
-
-                        }
-
-
-                        return (
-                            choice.label ??
-                            choice.value ??
-                            choice.name ??
-                            ""
-                        );
-
-                    }
-                )
-                .filter(
-                    value =>
-                        value !== ""
-                );
+        console.log(
+            "Choix récupérés :",
+            colId,
+            choix[colId]
+        );
 
     }
 
