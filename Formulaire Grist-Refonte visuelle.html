@@ -100,7 +100,7 @@ body {
 
     position: relative;
 
-    margin-bottom: 28px;
+    margin-bottom: 20px;
 
     padding: 28px 30px;
 
@@ -163,7 +163,163 @@ body {
     font-size: 14px;
 
 }
-      
+
+
+/* =====================================================
+   INDICATEUR DE PROGRESSION
+===================================================== */
+
+.progress {
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    margin-bottom: 24px;
+
+    padding: 18px 24px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius);
+
+    box-shadow:
+        0 3px 14px rgba(76, 29, 149, 0.055);
+
+}
+
+
+.progress-step {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    color: #9B95A8;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    transition:
+        color 0.2s ease;
+
+}
+
+
+.progress-number {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 30px;
+
+    height: 30px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #F0EDF5;
+
+    color: #8E879B;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        box-shadow 0.2s ease;
+
+}
+
+
+/* Étape active */
+
+.progress-step.active {
+
+    color: var(--violet-dark);
+
+}
+
+
+.progress-step.active .progress-number {
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--violet-dark),
+            var(--violet)
+        );
+
+    color: white;
+
+    box-shadow:
+        0 0 0 4px var(--violet-pale);
+
+}
+
+
+/* Étape terminée */
+
+.progress-step.completed {
+
+    color: var(--success);
+
+}
+
+
+.progress-step.completed .progress-number {
+
+    background: var(--success);
+
+    color: white;
+
+}
+
+
+/* Ligne entre les étapes */
+
+.progress-line {
+
+    flex: 1;
+
+    height: 2px;
+
+    margin: 0 14px;
+
+    background: #E5E1EF;
+
+    transition:
+        background 0.2s ease;
+
+}
+
+
+.progress-line.completed {
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--success),
+            var(--violet-soft)
+        );
+
+}
+
 
 /* =====================================================
    CARDS
@@ -400,7 +556,7 @@ input::placeholder {
 
     margin-bottom: 12px;
 
-    padding: 12px 12px 12px 16px;
+    padding: 14px 15px;
 
     background:
         linear-gradient(
@@ -440,9 +596,11 @@ input::placeholder {
 
     align-items: center;
 
-    justify-content: flex-start;
+    justify-content: space-between;
 
-    margin: 0;
+    gap: 12px;
+
+    margin-bottom: 10px;
 
 }
 
@@ -453,15 +611,13 @@ input::placeholder {
 
     align-items: center;
 
-    gap: 9px;
+    gap: 8px;
 
     color: var(--violet-dark);
 
-    font-size: 14px;
+    font-size: 13px;
 
     font-weight: 700;
-
-    min-width: 115px;
 
 }
 
@@ -474,11 +630,9 @@ input::placeholder {
 
     justify-content: center;
 
-    width: 27px;
+    width: 25px;
 
-    height: 27px;
-
-    flex: 0 0 27px;
+    height: 25px;
 
     border-radius: 50%;
 
@@ -486,7 +640,7 @@ input::placeholder {
 
     color: var(--violet-dark);
 
-    font-size: 12px;
+    font-size: 11px;
 
 }
 
@@ -500,97 +654,42 @@ input::placeholder {
     display: grid;
 
     grid-template-columns:
-        minmax(180px, 1.35fr)
-        minmax(180px, 1.35fr)
-        minmax(150px, 1fr)
-        minmax(145px, 1fr)
-        32px;
-
-    align-items: end;
+        1.5fr 1.25fr 1.25fr 1fr;
 
     gap: 10px;
 
-    flex: 1;
-
-}
-
-
-.participant-grid .field {
-
-    min-width: 0;
-
-}
-
-
-.participant-grid label {
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-}
-
-
-.participant-grid input,
-.participant-grid select {
-
-    min-height: 40px;
-
-    padding: 8px 10px;
+    align-items: end;
 
 }
 
 
 /* =====================================================
-   PARTICIPANT ROW
-===================================================== */
-
-.participant {
-
-    display: flex;
-
-    align-items: flex-end;
-
-    gap: 12px;
-
-}
-
-
-/* =====================================================
-   DELETE BUTTON
+   SUPPRESSION PARTICIPANT
 ===================================================== */
 
 .delete-participant {
 
+    width: 30px;
+
+    height: 30px;
+
+    padding: 0;
+
     border: none;
+
+    border-radius: 7px;
 
     background: transparent;
 
     color: #B91C1C;
 
-    font-size: 20px;
-
-    font-weight: 800;
+    font-size: 21px;
 
     line-height: 1;
 
-    width: 32px;
-
-    height: 32px;
-
-    padding: 0;
-
-    border-radius: 7px;
+    font-weight: 800;
 
     cursor: pointer;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
 
     transition:
         background 0.15s ease,
@@ -606,20 +705,18 @@ input::placeholder {
 
     color: #991B1B;
 
-    transform: scale(1.08);
-
 }
 
 
 .delete-participant:active {
 
-    transform: scale(0.95);
+    transform: scale(0.94);
 
 }
 
 
 /* =====================================================
-   ADD PARTICIPANT
+   BOUTON AJOUT PARTICIPANT
 ===================================================== */
 
 .add-participant {
@@ -673,6 +770,213 @@ input::placeholder {
 .add-participant:active {
 
     transform: translateY(1px);
+
+}
+
+
+/* =====================================================
+   NOUVELLE SESSION
+===================================================== */
+
+.new-session-wrapper {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    margin-bottom: 14px;
+
+}
+
+
+.new-session {
+
+    min-width: 220px;
+
+    min-height: 47px;
+
+    padding: 12px 24px;
+
+    border: 1px solid var(--violet-soft);
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFFFFF,
+            #F5F3FF
+        );
+
+    color: var(--violet-dark);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 3px 10px rgba(76, 29, 149, 0.08);
+
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        background 0.12s ease;
+
+}
+
+
+.new-session:hover {
+
+    background: var(--violet-pale);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 5px 14px rgba(76, 29, 149, 0.13);
+
+}
+
+
+/* =====================================================
+   RÉCAPITULATIF
+===================================================== */
+
+#recapCard {
+
+    display: none;
+
+}
+
+
+.recap-section {
+
+    margin-bottom: 24px;
+
+}
+
+
+.recap-section:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+.recap-title {
+
+    margin: 0 0 12px;
+
+    color: var(--violet-dark);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.recap-session-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+}
+
+
+.recap-item {
+
+    padding: 11px 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: #FBFAFE;
+
+}
+
+
+.recap-label {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.recap-value {
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.recap-participants {
+
+    overflow-x: auto;
+
+}
+
+
+.recap-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+
+}
+
+
+.recap-table th {
+
+    padding: 10px;
+
+    text-align: left;
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+    font-weight: 700;
+
+    border-bottom: 1px solid #DCD4F0;
+
+}
+
+
+.recap-table td {
+
+    padding: 10px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text);
+
+}
+
+
+.recap-table tr:last-child td {
+
+    border-bottom: none;
 
 }
 
@@ -742,13 +1046,6 @@ input::placeholder {
 }
 
 
-.btn-primary:active {
-
-    transform: translateY(0);
-
-}
-
-
 .btn-primary:disabled {
 
     opacity: 0.55;
@@ -760,82 +1057,40 @@ input::placeholder {
 }
 
 
-/* =====================================================
-   NEW SESSION
-===================================================== */
+.btn-secondary {
 
-.new-session-wrapper {
+    min-width: 180px;
 
-    display: flex;
+    min-height: 47px;
 
-    width: 100%;
+    padding: 12px 24px;
 
-    margin-bottom: 24px;
+    border: 1px solid #D9D4E5;
 
-}
+    border-radius: 9px;
 
-
-.new-session {
-
-    width: 100%;
-
-    min-height: 58px;
-
-    padding: 15px 24px;
-
-    border: 1px solid var(--violet-soft);
-
-    border-radius: var(--radius);
-
-    background:
-        linear-gradient(
-            135deg,
-            #FFFFFF 0%,
-            #F5F3FF 100%
-        );
+    background: white;
 
     color: var(--violet-dark);
 
-    font-size: 16px;
+    font-size: 14px;
 
     font-weight: 700;
 
-    text-align: left;
-
     cursor: pointer;
-
-    box-shadow:
-        0 3px 14px rgba(76, 29, 149, 0.055);
 
     transition:
         background 0.15s ease,
-        border-color 0.15s ease,
-        box-shadow 0.15s ease,
-        transform 0.1s ease;
+        border-color 0.15s ease;
 
 }
 
 
-.new-session:hover {
+.btn-secondary:hover {
 
-    background:
-        linear-gradient(
-            135deg,
-            #F5F3FF,
-            #EDE9FE
-        );
+    background: var(--violet-pale);
 
-    border-color: var(--violet);
-
-    box-shadow:
-        0 5px 18px rgba(109, 40, 217, 0.12);
-
-}
-
-
-.new-session:active {
-
-    transform: translateY(1px);
+    border-color: var(--violet-soft);
 
 }
 
@@ -889,54 +1144,6 @@ input::placeholder {
    RESPONSIVE
 ===================================================== */
 
-@media (max-width: 900px) {
-
-    .participant {
-
-        align-items: stretch;
-
-        flex-direction: column;
-
-        gap: 10px;
-
-    }
-
-
-    .participant-header {
-
-        margin-bottom: 0;
-
-    }
-
-
-    .participant-grid {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-    }
-
-
-    .delete-participant {
-
-        position: absolute;
-
-        right: 10px;
-
-        top: 10px;
-
-    }
-
-
-    .participant-title {
-
-        padding-right: 35px;
-
-    }
-
-}
-
-
 @media (max-width: 720px) {
 
     body {
@@ -968,190 +1175,12 @@ input::placeholder {
     }
 
 
-    .participants-header {
+    .participant-header {
 
-        align-items: flex-start;
-
-        flex-direction: column;
+        margin-bottom: 12px;
 
     }
 
-
-    .actions {
-
-        flex-direction: column;
-
-    }
-
-
-    .btn-primary {
-
-        width: 100%;
-
-    }
-
-
-    .new-session {
-
-        min-height: 54px;
-
-    }
-
-}
-
-/* =====================================================
-   INDICATEUR DE PROGRESSION
-===================================================== */
-
-.progress {
-
-    display: flex;
-
-    align-items: center;
-
-    width: 100%;
-
-    margin-bottom: 24px;
-
-    padding: 18px 24px;
-
-    background: var(--white);
-
-    border: 1px solid var(--border);
-
-    border-radius: var(--radius);
-
-    box-shadow:
-        0 3px 14px rgba(76, 29, 149, 0.055);
-
-}
-
-
-.progress-step {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 9px;
-
-    color: #9B95A8;
-
-    font-size: 13px;
-
-    font-weight: 600;
-
-    white-space: nowrap;
-
-}
-
-
-.progress-number {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    width: 30px;
-
-    height: 30px;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-
-    background: #F0EDF5;
-
-    color: #8E879B;
-
-    font-size: 12px;
-
-    font-weight: 700;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        box-shadow 0.2s ease;
-
-}
-
-
-/* Étape active */
-
-.progress-step.active {
-
-    color: var(--violet-dark);
-
-}
-
-
-.progress-step.active .progress-number {
-
-    background:
-        linear-gradient(
-            135deg,
-            var(--violet-dark),
-            var(--violet)
-        );
-
-    color: white;
-
-    box-shadow:
-        0 0 0 4px var(--violet-pale);
-
-}
-
-
-/* Étape terminée */
-
-.progress-step.completed {
-
-    color: var(--success);
-
-}
-
-
-.progress-step.completed .progress-number {
-
-    background: var(--success);
-
-    color: white;
-
-}
-
-
-/* Lignes */
-
-.progress-line {
-
-    flex: 1;
-
-    height: 2px;
-
-    margin: 0 14px;
-
-    background: #E5E1EF;
-
-}
-
-
-.progress-line.completed {
-
-    background:
-        linear-gradient(
-            90deg,
-            var(--success),
-            var(--violet-soft)
-        );
-
-}
-
-
-/* Responsive */
-
-@media (max-width: 600px) {
 
     .progress {
 
@@ -1180,8 +1209,44 @@ input::placeholder {
 
     }
 
+
+    .recap-session-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .new-session-wrapper {
+
+        justify-content: stretch;
+
+    }
+
+
+    .new-session {
+
+        width: 100%;
+
+    }
+
+
+    .actions {
+
+        flex-direction: column;
+
+    }
+
+
+    .btn-primary,
+    .btn-secondary {
+
+        width: 100%;
+
+    }
+
 }
-      
+
 </style>
 
 </head>
@@ -1201,64 +1266,74 @@ input::placeholder {
         <h1>Saisie d'une formation</h1>
 
         <p>
-            Enregistrez les informations de la session de formation
+            Enregistrez les informations de la session
             puis ajoutez les participants.
         </p>
 
     </div>
 
-<!-- =================================================
-     INDICATEUR DE PROGRESSION
-================================================== -->
 
-<div class="progress" id="progress">
+    <!-- =================================================
+         PROGRESSION
+    ================================================== -->
 
-    <div
-        class="progress-step active"
-        id="progressStep1">
+    <div class="progress"
+         id="progress">
 
-        <span class="progress-number">1</span>
+        <div class="progress-step active"
+             id="progressSession">
 
-        <span>Session</span>
+            <span class="progress-number">
+                1
+            </span>
+
+            <span>
+                Session
+            </span>
+
+        </div>
+
+
+        <div class="progress-line"
+             id="progressLine1">
+        </div>
+
+
+        <div class="progress-step"
+             id="progressParticipants">
+
+            <span class="progress-number">
+                2
+            </span>
+
+            <span>
+                Participants
+            </span>
+
+        </div>
+
+
+        <div class="progress-line"
+             id="progressLine2">
+        </div>
+
+
+        <div class="progress-step"
+             id="progressRecap">
+
+            <span class="progress-number">
+                3
+            </span>
+
+            <span>
+                Récapitulatif
+            </span>
+
+        </div>
 
     </div>
 
 
-    <div
-        class="progress-line"
-        id="progressLine1">
-    </div>
-
-
-    <div
-        class="progress-step"
-        id="progressStep2">
-
-        <span class="progress-number">2</span>
-
-        <span>Participants</span>
-
-    </div>
-
-
-    <div
-        class="progress-line"
-        id="progressLine2">
-    </div>
-
-
-    <div
-        class="progress-step"
-        id="progressStep3">
-
-        <span class="progress-number">3</span>
-
-        <span>Récapitulatif</span>
-
-    </div>
-
-</div>
-      
     <!-- =================================================
          NOUVELLE SESSION
     ================================================== -->
@@ -1281,7 +1356,8 @@ input::placeholder {
          SESSION
     ================================================== -->
 
-    <div class="card">
+    <div class="card"
+         id="sessionCard">
 
         <h2 class="section-title">
             Informations de la session
@@ -1290,8 +1366,6 @@ input::placeholder {
 
         <div class="session-grid">
 
-
-            <!-- ANNÉE -->
 
             <div class="field">
 
@@ -1312,8 +1386,6 @@ input::placeholder {
             </div>
 
 
-            <!-- TYPE -->
-
             <div class="field">
 
                 <label for="type">
@@ -1332,8 +1404,6 @@ input::placeholder {
 
             </div>
 
-
-            <!-- INTITULÉ -->
 
             <div class="field">
 
@@ -1354,8 +1424,6 @@ input::placeholder {
             </div>
 
 
-            <!-- DATE -->
-
             <div class="field">
 
                 <label for="date">
@@ -1372,8 +1440,6 @@ input::placeholder {
             </div>
 
 
-            <!-- DURÉE -->
-
             <div class="field">
 
                 <label for="duree">
@@ -1389,8 +1455,6 @@ input::placeholder {
 
             </div>
 
-
-            <!-- LIEU -->
 
             <div class="field">
 
@@ -1420,7 +1484,8 @@ input::placeholder {
          PARTICIPANTS
     ================================================== -->
 
-    <div class="card">
+    <div class="card"
+         id="participantsCard">
 
         <div class="participants-header">
 
@@ -1459,6 +1524,170 @@ input::placeholder {
 
 
     <!-- =================================================
+         RÉCAPITULATIF
+    ================================================== -->
+
+    <div class="card"
+         id="recapCard">
+
+        <h2 class="section-title">
+            Récapitulatif
+        </h2>
+
+
+        <!-- SESSION -->
+
+        <div class="recap-section">
+
+            <h3 class="recap-title">
+                Informations de la session
+            </h3>
+
+
+            <div class="recap-session-grid">
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Année
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapAnnee">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Type
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapType">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Intitulé
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapIntitule">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Date
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapDate">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Durée
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapDuree">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Lieu
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapLieu">
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- PARTICIPANTS -->
+
+        <div class="recap-section">
+
+            <h3 class="recap-title">
+                Participants
+            </h3>
+
+
+            <div class="recap-participants">
+
+                <table class="recap-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Nom, Prénom
+                            </th>
+
+                            <th>
+                                Laboratoire / Service
+                            </th>
+
+                            <th>
+                                Etablissement
+                            </th>
+
+                            <th>
+                                Catégorie
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="recapParticipantsBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
          MESSAGE
     ================================================== -->
 
@@ -1472,14 +1701,41 @@ input::placeholder {
          ACTIONS
     ================================================== -->
 
-    <div class="actions">
+    <div class="actions"
+         id="participantsActions">
 
         <button
             type="button"
             class="btn-primary"
             id="saveButton">
 
-            ✓ Enregistrer la session
+            Enregistrer la session →
+
+        </button>
+
+    </div>
+
+
+    <div class="actions"
+         id="recapActions"
+         style="display:none">
+
+        <button
+            type="button"
+            class="btn-secondary"
+            id="backButton">
+
+            ← Modifier
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-primary"
+            id="confirmButton">
+
+            ✓ Confirmer et enregistrer
 
         </button>
 
@@ -1542,182 +1798,6 @@ const COL = {
 
 };
 
-/* =====================================================
-   INDICATEUR DE PROGRESSION
-===================================================== */
-
-function mettreAJourProgression() {
-
-    const step1 =
-        document.getElementById(
-            "progressStep1"
-        );
-
-    const step2 =
-        document.getElementById(
-            "progressStep2"
-        );
-
-    const step3 =
-        document.getElementById(
-            "progressStep3"
-        );
-
-    const line1 =
-        document.getElementById(
-            "progressLine1"
-        );
-
-    const line2 =
-        document.getElementById(
-            "progressLine2"
-        );
-
-
-    /*
-     * Sécurité :
-     * si l'indicateur n'est pas encore présent,
-     * on ne fait rien.
-     */
-
-    if (
-        !step1 ||
-        !step2 ||
-        !step3 ||
-        !line1 ||
-        !line2
-    ) {
-
-        return;
-
-    }
-
-
-    const session =
-        recupererSession();
-
-
-    const participants =
-        recupererParticipants();
-
-
-    const sessionComplete =
-
-        !!session.annee &&
-        !!session.type &&
-        !!session.intitule &&
-        !!session.date &&
-        !!session.lieu &&
-        dateValide(session.date);
-
-
-    const participantsComplets =
-
-        participants.length > 0 &&
-
-        participants.every(
-            participant =>
-
-                participant.nom &&
-                participant.laboratoire &&
-                participant.etablissement &&
-                participant.categorie
-        );
-
-
-    /*
-     * Réinitialisation
-     */
-
-    step1.classList.remove(
-        "active",
-        "completed"
-    );
-
-    step2.classList.remove(
-        "active",
-        "completed"
-    );
-
-    step3.classList.remove(
-        "active",
-        "completed"
-    );
-
-    line1.classList.remove(
-        "completed"
-    );
-
-    line2.classList.remove(
-        "completed"
-    );
-
-
-    /*
-     * Étape 1
-     */
-
-    if (!sessionComplete) {
-
-        step1.classList.add(
-            "active"
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Étape 1 terminée
-     */
-
-    step1.classList.add(
-        "completed"
-    );
-
-    line1.classList.add(
-        "completed"
-    );
-
-
-    /*
-     * Étape 2
-     */
-
-    if (!participantsComplets) {
-
-        step2.classList.add(
-            "active"
-        );
-
-        return;
-
-    }
-
-
-    /*
-     * Étape 2 terminée
-     */
-
-    step2.classList.add(
-        "completed"
-    );
-
-    line2.classList.add(
-        "completed"
-    );
-
-
-    /*
-     * Étape 3
-     */
-
-    step3.classList.add(
-        "active"
-    );
-
-}      
 
 /* =====================================================
    CHOIX DYNAMIQUES
@@ -1793,6 +1873,131 @@ function ajouterOptions(
 
         }
     );
+
+}
+
+
+/* =====================================================
+   PROGRESSION
+===================================================== */
+
+function mettreAJourProgression(etape) {
+
+    const session =
+        document.getElementById(
+            "progressSession"
+        );
+
+    const participants =
+        document.getElementById(
+            "progressParticipants"
+        );
+
+    const recap =
+        document.getElementById(
+            "progressRecap"
+        );
+
+    const line1 =
+        document.getElementById(
+            "progressLine1"
+        );
+
+    const line2 =
+        document.getElementById(
+            "progressLine2"
+        );
+
+
+    /*
+     * Réinitialisation
+     */
+
+    session.classList.remove(
+        "active",
+        "completed"
+    );
+
+    participants.classList.remove(
+        "active",
+        "completed"
+    );
+
+    recap.classList.remove(
+        "active",
+        "completed"
+    );
+
+    line1.classList.remove(
+        "completed"
+    );
+
+    line2.classList.remove(
+        "completed"
+    );
+
+
+    /*
+     * Étape 1
+     */
+
+    if (etape === 1) {
+
+        session.classList.add(
+            "active"
+        );
+
+    }
+
+
+    /*
+     * Étape 2
+     */
+
+    if (etape === 2) {
+
+        session.classList.add(
+            "completed"
+        );
+
+        participants.classList.add(
+            "active"
+        );
+
+        line1.classList.add(
+            "completed"
+        );
+
+    }
+
+
+    /*
+     * Étape 3
+     */
+
+    if (etape === 3) {
+
+        session.classList.add(
+            "completed"
+        );
+
+        participants.classList.add(
+            "completed"
+        );
+
+        recap.classList.add(
+            "active"
+        );
+
+        line1.classList.add(
+            "completed"
+        );
+
+        line2.classList.add(
+            "completed"
+        );
+
+    }
 
 }
 
@@ -1923,54 +2128,30 @@ async function chargerChoixDepuisGrist() {
 function remplirChoixSession() {
 
     ajouterOptions(
-
-        document.getElementById(
-            "annee"
-        ),
-
+        document.getElementById("annee"),
         CHOIX_ANNEE,
-
         "-- Choisir --"
-
     );
 
 
     ajouterOptions(
-
-        document.getElementById(
-            "type"
-        ),
-
+        document.getElementById("type"),
         CHOIX_TYPE,
-
         "-- Choisir --"
-
     );
 
 
     ajouterOptions(
-
-        document.getElementById(
-            "intitule"
-        ),
-
+        document.getElementById("intitule"),
         CHOIX_INTITULE,
-
         "-- Choisir --"
-
     );
 
 
     ajouterOptions(
-
-        document.getElementById(
-            "lieu"
-        ),
-
+        document.getElementById("lieu"),
         CHOIX_LIEU,
-
         "-- Choisir --"
-
     );
 
 }
@@ -2080,6 +2261,17 @@ function ajouterParticipant() {
 
             </div>
 
+
+            <button
+                type="button"
+                class="delete-participant"
+                title="Supprimer ce participant"
+                aria-label="Supprimer ce participant">
+
+                ×
+
+            </button>
+
         </div>
 
 
@@ -2156,17 +2348,6 @@ function ajouterParticipant() {
                 </select>
 
             </div>
-
-
-            <button
-                type="button"
-                class="delete-participant"
-                title="Supprimer ce participant"
-                aria-label="Supprimer ce participant">
-
-                ×
-
-            </button>
 
 
         </div>
@@ -2268,7 +2449,6 @@ function ajouterParticipant() {
 
 
     mettreAJourCompteur();
-   mettreAJourProgression();
 
 }
 
@@ -2426,7 +2606,7 @@ function afficherMessage(
 
 
 /* =====================================================
-   RÉCUPÉRATION DES DONNÉES
+   RÉCUPÉRATION SESSION
 ===================================================== */
 
 function recupererSession() {
@@ -2469,7 +2649,7 @@ function recupererSession() {
 
 
 /* =====================================================
-   RÉCUPÉRATION DES PARTICIPANTS
+   RÉCUPÉRATION PARTICIPANTS
 ===================================================== */
 
 function recupererParticipants() {
@@ -2518,12 +2698,13 @@ function recupererParticipants() {
     );
 
 }
-      
+
+
 /* =====================================================
-   VALIDATION
+   VALIDATION SESSION
 ===================================================== */
 
-function validerFormulaire() {
+function validerSession() {
 
     const session =
         recupererSession();
@@ -2562,6 +2743,17 @@ function validerFormulaire() {
 
     }
 
+
+    return true;
+
+}
+
+
+/* =====================================================
+   VALIDATION PARTICIPANTS
+===================================================== */
+
+function validerParticipants() {
 
     const participants =
         recupererParticipants();
@@ -2618,6 +2810,297 @@ function validerFormulaire() {
 
 
 /* =====================================================
+   AFFICHAGE RÉCAPITULATIF
+===================================================== */
+
+function afficherRecapitulatif() {
+
+    const session =
+        recupererSession();
+
+
+    const participants =
+        recupererParticipants();
+
+
+    /*
+     * Informations session
+     */
+
+    document.getElementById(
+        "recapAnnee"
+    ).textContent =
+        session.annee;
+
+
+    document.getElementById(
+        "recapType"
+    ).textContent =
+        session.type;
+
+
+    document.getElementById(
+        "recapIntitule"
+    ).textContent =
+        session.intitule;
+
+
+    document.getElementById(
+        "recapDate"
+    ).textContent =
+        session.date;
+
+
+    document.getElementById(
+        "recapDuree"
+    ).textContent =
+        session.duree
+            ? session.duree + " h"
+            : "Non renseignée";
+
+
+    document.getElementById(
+        "recapLieu"
+    ).textContent =
+        session.lieu;
+
+
+    /*
+     * Tableau participants
+     */
+
+    const tbody =
+        document.getElementById(
+            "recapParticipantsBody"
+        );
+
+
+    tbody.innerHTML = "";
+
+
+    participants.forEach(
+        participant => {
+
+            const row =
+                document.createElement(
+                    "tr"
+                );
+
+
+            /*
+             * Nom
+             */
+
+            const nom =
+                document.createElement(
+                    "td"
+                );
+
+            nom.textContent =
+                participant.nom;
+
+
+            /*
+             * Laboratoire
+             */
+
+            const labo =
+                document.createElement(
+                    "td"
+                );
+
+
+            const laboTrouve =
+                laboratoires.find(
+                    item =>
+                        String(item.id) ===
+                        String(
+                            participant.laboratoire
+                        )
+                );
+
+
+            labo.textContent =
+                laboTrouve
+                    ? laboTrouve.nom
+                    : participant.laboratoire;
+
+
+            /*
+             * Etablissement
+             */
+
+            const etablissement =
+                document.createElement(
+                    "td"
+                );
+
+            etablissement.textContent =
+                participant.etablissement;
+
+
+            /*
+             * Catégorie
+             */
+
+            const categorie =
+                document.createElement(
+                    "td"
+                );
+
+            categorie.textContent =
+                participant.categorie;
+
+
+            row.appendChild(nom);
+
+            row.appendChild(labo);
+
+            row.appendChild(etablissement);
+
+            row.appendChild(categorie);
+
+
+            tbody.appendChild(row);
+
+        }
+    );
+
+
+    /*
+     * Affichage des cartes
+     */
+
+    document.getElementById(
+        "sessionCard"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "participantsCard"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "recapCard"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "participantsActions"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "recapActions"
+    ).style.display =
+        "flex";
+
+
+    mettreAJourProgression(3);
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =====================================================
+   PASSAGE AU RÉCAPITULATIF
+===================================================== */
+
+function passerAuRecapitulatif() {
+
+    /*
+     * Vérifier les informations de session
+     */
+
+    if (
+        !validerSession()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Vérifier les participants
+     */
+
+    if (
+        !validerParticipants()
+    ) {
+
+        return;
+
+    }
+
+
+    /*
+     * Afficher le récapitulatif
+     */
+
+    afficherRecapitulatif();
+
+}
+
+
+/* =====================================================
+   RETOUR AUX PARTICIPANTS
+===================================================== */
+
+function revenirAuxParticipants() {
+
+    document.getElementById(
+        "sessionCard"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "participantsCard"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "recapCard"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "participantsActions"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "recapActions"
+    ).style.display =
+        "none";
+
+
+    mettreAJourProgression(2);
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =====================================================
    CONVERSION DATE
 ===================================================== */
 
@@ -2651,13 +3134,14 @@ function convertirDate(
 
 
 /* =====================================================
-   ENREGISTREMENT
+   ENREGISTREMENT FINAL DANS GRIST
 ===================================================== */
 
-async function enregistrerSession() {
+async function confirmerEnregistrement() {
 
     if (
-        !validerFormulaire()
+        !validerSession() ||
+        !validerParticipants()
     ) {
 
         return;
@@ -2665,17 +3149,17 @@ async function enregistrerSession() {
     }
 
 
-    const saveButton =
+    const confirmButton =
         document.getElementById(
-            "saveButton"
+            "confirmButton"
         );
 
 
-    saveButton.disabled =
+    confirmButton.disabled =
         true;
 
 
-    saveButton.textContent =
+    confirmButton.textContent =
         "Enregistrement...";
 
 
@@ -2733,6 +3217,11 @@ async function enregistrerSession() {
             );
 
 
+        /*
+         * C'EST ICI SEULEMENT que les données
+         * sont envoyées dans Grist.
+         */
+
         await grist.docApi.applyUserActions(
 
             records.map(
@@ -2767,8 +3256,12 @@ async function enregistrerSession() {
         );
 
 
-        saveButton.textContent =
+        confirmButton.textContent =
             "✓ Session enregistrée";
+
+
+        mettreAJourProgression(3);
+
 
     }
 
@@ -2789,12 +3282,12 @@ async function enregistrerSession() {
         );
 
 
-        saveButton.disabled =
+        confirmButton.disabled =
             false;
 
 
-        saveButton.textContent =
-            "✓ Enregistrer la session";
+        confirmButton.textContent =
+            "✓ Confirmer et enregistrer";
 
     }
 
@@ -2847,6 +3340,36 @@ function nouvelleSession() {
 
 
     document.getElementById(
+        "recapCard"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "sessionCard"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "participantsCard"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "participantsActions"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "recapActions"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
         "message"
     ).className =
         "message";
@@ -2859,24 +3382,33 @@ function nouvelleSession() {
 
 
     document.getElementById(
-        "saveButton"
+        "confirmButton"
     ).disabled =
         false;
 
 
     document.getElementById(
-        "saveButton"
+        "confirmButton"
     ).textContent =
-        "✓ Enregistrer la session";
+        "✓ Confirmer et enregistrer";
+
+
+    mettreAJourProgression(1);
 
 
     ajouterParticipant();
-    
+
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
 }
 
 
 /* =====================================================
-   EVENEMENTS
+   ÉVÉNEMENTS
 ===================================================== */
 
 document
@@ -2889,13 +3421,39 @@ document
     );
 
 
+/*
+ * IMPORTANT :
+ * Ce bouton ne sauvegarde plus dans Grist.
+ * Il ouvre maintenant le récapitulatif.
+ */
+
 document
     .getElementById(
         "saveButton"
     )
     .addEventListener(
         "click",
-        enregistrerSession
+        passerAuRecapitulatif
+    );
+
+
+document
+    .getElementById(
+        "confirmButton"
+    )
+    .addEventListener(
+        "click",
+        confirmerEnregistrement
+    );
+
+
+document
+    .getElementById(
+        "backButton"
+    )
+    .addEventListener(
+        "click",
+        revenirAuxParticipants
     );
 
 
@@ -2907,57 +3465,8 @@ document
         "click",
         nouvelleSession
     );
-/* =====================================================
-   PROGRESSION
-===================================================== */
-
-document
-    .getElementById("annee")
-    .addEventListener(
-        "change",
-        mettreAJourProgression
-    );
 
 
-document
-    .getElementById("type")
-    .addEventListener(
-        "change",
-        mettreAJourProgression
-    );
-
-
-document
-    .getElementById("intitule")
-    .addEventListener(
-        "change",
-        mettreAJourProgression
-    );
-
-
-document
-    .getElementById("date")
-    .addEventListener(
-        "input",
-        mettreAJourProgression
-    );
-
-
-document
-    .getElementById("lieu")
-    .addEventListener(
-        "change",
-        mettreAJourProgression
-    );
-
-
-document
-    .getElementById("duree")
-    .addEventListener(
-        "input",
-        mettreAJourProgression
-    );
-      
 /* =====================================================
    INITIALISATION
 ===================================================== */
@@ -2965,6 +3474,17 @@ document
 (async function() {
 
     try {
+
+        /*
+         * Progression initiale
+         */
+
+        mettreAJourProgression(1);
+
+
+        /*
+         * Charger les Choices depuis Grist
+         */
 
         const choix =
             await chargerChoixDepuisGrist();
@@ -2994,11 +3514,23 @@ document
             choix[COL.lieu] || [];
 
 
+        /*
+         * Remplir les champs de session
+         */
+
         remplirChoixSession();
 
 
+        /*
+         * Charger les laboratoires
+         */
+
         await chargerLaboratoires();
 
+
+        /*
+         * Ajouter le premier participant
+         */
 
         ajouterParticipant();
 
