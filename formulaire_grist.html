@@ -336,7 +336,17 @@ button {
     color: #c62828;
 }
 
+.field-error {
 
+    margin-top: 5px;
+
+    font-size: 12px;
+
+    color: #c62828;
+
+    min-height: 16px;
+
+}
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -464,8 +474,15 @@ button {
     type="text"
     placeholder="DD-MM-YYYY"
     maxlength="10"
+    autocomplete="off"
     required
 >
+
+<div
+    id="dateError"
+    class="field-error"
+>
+</div>
 
 <div class="help">
     Format : 25-08-2026
@@ -1494,25 +1511,23 @@ function ajouterParticipant() {
    CONVERSION DATE
 ===================================================== */
 
-function convertirDate(
-    dateFR
-) {
+function convertirDate(dateFR) {
 
+    /*
+     * Vérifie exactement le format :
+     * DD-MM-YYYY
+     */
 
     const match =
         dateFR.match(
-
             /^(\d{2})-(\d{2})-(\d{4})$/
-
         );
 
 
     if (!match) {
 
         throw new Error(
-
             "La date doit être au format DD-MM-YYYY."
-
         );
 
     }
@@ -1521,33 +1536,60 @@ function convertirDate(
     const jour =
         Number(match[1]);
 
-
     const mois =
         Number(match[2]);
-
 
     const annee =
         Number(match[3]);
 
 
+    /*
+     * Vérification basique
+     */
+
+    if (
+        mois < 1 ||
+        mois > 12
+    ) {
+
+        throw new Error(
+            "Le mois doit être compris entre 01 et 12."
+        );
+
+    }
+
+
+    if (
+        jour < 1 ||
+        jour > 31
+    ) {
+
+        throw new Error(
+            "Le jour doit être compris entre 01 et 31."
+        );
+
+    }
+
+
+    /*
+     * Création de la date
+     */
+
     const date =
         new Date(
-
             Date.UTC(
-
                 annee,
-
                 mois - 1,
-
                 jour
-
             )
-
         );
 
 
     /*
      * Vérification des dates impossibles
+     *
+     * Exemple :
+     * 31-02-2026
      */
 
     if (
@@ -1568,16 +1610,15 @@ function convertirDate(
     ) {
 
         throw new Error(
-
-            "La date saisie n'est pas valide."
-
+            "Cette date n'existe pas."
         );
 
     }
 
 
     /*
-     * Format ISO pour Grist
+     * Retourne la date au format
+     * attendu par Grist.
      */
 
     return (
@@ -1592,7 +1633,83 @@ function convertirDate(
 
 }
 
+function verifierDate() {
 
+    const input =
+        document.getElementById(
+            "date"
+        );
+
+    const error =
+        document.getElementById(
+            "dateError"
+        );
+
+
+    const valeur =
+        input.value.trim();
+
+
+    /*
+     * Champ vide :
+     * la validation "required" s'en chargera.
+     */
+
+    if (!valeur) {
+
+        error.textContent = "";
+
+        input.style.borderColor = "";
+
+        return false;
+
+    }
+
+
+    try {
+
+        convertirDate(valeur);
+
+
+        /*
+         * Date correcte
+         */
+
+        error.textContent =
+            "✓ Date valide";
+
+        error.style.color =
+            "#16803c";
+
+        input.style.borderColor =
+            "#16803c";
+
+
+        return true;
+
+    }
+
+    catch (e) {
+
+        /*
+         * Date incorrecte
+         */
+
+        error.textContent =
+            e.message;
+
+        error.style.color =
+            "#c62828";
+
+        input.style.borderColor =
+            "#c62828";
+
+
+        return false;
+
+    }
+
+}
 /* =====================================================
    ENREGISTREMENT
 ===================================================== */
@@ -2156,6 +2273,13 @@ document
 
     );
 
+document
+    .getElementById("date")
+    .addEventListener(
+        "blur",
+        verifierDate
+    );
+    
 </script>
 
 </body>
