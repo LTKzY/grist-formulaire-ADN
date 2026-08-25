@@ -2743,6 +2743,11 @@ function validerSession() {
         recupererSession();
 
 
+    /*
+     * Si tous les champs obligatoires sont remplis,
+     * on vérifie ensuite la date.
+     */
+
     if (
         !session.annee ||
         !session.type ||
@@ -2761,6 +2766,10 @@ function validerSession() {
     }
 
 
+    /*
+     * Validation de la date
+     */
+
     if (
         !dateValide(
             session.date
@@ -2777,10 +2786,26 @@ function validerSession() {
     }
 
 
+    /*
+     * La date est maintenant correcte :
+     * on efface l'ancien message d'erreur.
+     */
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.className =
+        "message";
+
+    message.textContent =
+        "";
+
+
     return true;
 
 }
-
 
 /* =====================================================
    VALIDATION PARTICIPANTS
@@ -3430,7 +3455,32 @@ document
         passerAuRecapitulatif
     );
 
+document
+    .getElementById("date")
+    .addEventListener(
+        "input",
+        () => {
 
+            if (
+                dateValide(
+                    document.getElementById("date").value
+                )
+            ) {
+
+                const message =
+                    document.getElementById("message");
+
+                message.className =
+                    "message";
+
+                message.textContent =
+                    "";
+
+            }
+
+        }
+    );
+      
 document
     .getElementById(
         "confirmButton"
