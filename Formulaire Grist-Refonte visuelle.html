@@ -501,6 +501,42 @@ input::placeholder {
 
 }
 
+/* =====================================================
+   ERREUR DATE
+===================================================== */
+
+.field-error {
+
+    min-height: 18px;
+
+    margin-top: -2px;
+
+    color: var(--error);
+
+    font-size: 12px;
+
+    font-weight: 500;
+
+}
+
+
+input.input-error {
+
+    border-color: var(--error);
+
+    background: var(--error-bg);
+
+}
+
+
+input.input-error:focus {
+
+    border-color: var(--error);
+
+    box-shadow:
+        0 0 0 3px rgba(185, 28, 28, 0.10);
+
+}
 
 /* =====================================================
    PARTICIPANTS HEADER
@@ -1477,18 +1513,25 @@ input::placeholder {
 
             <div class="field">
 
-                <label for="date">
-                    Date
-                </label>
+                <div class="field">
 
-                <input
-                    type="text"
-                    id="date"
-                    placeholder="DD-MM-YYYY"
-                    maxlength="10"
-                    required>
+    <label for="date">
+        Date
+    </label>
 
-            </div>
+    <input
+        type="text"
+        id="date"
+        placeholder="DD-MM-YYYY"
+        maxlength="10"
+        required>
+
+    <div
+        id="dateError"
+        class="field-error">
+    </div>
+
+</div>
 
 
             <div class="field">
@@ -2611,7 +2654,72 @@ function dateValide(dateString) {
 
 }
 
+/* =====================================================
+   VALIDATION VISUELLE DE LA DATE
+===================================================== */
 
+function validerDateVisuellement() {
+
+    const dateInput =
+        document.getElementById("date");
+
+    const dateError =
+        document.getElementById("dateError");
+
+
+    const valeur =
+        dateInput.value.trim();
+
+
+    /*
+     * Champ vide
+     */
+
+    if (!valeur) {
+
+        dateInput.classList.remove(
+            "input-error"
+        );
+
+        dateError.textContent = "";
+
+        return false;
+
+    }
+
+
+    /*
+     * Date incorrecte
+     */
+
+    if (!dateValide(valeur)) {
+
+        dateInput.classList.add(
+            "input-error"
+        );
+
+        dateError.textContent =
+            "La date doit être saisie au format DD-MM-YYYY et correspondre à une date valide.";
+
+        return false;
+
+    }
+
+
+    /*
+     * Date correcte
+     */
+
+    dateInput.classList.remove(
+        "input-error"
+    );
+
+    dateError.textContent = "";
+
+    return true;
+
+}
+      
 /* =====================================================
    MESSAGE
 ===================================================== */
@@ -2767,20 +2875,12 @@ function validerSession() {
 
 
     if (
-        !dateValide(
-            session.date
-        )
-    ) {
+    !validerDateVisuellement()
+) {
 
-        afficherMessage(
-            "La date doit être saisie au format DD-MM-YYYY et correspondre à une date valide.",
-            "error"
-        );
+    return false;
 
-        return false;
-
-    }
-
+}
 
     return true;
 
@@ -3351,6 +3451,17 @@ function nouvelleSession() {
         "date"
     ).value = "";
 
+
+    document.getElementById(
+    "date"
+).classList.remove(
+    "input-error"
+);
+
+
+document.getElementById(
+    "dateError"
+).textContent = "";  
 
     document.getElementById(
         "type"
