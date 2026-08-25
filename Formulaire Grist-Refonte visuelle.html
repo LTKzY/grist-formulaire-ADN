@@ -3195,7 +3195,9 @@ async function confirmerEnregistrement() {
                         participant.nom,
 
                     [COL.laboratoire]:
-                        participant.laboratoire,
+    participant.laboratoire
+        ? [Number(participant.laboratoire)]
+        : [],
 
                     [COL.etablissement]:
                         participant.etablissement,
