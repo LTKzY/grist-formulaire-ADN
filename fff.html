@@ -501,6 +501,99 @@ input::placeholder {
 
 }
 
+/* =====================================================
+   AUTOCOMPLÉTION LABORATOIRES
+===================================================== */
+
+.laboratoire-autocomplete {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+.participant-laboratoire-search {
+
+    width: 100%;
+
+}
+
+
+.laboratoire-results {
+
+    position: absolute;
+
+    top: calc(100% + 4px);
+
+    left: 0;
+    right: 0;
+
+    z-index: 1000;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 5px 15px rgba(76, 29, 149, 0.12);
+
+    display: none;
+
+}
+
+
+.laboratoire-result {
+
+    padding: 10px 12px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    color: var(--text);
+
+    background: white;
+
+}
+
+
+.laboratoire-result:hover {
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+}
+
+
+.laboratoire-result.selected {
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+    font-weight: 600;
+
+}
+
+
+.laboratoire-no-result {
+
+    padding: 10px 12px;
+
+    font-size: 13px;
+
+    color: var(--text-light);
+
+}
 
 /* =====================================================
    PARTICIPANTS HEADER
@@ -2321,6 +2414,192 @@ async function chargerLaboratoires() {
 
 }
 
+/* =====================================================
+   AUTOCOMPLÉTION LABORATOIRE
+===================================================== */
+
+function initialiserRechercheLaboratoire(
+    participant
+) {
+
+    const searchInput =
+        participant.querySelector(
+            ".participant-laboratoire-search"
+        );
+
+
+    const hiddenInput =
+        participant.querySelector(
+            ".participant-laboratoire"
+        );
+
+
+    const results =
+        participant.querySelector(
+            ".laboratoire-results"
+        );
+
+
+    function afficherResultats() {
+
+        const recherche =
+            searchInput.value
+                .trim()
+                .toLowerCase();
+
+
+        results.innerHTML = "";
+
+
+        /*
+         * Si aucun texte n'est saisi,
+         * on affiche tous les laboratoires.
+         */
+
+        const correspondances =
+            laboratoires.filter(
+                labo => {
+
+                    if (!recherche) {
+
+                        return true;
+
+                    }
+
+
+                    return labo.nom
+                        .toLowerCase()
+                        .includes(recherche);
+
+                }
+            );
+
+
+        if (
+            correspondances.length === 0
+        ) {
+
+            const aucun =
+                document.createElement(
+                    "div"
+                );
+
+            aucun.className =
+                "laboratoire-no-result";
+
+            aucun.textContent =
+                "Aucun laboratoire trouvé";
+
+            results.appendChild(
+                aucun
+            );
+
+            results.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        correspondances.forEach(
+            labo => {
+
+                const result =
+                    document.createElement(
+                        "div"
+                    );
+
+                result.className =
+                    "laboratoire-result";
+
+                result.textContent =
+                    labo.nom;
+
+
+                result.addEventListener(
+                    "mousedown",
+                    function(event) {
+
+                        event.preventDefault();
+
+                        searchInput.value =
+                            labo.nom;
+
+                        hiddenInput.value =
+                            labo.id;
+
+                        results.style.display =
+                            "none";
+
+                    }
+                );
+
+
+                results.appendChild(
+                    result
+                );
+
+            }
+        );
+
+
+        results.style.display =
+            "block";
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        function() {
+
+            /*
+             * Dès que l'utilisateur modifie
+             * le texte, on invalide l'ancien choix.
+             */
+
+            hiddenInput.value = "";
+
+            afficherResultats();
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "focus",
+        function() {
+
+            afficherResultats();
+
+        }
+    );
+
+
+    searchInput.addEventListener(
+        "blur",
+        function() {
+
+            /*
+             * Petit délai pour laisser le
+             * clic sur un résultat fonctionner.
+             */
+
+            setTimeout(
+                function() {
+
+                    results.style.display =
+                        "none";
+
+                },
+                150
+            );
+
+        }
+    );
+
+}      
 
 /* =====================================================
    CRÉATION D'UN PARTICIPANT
@@ -2386,21 +2665,29 @@ function ajouterParticipant() {
 
             <div class="field">
 
-                <label>
-                    Laboratoire / Service
-                </label>
+    <label>
+        Laboratoire / Service
+    </label>
 
-                <select
-                    class="participant-laboratoire"
-                    required>
+    <div class="laboratoire-autocomplete">
 
-                    <option value="">
-                        -- Choisir --
-                    </option>
+        <input
+            type="text"
+            class="participant-laboratoire-search"
+            placeholder="Rechercher un laboratoire..."
+            autocomplete="off"
+            required>
 
-                </select>
+        <input
+            type="hidden"
+            class="participant-laboratoire"
+            value="">
 
-            </div>
+        <div class="laboratoire-results"></div>
+
+    </div>
+
+</div>
 
 
             <div class="field">
@@ -2476,36 +2763,13 @@ function ajouterParticipant() {
     );
 
 
-    /*
-     * Laboratoires
-     */
+   /*
+ * Recherche laboratoire
+ */
 
-    const laboSelect =
-        participant.querySelector(
-            ".participant-laboratoire"
-        );
-
-
-    laboratoires.forEach(
-        labo => {
-
-            const option =
-                document.createElement(
-                    "option"
-                );
-
-            option.value =
-                labo.id;
-
-            option.textContent =
-                labo.nom;
-
-            laboSelect.appendChild(
-                option
-            );
-
-        }
-    );
+initialiserRechercheLaboratoire(
+    participant
+);
 
 
     /*
