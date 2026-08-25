@@ -846,7 +846,33 @@ async function chargerChoixDepuisGrist() {
     const widgetOptions =
         metadata.widgetOptions || [];
 
+    console.log(
+    "=== COLONNES GRIST ==="
+);
 
+for (
+    let i = 0;
+    i < parentIds.length;
+    i++
+) {
+
+    console.log({
+
+        index: i,
+
+        parentId: parentIds[i],
+
+        label: labels[i],
+
+        type: types[i],
+
+        widgetOptions: widgetOptions[i]
+
+    });
+
+}
+
+    
     const choix = {};
 
 
