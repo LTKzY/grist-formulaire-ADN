@@ -66,6 +66,27 @@ h2 {
     margin-bottom: 20px;
 }
 
+.action-buttons {
+
+    display: flex;
+
+    gap: 10px;
+
+}
+
+.new-session {
+
+    background: #eeeeee;
+
+    color: #333;
+
+}
+
+.new-session:hover {
+
+    background: #dddddd;
+
+}
 
 /* =====================================================
    SECTIONS
@@ -644,6 +665,16 @@ button {
 <div id="message">
 </div>
 
+<div class="action-buttons">
+
+<button
+    type="button"
+    class="new-session"
+    id="newSession"
+>
+    ↻ Nouvelle session
+</button>
+
 <button
     type="button"
     class="submit"
@@ -651,6 +682,8 @@ button {
 >
     Enregistrer la session
 </button>
+
+</div>
 
 </div>
 
@@ -975,7 +1008,170 @@ async function chargerLaboratoires() {
 
 }
 
+/* =====================================================
+   NOUVELLE SESSION
+===================================================== */
 
+function nouvelleSession() {
+
+    const participants =
+        document.getElementById(
+            "participants"
+        );
+
+
+    /*
+     * Vérifie si le formulaire contient
+     * déjà des informations
+     */
+
+    const annee =
+        document.getElementById(
+            "annee"
+        ).value;
+
+    const date =
+        document.getElementById(
+            "date"
+        ).value;
+
+    const type =
+        document.getElementById(
+            "type"
+        ).value;
+
+    const intitule =
+        document.getElementById(
+            "intitule"
+        ).value;
+
+    const duree =
+        document.getElementById(
+            "duree"
+        ).value;
+
+    const lieu =
+        document.getElementById(
+            "lieu"
+        ).value;
+
+
+    const nombreParticipants =
+        participants.querySelectorAll(
+            ".participant"
+        ).length;
+
+
+    /*
+     * On considère qu'il y a des données
+     * si un champ est rempli ou si plusieurs
+     * participants existent.
+     */
+
+    const formulaireCommence =
+
+        annee ||
+        date ||
+        type ||
+        intitule ||
+        duree ||
+        lieu ||
+        nombreParticipants > 1;
+
+
+    /*
+     * Demande confirmation uniquement
+     * si nécessaire.
+     */
+
+    if (formulaireCommence) {
+
+        const confirmation =
+            window.confirm(
+
+                "Les informations actuellement saisies vont être supprimées.\n\n" +
+                "Voulez-vous commencer une nouvelle session ?"
+
+            );
+
+
+        if (!confirmation) {
+
+            return;
+
+        }
+
+    }
+
+
+    /*
+     * Réinitialisation des informations
+     * de session.
+     */
+
+    document
+        .getElementById("annee")
+        .value = "";
+
+    document
+        .getElementById("date")
+        .value = "";
+
+    document
+        .getElementById("type")
+        .value = "";
+
+    document
+        .getElementById("intitule")
+        .value = "";
+
+    document
+        .getElementById("duree")
+        .value = "";
+
+    document
+        .getElementById("lieu")
+        .value = "";
+
+
+    /*
+     * Suppression de tous les participants.
+     */
+
+    participants.innerHTML = "";
+
+
+    /*
+     * Création d'un participant vide.
+     */
+
+    ajouterParticipant();
+
+
+    /*
+     * Efface le message précédent.
+     */
+
+    const message =
+        document.getElementById(
+            "message"
+        );
+
+    message.textContent = "";
+
+    message.className = "";
+
+
+    /*
+     * Replace le curseur sur l'année.
+     */
+
+    document
+        .getElementById("annee")
+        .focus();
+
+}
+    
 /* =====================================================
    AJOUT D'OPTIONS
 ===================================================== */
@@ -1948,6 +2144,17 @@ document
 
     );
 
+document
+    .getElementById(
+        "newSession"
+    )
+    .addEventListener(
+
+        "click",
+
+        nouvelleSession
+
+    );
 
 </script>
 
