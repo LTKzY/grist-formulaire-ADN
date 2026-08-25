@@ -538,55 +538,6 @@ button {
 </div>
 
 </div>
-
-
-/* =====================================================
-   REMPLIR CHOIX SESSION
-===================================================== */
-
-function remplirChoixSession() {
-
-    const annee =
-        document.getElementById("annee");
-
-    const type =
-        document.getElementById("type");
-
-    const intitule =
-        document.getElementById("intitule");
-
-    const lieu =
-        document.getElementById("lieu");
-
-
-    ajouterOptions(
-        annee,
-        CHOIX_ANNEE,
-        "-- Choisir --"
-    );
-
-
-    ajouterOptions(
-        type,
-        CHOIX_TYPE,
-        "-- Choisir --"
-    );
-
-
-    ajouterOptions(
-        intitule,
-        CHOIX_INTITULE,
-        "-- Choisir --"
-    );
-
-
-    ajouterOptions(
-        lieu,
-        CHOIX_LIEU,
-        "-- Choisir --"
-    );
-
-}
     
 <!-- =====================================================
      PARTICIPANTS
@@ -721,7 +672,55 @@ function remplirChoixSession() {
 
 
 <script>
+    
+/* =====================================================
+   REMPLIR CHOIX SESSION
+===================================================== */
 
+function remplirChoixSession() {
+
+    const annee =
+        document.getElementById("annee");
+
+    const type =
+        document.getElementById("type");
+
+    const intitule =
+        document.getElementById("intitule");
+
+    const lieu =
+        document.getElementById("lieu");
+
+
+    ajouterOptions(
+        annee,
+        CHOIX_ANNEE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        type,
+        CHOIX_TYPE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        intitule,
+        CHOIX_INTITULE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        lieu,
+        CHOIX_LIEU,
+        "-- Choisir --"
+    );
+
+}
+    
 /* =====================================================
    CONNEXION GRIST
 ===================================================== */
@@ -768,6 +767,7 @@ async function chargerChoixDepuisGrist() {
             "_grist_Tables_column"
         );
 
+
     const tables =
         await grist.docApi.fetchTable(
             "_grist_Tables"
@@ -775,30 +775,34 @@ async function chargerChoixDepuisGrist() {
 
 
     /*
-     * Trouver l'identifiant de T2022_2026
+     * Dans _grist_Tables :
+     *
+     * id       = identifiant interne
+     * tableId  = nom interne de la table
      */
 
-    const tableId =
+    const tableIds =
         tables.tableId || [];
 
-    const tableName =
-        tables.tableName || [];
+    const ids =
+        tables.id || [];
+
 
     let targetTableId = null;
 
 
     for (
         let i = 0;
-        i < tableName.length;
+        i < tableIds.length;
         i++
     ) {
 
         if (
-            tableName[i] === SOURCE_TABLE
+            tableIds[i] === SOURCE_TABLE
         ) {
 
             targetTableId =
-                tableId[i];
+                ids[i];
 
             break;
 
@@ -807,7 +811,10 @@ async function chargerChoixDepuisGrist() {
     }
 
 
-    if (!targetTableId) {
+    if (
+        targetTableId === null ||
+        targetTableId === undefined
+    ) {
 
         throw new Error(
             "Impossible de trouver la table " +
@@ -817,23 +824,26 @@ async function chargerChoixDepuisGrist() {
     }
 
 
+    console.log(
+        "ID interne de T2022_2026 :",
+        targetTableId
+    );
+
+
     /*
-     * Colonnes de la table
+     * Récupération des colonnes
      */
 
-    const parentId =
+    const parentIds =
         metadata.parentId || [];
 
-    const colId =
-        metadata.colId || [];
-
-    const colType =
-        metadata.type || [];
-
-    const colLabel =
+    const labels =
         metadata.label || [];
 
-    const colWidgetOptions =
+    const types =
+        metadata.type || [];
+
+    const widgetOptions =
         metadata.widgetOptions || [];
 
 
@@ -852,18 +862,19 @@ async function chargerChoixDepuisGrist() {
     ];
 
 
-    /*
-     * Parcours des colonnes
-     */
-
     for (
         let i = 0;
-        i < parentId.length;
+        i < parentIds.length;
         i++
     ) {
 
+        /*
+         * On ne regarde que les colonnes
+         * appartenant à T2022_2026.
+         */
+
         if (
-            parentId[i] !== targetTableId
+            parentIds[i] !== targetTableId
         ) {
 
             continue;
@@ -872,7 +883,7 @@ async function chargerChoixDepuisGrist() {
 
 
         const nomColonne =
-            colLabel[i];
+            labels[i];
 
 
         if (
@@ -886,17 +897,21 @@ async function chargerChoixDepuisGrist() {
         }
 
 
-        /*
-         * Vérification que c'est bien
-         * une colonne Choice.
-         */
+        console.log(
+            "Colonne trouvée :",
+            nomColonne,
+            "Type :",
+            types[i]
+        );
+
 
         if (
-            colType[i] !== "Choice"
+            types[i] !== "Choice"
         ) {
 
             console.warn(
-                `La colonne ${nomColonne} n'est pas de type Choice.`
+                nomColonne +
+                " n'est pas une colonne Choice."
             );
 
             continue;
@@ -904,18 +919,14 @@ async function chargerChoixDepuisGrist() {
         }
 
 
-        /*
-         * Les choix sont stockés dans
-         * widgetOptions sous forme JSON.
-         */
-
         let options = {};
+
 
         try {
 
             options =
                 JSON.parse(
-                    colWidgetOptions[i] || "{}"
+                    widgetOptions[i] || "{}"
                 );
 
         }
@@ -923,7 +934,7 @@ async function chargerChoixDepuisGrist() {
         catch(error) {
 
             console.error(
-                "Impossible de lire les options de",
+                "Erreur de lecture des options de " +
                 nomColonne,
                 error
             );
@@ -934,8 +945,7 @@ async function chargerChoixDepuisGrist() {
 
 
         /*
-         * Selon la version de Grist,
-         * les choix sont stockés dans choices.
+         * Récupération des choix
          */
 
         const values =
@@ -943,47 +953,38 @@ async function chargerChoixDepuisGrist() {
 
 
         choix[nomColonne] =
-            values.map(
-                choice => {
+            values
+                .map(
+                    choice => {
 
-                    /*
-                     * Certaines versions retournent
-                     * directement une chaîne.
-                     */
+                        if (
+                            typeof choice === "string"
+                        ) {
 
-                    if (
-                        typeof choice === "string"
-                    ) {
+                            return choice;
 
-                        return choice;
+                        }
+
+
+                        return (
+                            choice.label ??
+                            choice.value ??
+                            choice.name ??
+                            ""
+                        );
 
                     }
-
-
-                    /*
-                     * D'autres peuvent retourner
-                     * un objet.
-                     */
-
-                    return (
-                        choice.label ??
-                        choice.value ??
-                        choice.name ??
-                        ""
-                    );
-
-                }
-            )
-            .filter(
-                value =>
-                    value !== ""
-            );
+                )
+                .filter(
+                    value =>
+                        value !== ""
+                );
 
     }
 
 
     console.log(
-        "Choix récupérés depuis Grist :",
+        "CHOIX RÉCUPÉRÉS DEPUIS GRIST :",
         choix
     );
 
