@@ -2602,6 +2602,197 @@ function initialiserRechercheLaboratoire(
 }      
 
 /* =====================================================
+   NAVIGATION CLAVIER PARTICIPANT
+===================================================== */
+
+function initialiserNavigationClavier(participant) {
+
+    const nom =
+        participant.querySelector(
+            ".participant-name"
+        );
+
+    const laboratoire =
+        participant.querySelector(
+            ".participant-laboratoire-search"
+        );
+
+    const etablissement =
+        participant.querySelector(
+            ".participant-etablissement"
+        );
+
+    const categorie =
+        participant.querySelector(
+            ".participant-categorie"
+        );
+
+
+    /*
+     * Entrée dans le champ Catégorie :
+     * crée automatiquement un nouveau participant.
+     */
+
+    categorie.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key !== "Enter"
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * On empêche le comportement
+             * par défaut du navigateur.
+             */
+
+            event.preventDefault();
+
+
+            /*
+             * On vérifie que le participant
+             * actuel est correctement rempli.
+             */
+
+            const participantActuel = {
+                nom:
+                    nom.value.trim(),
+
+                laboratoire:
+                    participant
+                        .querySelector(
+                            ".participant-laboratoire"
+                        )
+                        .value,
+
+                etablissement:
+                    etablissement.value,
+
+                categorie:
+                    categorie.value
+            };
+
+
+            if (
+                !participantActuel.nom ||
+                !participantActuel.laboratoire ||
+                !participantActuel.etablissement ||
+                !participantActuel.categorie
+            ) {
+
+                afficherMessage(
+                    "Veuillez compléter ce participant avant d'en créer un nouveau.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * Création du nouveau participant.
+             */
+
+            ajouterParticipant();
+
+
+            /*
+             * Récupération du dernier participant.
+             */
+
+            const participants =
+                document.querySelectorAll(
+                    ".participant"
+                );
+
+
+            const nouveauParticipant =
+                participants[
+                    participants.length - 1
+                ];
+
+
+            /*
+             * Placement automatique
+             * du curseur dans Nom, Prénom.
+             */
+
+            const nouveauNom =
+                nouveauParticipant.querySelector(
+                    ".participant-name"
+                );
+
+
+            nouveauNom.focus();
+
+        }
+    );
+
+
+    /*
+     * Entrée dans les autres champs :
+     * on passe simplement au champ suivant.
+     */
+
+    const champs = [
+        nom,
+        laboratoire,
+        etablissement,
+        categorie
+    ];
+
+
+    champs.forEach(
+        (champ, index) => {
+
+            champ.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key !== "Enter"
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Pour Catégorie, le traitement
+                     * ci-dessus s'en charge déjà.
+                     */
+
+                    if (
+                        index ===
+                        champs.length - 1
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    event.preventDefault();
+
+
+                    champs[index + 1].focus();
+
+                }
+            );
+
+        }
+    );
+
+}
+      
+/* =====================================================
    CRÉATION D'UN PARTICIPANT
 ===================================================== */
 
@@ -2771,6 +2962,13 @@ initialiserRechercheLaboratoire(
     participant
 );
 
+      /*
+ * Navigation clavier
+ */
+
+initialiserNavigationClavier(
+    participant
+);
 
     /*
      * Etablissement
