@@ -2416,6 +2416,7 @@ async function chargerLaboratoires() {
 
 /* =====================================================
    AUTOCOMPLÉTION LABORATOIRE
+   Navigation clavier ↑ ↓ Entrée Échap
 ===================================================== */
 
 function initialiserRechercheLaboratoire(
@@ -2440,6 +2441,15 @@ function initialiserRechercheLaboratoire(
         );
 
 
+    let correspondances = [];
+
+    let indexSelectionne = -1;
+
+
+    /* =================================================
+       AFFICHER LES RÉSULTATS
+    ================================================= */
+
     function afficherResultats() {
 
         const recherche =
@@ -2450,13 +2460,10 @@ function initialiserRechercheLaboratoire(
 
         results.innerHTML = "";
 
+        indexSelectionne = -1;
 
-        /*
-         * Si aucun texte n'est saisi,
-         * on affiche tous les laboratoires.
-         */
 
-        const correspondances =
+        correspondances =
             laboratoires.filter(
                 labo => {
 
@@ -2469,7 +2476,9 @@ function initialiserRechercheLaboratoire(
 
                     return labo.nom
                         .toLowerCase()
-                        .includes(recherche);
+                        .includes(
+                            recherche
+                        );
 
                 }
             );
@@ -2503,7 +2512,7 @@ function initialiserRechercheLaboratoire(
 
 
         correspondances.forEach(
-            labo => {
+            (labo, index) => {
 
                 const result =
                     document.createElement(
@@ -2517,20 +2526,19 @@ function initialiserRechercheLaboratoire(
                     labo.nom;
 
 
+                /*
+                 * Clic souris
+                 */
+
                 result.addEventListener(
                     "mousedown",
                     function(event) {
 
                         event.preventDefault();
 
-                        searchInput.value =
-                            labo.nom;
-
-                        hiddenInput.value =
-                            labo.id;
-
-                        results.style.display =
-                            "none";
+                        selectionnerLaboratoire(
+                            index
+                        );
 
                     }
                 );
@@ -2550,13 +2558,112 @@ function initialiserRechercheLaboratoire(
     }
 
 
+    /* =================================================
+       SÉLECTIONNER UN LABORATOIRE
+    ================================================= */
+
+    function selectionnerLaboratoire(
+        index
+    ) {
+
+        if (
+            index < 0 ||
+            index >= correspondances.length
+        ) {
+
+            return;
+
+        }
+
+
+        const labo =
+            correspondances[index];
+
+
+        searchInput.value =
+            labo.nom;
+
+
+        hiddenInput.value =
+            labo.id;
+
+
+        results.style.display =
+            "none";
+
+
+        indexSelectionne =
+            -1;
+
+    }
+
+
+    /* =================================================
+       ACTUALISER LA SÉLECTION VISUELLE
+    ================================================= */
+
+    function actualiserSelection() {
+
+        const items =
+            results.querySelectorAll(
+                ".laboratoire-result"
+            );
+
+
+        items.forEach(
+            item => {
+
+                item.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        if (
+            indexSelectionne < 0 ||
+            indexSelectionne >= items.length
+        ) {
+
+            return;
+
+        }
+
+
+        const element =
+            items[indexSelectionne];
+
+
+        element.classList.add(
+            "selected"
+        );
+
+
+        /*
+         * On fait défiler automatiquement
+         * la liste pour garder le résultat
+         * sélectionné visible.
+         */
+
+        element.scrollIntoView({
+            block: "nearest"
+        });
+
+    }
+
+
+    /* =================================================
+       SAISIE
+    ================================================= */
+
     searchInput.addEventListener(
         "input",
         function() {
 
             /*
-             * Dès que l'utilisateur modifie
-             * le texte, on invalide l'ancien choix.
+             * Une nouvelle saisie invalide
+             * l'ancien laboratoire sélectionné.
              */
 
             hiddenInput.value = "";
@@ -2566,6 +2673,10 @@ function initialiserRechercheLaboratoire(
         }
     );
 
+
+    /* =================================================
+       FOCUS
+    ================================================= */
 
     searchInput.addEventListener(
         "focus",
@@ -2577,13 +2688,183 @@ function initialiserRechercheLaboratoire(
     );
 
 
+    /* =================================================
+       CLAVIER
+    ================================================= */
+
+    searchInput.addEventListener(
+        "keydown",
+        function(event) {
+
+
+            /* -----------------------------------------
+               FLÈCHE BAS
+            ----------------------------------------- */
+
+            if (
+                event.key === "ArrowDown"
+            ) {
+
+                event.preventDefault();
+
+
+                if (
+                    correspondances.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+                indexSelectionne++;
+
+
+                if (
+                    indexSelectionne >=
+                    correspondances.length
+                ) {
+
+                    indexSelectionne = 0;
+
+                }
+
+
+                actualiserSelection();
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------
+               FLÈCHE HAUT
+            ----------------------------------------- */
+
+            if (
+                event.key === "ArrowUp"
+            ) {
+
+                event.preventDefault();
+
+
+                if (
+                    correspondances.length === 0
+                ) {
+
+                    return;
+
+                }
+
+
+                indexSelectionne--;
+
+
+                if (
+                    indexSelectionne < 0
+                ) {
+
+                    indexSelectionne =
+                        correspondances.length - 1;
+
+                }
+
+
+                actualiserSelection();
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------
+               ENTRÉE
+            ----------------------------------------- */
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                /*
+                 * Si un résultat est sélectionné
+                 * avec ↑ ou ↓, on le choisit.
+                 */
+
+                if (
+                    indexSelectionne >= 0
+                ) {
+
+                    event.preventDefault();
+
+
+                    selectionnerLaboratoire(
+                        indexSelectionne
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                 * Si aucun résultat n'est encore
+                 * sélectionné, on prend le premier.
+                 */
+
+                if (
+                    correspondances.length > 0
+                ) {
+
+                    event.preventDefault();
+
+
+                    selectionnerLaboratoire(
+                        0
+                    );
+
+                }
+
+
+                return;
+
+            }
+
+
+            /* -----------------------------------------
+               ÉCHAP
+            ----------------------------------------- */
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                event.preventDefault();
+
+
+                results.style.display =
+                    "none";
+
+
+                indexSelectionne =
+                    -1;
+
+            }
+
+        }
+    );
+
+
+    /* =================================================
+       PERTE DE FOCUS
+    ================================================= */
+
     searchInput.addEventListener(
         "blur",
         function() {
 
             /*
-             * Petit délai pour laisser le
-             * clic sur un résultat fonctionner.
+             * Petit délai pour permettre
+             * au clic sur un résultat de fonctionner.
              */
 
             setTimeout(
@@ -2592,6 +2873,9 @@ function initialiserRechercheLaboratoire(
                     results.style.display =
                         "none";
 
+                    indexSelectionne =
+                        -1;
+
                 },
                 150
             );
@@ -2599,7 +2883,7 @@ function initialiserRechercheLaboratoire(
         }
     );
 
-}      
+}
 
 /* =====================================================
    NAVIGATION CLAVIER PARTICIPANT
