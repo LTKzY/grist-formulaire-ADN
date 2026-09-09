@@ -1618,6 +1618,25 @@ input::placeholder {
             </div>
 
 
+           <div class="field">
+
+    <label for="domaine">
+        Domaine
+    </label>
+
+    <select
+        id="domaine"
+        required>
+
+        <option value="">
+            -- Choisir --
+        </option>
+
+    </select>
+
+</div> 
+              
+
             <div class="field">
 
                 <label for="intitule">
@@ -1785,6 +1804,18 @@ input::placeholder {
 
                 </div>
 
+                <div class="recap-item">
+
+    <span class="recap-label">
+        Domaine
+    </span>
+
+    <span
+        class="recap-value"
+        id="recapDomaine">
+    </span>
+
+</div>  
 
                 <div class="recap-item">
 
@@ -1987,6 +2018,9 @@ const COL = {
 
     type:
         "Type",
+    
+    domaine:
+        "Domaine"
 
     intitule:
         "Intitule",
@@ -2008,7 +2042,7 @@ const COL = {
 
     lieu:
         "Lieu"
-
+    
 };
 
 
@@ -2019,6 +2053,8 @@ const COL = {
 let CHOIX_ANNEE = [];
 
 let CHOIX_TYPE = [];
+
+let CHOIX_DOMAINE = [];
 
 let CHOIX_INTITULE = [];
 
@@ -2228,6 +2264,7 @@ async function chargerChoixDepuisGrist() {
 
         COL.annee,
         COL.type,
+        COL.domaine
         COL.intitule,
         COL.etablissement,
         COL.categorie,
@@ -2337,7 +2374,12 @@ function remplirChoixSession() {
         "-- Choisir --"
     );
 
-
+    ajouterOptions(
+    document.getElementById("domaine"),
+    CHOIX_DOMAINE,
+    "-- Choisir --"
+);
+      
     ajouterOptions(
         document.getElementById("intitule"),
         CHOIX_INTITULE,
@@ -3567,6 +3609,11 @@ function recupererSession() {
                 "type"
             ).value,
 
+        domaine:
+    document.getElementById(
+        "domaine"
+    ).value,  
+
         intitule:
             document.getElementById(
                 "intitule"
@@ -3657,6 +3704,7 @@ function validerSession() {
     if (
         !session.annee ||
         !session.type ||
+        !session.domaine ||  
         !session.intitule ||
         !session.date ||
         !session.lieu
@@ -3798,6 +3846,10 @@ function afficherRecapitulatif() {
     ).textContent =
         session.type;
 
+    document.getElementById(
+    "recapDomaine"
+).textContent =
+    session.domaine;  
 
     document.getElementById(
         "recapIntitule"
@@ -4112,6 +4164,9 @@ async function confirmerEnregistrement() {
                     [COL.type]:
                         session.type,
 
+                    [COL.domaine]:
+                        session.domaine,
+                      
                     [COL.intitule]:
                         session.intitule,
 
@@ -4240,7 +4295,10 @@ function nouvelleSession() {
         "type"
     ).value = "";
 
-
+    document.getElementById(
+    "domaine"
+).value = "";
+      
     document.getElementById(
         "intitule"
     ).value = "";
@@ -4439,6 +4497,8 @@ document
         CHOIX_TYPE =
             choix[COL.type] || [];
 
+        CHOIX_DOMAINE =
+    choix[COL.domaine] || [];  
 
         CHOIX_INTITULE =
             choix[COL.intitule] || [];
