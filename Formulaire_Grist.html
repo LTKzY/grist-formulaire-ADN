@@ -502,18 +502,136 @@ input::placeholder {
 }
 
 
-select[multiple] {
+/* =====================================================
+   FORMATEURS — SÉLECTION HORIZONTALE
+===================================================== */
 
-    min-height: 100px;
+.formateurs-inline {
 
-    padding: 6px 8px;
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    min-height: 38px;
+
+    padding: 4px 6px;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 8px;
+
+    background: #FFFFFF;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
 
 }
 
 
-select[multiple] option {
+.formateurs-inline:focus-within {
 
-    padding: 5px 6px;
+    border-color: var(--violet);
+
+    box-shadow:
+        0 0 0 3px rgba(109, 40, 217, 0.12);
+
+}
+
+
+.formateur-option {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    flex: 0 0 auto;
+
+    padding: 5px 9px;
+
+    border-radius: 16px;
+
+    background: #F5F3F8;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    white-space: nowrap;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+
+}
+
+
+.formateur-option:hover {
+
+    background: var(--violet-pale);
+
+}
+
+
+.formateur-option.selected {
+
+    background: var(--violet);
+
+    color: white;
+
+}
+
+
+.formateur-option input {
+
+    width: 14px;
+
+    height: 14px;
+
+    margin: 0;
+
+    padding: 0;
+
+    accent-color: var(--violet);
+
+    box-shadow: none;
+
+}
+
+
+.formateur-option.selected input {
+
+    accent-color: white;
+
+}
+
+
+.formateurs-empty {
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+
+}
+
+
+.formateurs-selected-count {
+
+    margin-top: 4px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
 
 }
 
@@ -1689,21 +1807,28 @@ select[multiple] option {
                     Formateur(s)
                 </label>
 
+                <!-- Sélection multiple horizontale.
+                     Le select reste présent pour conserver la compatibilité
+                     avec le traitement existant, mais il est masqué visuellement. -->
                 <select
                     id="formateurs"
                     multiple
-                    size="4"
-                    required>
-
-                    <option value="">
-                        -- Choisir --
-                    </option>
-
+                    required
+                    style="display:none;">
                 </select>
 
-                <small class="field-hint">
-                    Maintenez Ctrl (ou Cmd sur Mac) pour sélectionner plusieurs formateurs.
-                </small>
+                <div
+                    id="formateursInline"
+                    class="formateurs-inline"
+                    role="group"
+                    aria-label="Formateur(s)">
+                </div>
+
+                <div
+                    id="formateursSelectedCount"
+                    class="formateurs-selected-count">
+                    Aucun formateur sélectionné
+                </div>
 
             </div>
 
@@ -2434,6 +2559,139 @@ async function chargerChoixDepuisGrist() {
 
 
 /* =====================================================
+   FORMATEURS — SÉLECTION HORIZONTALE
+===================================================== */
+
+function afficherFormateursHorizontaux() {
+
+    const container =
+        document.getElementById(
+            "formateursInline"
+        );
+
+    const select =
+        document.getElementById(
+            "formateurs"
+        );
+
+    const count =
+        document.getElementById(
+            "formateursSelectedCount"
+        );
+
+    if (!container || !select || !count) {
+        return;
+    }
+
+    container.innerHTML = "";
+
+    const options =
+        Array.from(select.options)
+            .filter(option => option.value);
+
+    if (options.length === 0) {
+
+        const empty =
+            document.createElement("span");
+
+        empty.className =
+            "formateurs-empty";
+
+        empty.textContent =
+            "Aucun formateur disponible";
+
+        container.appendChild(empty);
+
+        count.textContent =
+            "Aucun formateur sélectionné";
+
+        return;
+    }
+
+    options.forEach(option => {
+
+        const label =
+            document.createElement("label");
+
+        label.className =
+            "formateur-option";
+
+        const checkbox =
+            document.createElement("input");
+
+        checkbox.type = "checkbox";
+        checkbox.value = option.value;
+        checkbox.checked = option.selected;
+
+        const text =
+            document.createElement("span");
+
+        text.textContent =
+            option.textContent;
+
+        label.appendChild(checkbox);
+        label.appendChild(text);
+        container.appendChild(label);
+
+        function synchroniser() {
+
+            option.selected =
+                checkbox.checked;
+
+            label.classList.toggle(
+                "selected",
+                checkbox.checked
+            );
+
+            mettreAJourCompteurFormateurs();
+        }
+
+        checkbox.addEventListener(
+            "change",
+            synchroniser
+        );
+
+        synchroniser();
+
+    });
+
+    mettreAJourCompteurFormateurs();
+
+}
+
+
+function mettreAJourCompteurFormateurs() {
+
+    const container =
+        document.getElementById(
+            "formateursInline"
+        );
+
+    const count =
+        document.getElementById(
+            "formateursSelectedCount"
+        );
+
+    if (!container || !count) {
+        return;
+    }
+
+    const nombre =
+        container.querySelectorAll(
+            'input[type="checkbox"]:checked'
+        ).length;
+
+    count.textContent =
+        nombre === 0
+            ? "Aucun formateur sélectionné"
+            : nombre === 1
+                ? "1 formateur sélectionné"
+                : nombre + " formateurs sélectionnés";
+
+}
+
+
+/* =====================================================
    REMPLIR LES CHOIX DE SESSION
 ===================================================== */
 
@@ -2467,11 +2725,16 @@ function remplirChoixSession() {
     );
 
 
+    const selectFormateurs =
+        document.getElementById("formateurs");
+
     ajouterOptions(
-        document.getElementById("formateurs"),
+        selectFormateurs,
         CHOIX_FORMATEURS,
-        "-- Choisir --"
+        ""
     );
+
+    afficherFormateursHorizontaux();
 
 
     ajouterOptions(
@@ -3713,6 +3976,8 @@ function recupererSession() {
                 ).selectedOptions
             ).map(
                 option => option.value
+            ).filter(
+                value => value
             ),
 
         duree:
@@ -4421,6 +4686,8 @@ function nouvelleSession() {
     ).forEach(
         option => option.selected = false
     );
+
+    afficherFormateursHorizontaux();
 
 
     document.getElementById(
