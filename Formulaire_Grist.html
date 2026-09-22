@@ -502,6 +502,2146 @@ input::placeholder {
 }
 
 
+/* =====================================================
+   FORMATEURS — LISTE DÉROULANTE À CASES À COCHER
+===================================================== */
+
+.formateurs-dropdown {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+.formateurs-trigger {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    width: 100%;
+
+    min-height: 43px;
+
+    padding: 10px 12px;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 8px;
+
+    background: #FFFFFF;
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    text-align: left;
+
+}
+
+
+.formateurs-trigger:hover {
+
+    border-color: var(--violet-soft);
+
+}
+
+
+.formateurs-dropdown.open
+.formateurs-trigger {
+
+    border-color: var(--violet);
+
+    box-shadow:
+        0 0 0 3px rgba(109, 40, 217, 0.12);
+
+}
+
+
+.formateurs-trigger-text {
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+    white-space: nowrap;
+
+    color: var(--text-light);
+
+}
+
+
+.formateurs-trigger.has-selection
+.formateurs-trigger-text {
+
+    color: var(--text);
+
+}
+
+
+.formateurs-arrow {
+
+    flex-shrink: 0;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+}
+
+
+.formateurs-menu {
+
+    position: absolute;
+
+    top: calc(100% + 5px);
+
+    left: 0;
+
+    right: 0;
+
+    z-index: 2000;
+
+    display: none;
+
+    max-height: 280px;
+
+    overflow-y: auto;
+
+    padding: 7px;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 9px;
+
+    background: #FFFFFF;
+
+    box-shadow:
+        0 8px 22px rgba(76, 29, 149, 0.14);
+
+}
+
+
+.formateurs-dropdown.open
+.formateurs-menu {
+
+    display: block;
+
+}
+
+
+.formateurs-search {
+
+    width: 100%;
+
+    min-height: 38px;
+
+    margin-bottom: 6px;
+
+    padding: 8px 10px;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 7px;
+
+    font-size: 13px;
+
+}
+
+
+.formateur-option {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    width: 100%;
+
+    padding: 8px 9px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    font-size: 13px;
+
+}
+
+
+.formateur-option:hover {
+
+    background: var(--violet-pale);
+
+}
+
+
+.formateur-option input {
+
+    width: 16px;
+
+    height: 16px;
+
+    min-height: 16px;
+
+    margin: 0;
+
+    padding: 0;
+
+    accent-color: var(--violet);
+
+    box-shadow: none;
+
+}
+
+
+.formateurs-menu-empty {
+
+    padding: 10px;
+
+    color: var(--text-light);
+
+    font-size: 12px;
+
+}
+
+
+.formateurs-selected-count {
+
+    margin-top: 4px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   AUTOCOMPLÉTION LABORATOIRES
+===================================================== */
+
+.laboratoire-autocomplete {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+
+.participant-laboratoire-search {
+
+    width: 100%;
+
+}
+
+
+.laboratoire-results {
+
+    position: absolute;
+
+    top: calc(100% + 4px);
+
+    left: 0;
+
+    right: 0;
+
+    z-index: 1000;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+
+    background: white;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 5px 15px rgba(76, 29, 149, 0.12);
+
+    display: none;
+
+}
+
+
+.laboratoire-result {
+
+    padding: 10px 12px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    color: var(--text);
+
+    background: white;
+
+}
+
+
+.laboratoire-result:hover {
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+}
+
+
+.laboratoire-result.selected {
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+    font-weight: 600;
+
+}
+
+
+.laboratoire-no-result {
+
+    padding: 10px 12px;
+
+    font-size: 13px;
+
+    color: var(--text-light);
+
+}
+
+
+/* =====================================================
+   PARTICIPANTS HEADER
+===================================================== */
+
+.participants-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.participants-count {
+
+    padding: 6px 12px;
+
+    border-radius: 20px;
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+
+}
+
+
+/* =====================================================
+   PARTICIPANT
+===================================================== */
+
+.participant {
+
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns:
+        32px
+        minmax(0, 1fr)
+        70px;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 10px;
+
+    padding: 11px 10px 11px 12px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FFFFFF 0%,
+            #FCFBFF 100%
+        );
+
+    border: 1px solid #DDD7EC;
+
+    border-radius: 11px;
+
+    transition:
+        border-color 0.15s ease,
+        box-shadow 0.15s ease;
+
+}
+
+
+.participant:hover {
+
+    border-color: var(--violet-soft);
+
+    box-shadow:
+        0 3px 13px rgba(109, 40, 217, 0.08);
+
+}
+
+
+/* =====================================================
+   NUMÉRO PARTICIPANT
+===================================================== */
+
+.participant-title {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 32px;
+
+    color: var(--violet-dark);
+
+    font-size: 0;
+
+}
+
+
+.participant-number {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 28px;
+
+    height: 28px;
+
+    border-radius: 50%;
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   PARTICIPANT GRID
+===================================================== */
+
+.participant-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        1.25fr
+        1.25fr
+        1fr;
+
+    gap: 10px;
+
+    align-items: end;
+
+    min-width: 0;
+
+}
+
+
+/* =====================================================
+   ACTIONS PARTICIPANT
+===================================================== */
+
+.participant-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 3px;
+
+}
+
+
+.duplicate-participant {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 32px;
+
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: var(--violet);
+
+    font-size: 18px;
+
+    line-height: 1;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.1s ease;
+
+}
+
+
+.duplicate-participant:hover {
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+}
+
+
+.duplicate-participant:active {
+
+    transform: scale(0.94);
+
+}
+
+
+.delete-participant {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    justify-self: center;
+
+    width: 32px;
+
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #B91C1C;
+
+    font-size: 23px;
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease,
+        transform 0.1s ease;
+
+}
+
+
+.delete-participant:hover {
+
+    background: #FEF2F2;
+
+    color: #991B1B;
+
+}
+
+
+.delete-participant:active {
+
+    transform: scale(0.94);
+
+}
+
+
+/* =====================================================
+   BOUTON AJOUT PARTICIPANT
+===================================================== */
+
+.add-participant {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 45px;
+
+    margin-top: 6px;
+
+    border: 1px dashed var(--violet-soft);
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #FAF9FF,
+            #F5F3FF
+        );
+
+    color: var(--violet-dark);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease,
+        transform 0.1s ease;
+
+}
+
+
+.add-participant:hover {
+
+    background: var(--violet-pale);
+
+    border-color: var(--violet);
+
+}
+
+
+.add-participant:active {
+
+    transform: translateY(1px);
+
+}
+
+
+/* =====================================================
+   NOUVELLE SESSION
+===================================================== */
+
+.new-session-wrapper {
+
+    display: flex;
+
+    justify-content: center;
+
+    width: 100%;
+
+    margin-bottom: 14px;
+
+}
+
+
+.new-session {
+
+    border: none;
+
+    background: transparent;
+
+    color: var(--violet);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    padding: 8px 18px;
+
+    border-radius: 8px;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+
+}
+
+
+.new-session:hover {
+
+    color: var(--violet-dark);
+
+    background: var(--violet-pale);
+
+}
+
+
+/* =====================================================
+   RÉCAPITULATIF
+===================================================== */
+
+#recapCard {
+
+    display: none;
+
+}
+
+
+.recap-section {
+
+    margin-bottom: 24px;
+
+}
+
+
+.recap-section:last-child {
+
+    margin-bottom: 0;
+
+}
+
+
+.recap-title {
+
+    margin: 0 0 12px;
+
+    color: var(--violet-dark);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+}
+
+
+.recap-session-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+
+}
+
+
+.recap-item {
+
+    padding: 11px 13px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: #FBFAFE;
+
+}
+
+
+.recap-label {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+}
+
+
+.recap-value {
+
+    color: var(--text);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.recap-participants {
+
+    overflow-x: auto;
+
+}
+
+
+.recap-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    font-size: 13px;
+
+}
+
+
+.recap-table th {
+
+    padding: 10px;
+
+    text-align: left;
+
+    background: var(--violet-pale);
+
+    color: var(--violet-dark);
+
+    font-weight: 700;
+
+    border-bottom: 1px solid #DCD4F0;
+
+}
+
+
+.recap-table td {
+
+    padding: 10px;
+
+    border-bottom: 1px solid var(--border);
+
+    color: var(--text);
+
+}
+
+
+.recap-table tr:last-child td {
+
+    border-bottom: none;
+
+}
+
+
+/* =====================================================
+   ACTIONS
+===================================================== */
+
+.actions {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 10px;
+
+    padding-top: 5px;
+
+}
+
+
+.btn-primary {
+
+    min-width: 220px;
+
+    min-height: 47px;
+
+    padding: 12px 24px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--violet-dark),
+            var(--violet)
+        );
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 12px rgba(76, 29, 149, 0.22);
+
+    transition:
+        transform 0.12s ease,
+        box-shadow 0.12s ease,
+        opacity 0.12s ease;
+
+}
+
+
+.btn-primary:hover {
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 16px rgba(76, 29, 149, 0.28);
+
+}
+
+
+.btn-primary:disabled {
+
+    opacity: 0.55;
+
+    cursor: not-allowed;
+
+    transform: none;
+
+}
+
+
+.btn-secondary {
+
+    min-width: 180px;
+
+    min-height: 47px;
+
+    padding: 12px 24px;
+
+    border: 1px solid #D9D4E5;
+
+    border-radius: 9px;
+
+    background: white;
+
+    color: var(--violet-dark);
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        border-color 0.15s ease;
+
+}
+
+
+.btn-secondary:hover {
+
+    background: var(--violet-pale);
+
+    border-color: var(--violet-soft);
+
+}
+
+
+/* =====================================================
+   MESSAGES
+===================================================== */
+
+.message {
+
+    margin: 15px 0;
+
+    padding: 12px 15px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    display: none;
+
+}
+
+
+.message.success {
+
+    display: block;
+
+    background: var(--success-bg);
+
+    border: 1px solid #BBF7D0;
+
+    color: var(--success);
+
+}
+
+
+.message.error {
+
+    display: block;
+
+    background: var(--error-bg);
+
+    border: 1px solid #FECACA;
+
+    color: var(--error);
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .participant-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+    }
+
+}
+
+
+@media (max-width: 720px) {
+
+    body {
+
+        padding: 15px 10px 30px;
+
+    }
+
+
+    .header,
+    .card {
+
+        padding: 20px;
+
+    }
+
+
+    .session-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .participant {
+
+        grid-template-columns:
+            32px
+            minmax(0, 1fr)
+            70px;
+
+        align-items: start;
+
+        padding: 12px 8px;
+
+    }
+
+
+    .participant-title {
+
+        padding-top: 6px;
+
+    }
+
+
+    .participant-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .delete-participant {
+
+        margin-top: 3px;
+
+    }
+
+
+    .progress {
+
+        padding: 15px;
+
+    }
+
+
+    .progress-step {
+
+        gap: 0;
+
+    }
+
+
+    .progress-step span:not(.progress-number) {
+
+        display: none;
+
+    }
+
+
+    .progress-line {
+
+        margin: 0 8px;
+
+    }
+
+
+    .recap-session-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .new-session-wrapper {
+
+        justify-content: center;
+
+    }
+
+
+    .new-session {
+
+        width: auto;
+
+    }
+
+
+    .actions {
+
+        flex-direction: column;
+
+    }
+
+
+    .btn-primary,
+    .btn-secondary {
+
+        width: 100%;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="header">
+
+        <h1>Saisie d'une formation</h1>
+
+        <p>
+            Enregistrez les informations de la session
+            puis ajoutez les participants.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         PROGRESSION
+    ================================================== -->
+
+    <div class="progress" id="progress">
+
+        <div class="progress-step active"
+             id="progressSession">
+
+            <span class="progress-number">1</span>
+
+            <span>Session</span>
+
+        </div>
+
+
+        <div class="progress-line"
+             id="progressLine1">
+        </div>
+
+
+        <div class="progress-step"
+             id="progressParticipants">
+
+            <span class="progress-number">2</span>
+
+            <span>Participants</span>
+
+        </div>
+
+
+        <div class="progress-line"
+             id="progressLine2">
+        </div>
+
+
+        <div class="progress-step"
+             id="progressRecap">
+
+            <span class="progress-number">3</span>
+
+            <span>Récapitulatif</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         NOUVELLE SESSION
+    ================================================== -->
+
+    <div class="new-session-wrapper">
+
+        <button
+            type="button"
+            class="new-session"
+            id="newSessionButton">
+
+            ↻ Nouvelle session
+
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         SESSION
+    ================================================== -->
+
+    <div class="card" id="sessionCard">
+
+        <h2 class="section-title">
+            Informations de la session
+        </h2>
+
+
+        <div class="session-grid">
+
+
+            <div class="field">
+
+                <label for="annee">
+                    Année
+                </label>
+
+                <select id="annee" required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="type">
+                    Type
+                </label>
+
+                <select id="type" required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="intitule">
+                    Intitulé
+                </label>
+
+                <select id="intitule" required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="langue">
+                    Langue
+                </label>
+
+                <select id="langue" required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="formateurs">
+                    Formateur(s)
+                </label>
+
+                <select
+                    id="formateurs"
+                    multiple
+                    required
+                    style="display:none;">
+                </select>
+
+
+                <div
+                    id="formateursDropdown"
+                    class="formateurs-dropdown">
+
+                    <button
+                        type="button"
+                        id="formateursTrigger"
+                        class="formateurs-trigger"
+                        aria-expanded="false"
+                        aria-haspopup="listbox">
+
+                        <span
+                            id="formateursTriggerText"
+                            class="formateurs-trigger-text">
+
+                            -- Choisir un ou plusieurs formateurs --
+
+                        </span>
+
+                        <span class="formateurs-arrow">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        id="formateursMenu"
+                        class="formateurs-menu"
+                        role="listbox"
+                        aria-multiselectable="true">
+
+                        <input
+                            type="search"
+                            id="formateursSearch"
+                            class="formateurs-search"
+                            placeholder="Rechercher un formateur..."
+                            aria-label="Rechercher un formateur">
+
+
+                        <div id="formateursOptions"></div>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="formateursSelectedCount"
+                    class="formateurs-selected-count">
+
+                    Aucun formateur sélectionné
+
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="date">
+                    Date
+                </label>
+
+                <input
+                    type="text"
+                    id="date"
+                    placeholder="DD-MM-YYYY"
+                    maxlength="10"
+                    required>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="duree">
+                    Durée (heures)
+                </label>
+
+                <input
+                    type="number"
+                    id="duree"
+                    min="0"
+                    step="0.25"
+                    placeholder="Ex. 2">
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="lieu">
+                    Lieu
+                </label>
+
+                <select id="lieu" required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PARTICIPANTS
+    ================================================== -->
+
+    <div class="card" id="participantsCard">
+
+        <div class="participants-header">
+
+            <h2 class="section-title"
+                style="margin-bottom:0">
+
+                Participants
+
+            </h2>
+
+
+            <div
+                class="participants-count"
+                id="participantsCount">
+
+                0 participant
+
+            </div>
+
+        </div>
+
+
+        <div id="participantsContainer"></div>
+
+
+        <button
+            type="button"
+            class="add-participant"
+            id="addParticipantButton">
+
+            ＋ Ajouter un participant
+
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         RÉCAPITULATIF
+    ================================================== -->
+
+    <div class="card" id="recapCard">
+
+        <h2 class="section-title">
+            Récapitulatif
+        </h2>
+
+
+        <div class="recap-section">
+
+            <h3 class="recap-title">
+                Informations de la session
+            </h3>
+
+
+            <div class="recap-session-grid">
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Année
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapAnnee">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Type
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapType">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Intitulé
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapIntitule">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Langue
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapLangue">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Formateur(s)
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapFormateurs">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Date
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapDate">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Durée
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapDuree">
+                    </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Lieu
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapLieu">
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <div class="recap-section">
+
+            <h3 class="recap-title">
+                Participants
+            </h3>
+
+
+            <div class="recap-participants">
+
+                <table class="recap-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Nom, Prénom
+                            </th>
+
+                            <th>
+                                Laboratoire / Service
+                            </th>
+
+                            <th>
+                                Etablissement
+                            </th>
+
+                            <th>
+                                Catégorie
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="recapParticipantsBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         MESSAGE
+    ================================================== -->
+
+    <div
+        id="message"
+        class="message">
+    </div>
+
+
+    <!-- =================================================
+         ACTIONS PARTICIPANTS
+    ================================================== -->
+
+    <div
+        class="actions"
+        id="participantsActions">
+
+        <button
+            type="button"
+            class="btn-primary"
+            id="saveButton">
+
+            Enregistrer la session →
+
+        </button>
+
+    </div>
+
+
+    <!-- =================================================
+         ACTIONS RÉCAPITULATIF
+    ================================================== -->
+
+    <div
+        class="actions"
+        id="recapActions"
+        style="display:none">
+
+        <button
+            type="button"
+            class="btn-secondary"
+            id="backButton">
+
+            ← Modifier
+
+        </button>
+
+
+        <button
+            type="button"
+            class="btn-primary"
+            id="confirmButton">
+
+            ✓ Confirmer et enregistrer
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   CONNEXION GRIST
+===================================================== */
+
+grist.ready({
+    requiredAccess: "full"
+});
+
+
+/* =====================================================
+   CONFIGURATION
+===================================================== */
+
+const SOURCE_TABLE =
+    "T2022_2026";
+
+
+const COL = {
+
+    annee:
+        "Annee",
+
+    date:
+        "Date",
+
+    type:
+        "Type",
+
+    intitule:
+        "Intitule",
+
+    langue:
+        "Langue",
+
+    formateurs:
+        "Formateur_s_",
+
+    duree:
+        "Duree_heures_",
+
+    nomPrenom:
+        "Nom_Prenom",
+
+    laboratoire:
+        "Laboratoire_Service",
+
+    etablissement:
+        "Etablissement",
+
+    categorie:
+        "Categorie",
+
+    lieu:
+        "Lieu"
+
+};
+
+
+/* =====================================================
+   CHOIX DYNAMIQUES
+===================================================== */
+
+let CHOIX_ANNEE = [];
+
+let CHOIX_TYPE = [];
+
+let CHOIX_INTITULE = [];
+
+let CHOIX_LANGUE = [];
+
+let CHOIX_FORMATEURS = [];
+
+let CHOIX_ETABLISSEMENT = [];
+
+let CHOIX_CATEGORIE = [];
+
+let CHOIX_LIEU = [];
+
+
+/* =====================================================
+   LABORATOIRES
+===================================================== */
+
+let laboratoires = [];
+
+
+/* =====================================================
+   PARTICIPANTS
+===================================================== */
+
+let participantCounter = 0;
+
+
+/* =====================================================
+   OUTILS
+===================================================== */
+
+function ajouterOptions(
+    select,
+    options,
+    placeholder
+) {
+
+    select.innerHTML = "";
+
+    const first =
+        document.createElement("option");
+
+    first.value = "";
+
+    first.textContent =
+        placeholder;
+
+    select.appendChild(first);
+
+
+    options.forEach(
+        value => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                value;
+
+            option.textContent =
+                value;
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   PROGRESSION
+===================================================== */
+
+function mettreAJourProgression(etape) {
+
+    const session =
+        document.getElementById(
+            "progressSession"
+        );
+
+    const participants =
+        document.getElementById(
+            "progressParticipants"
+        );
+
+    const recap =
+        document.getElementById(
+            "progressRecap"
+        );
+
+    const line1 =
+        document.getElementById(
+            "progressLine1"
+        );
+
+    const line2 =
+        document.getElementById(
+            "progressLine2"
+        );
+
+
+    session.classList.remove(
+        "active",
+        "completed"
+    );
+
+    participants.classList.remove(
+        "active",
+        "completed"
+    );
+
+    recap.classList.remove(
+        "active",
+        "completed"
+    );
+
+    line1.classList.remove(
+        "completed"
+    );
+
+    line2.classList.remove(
+        "completed"
+    );
+
+
+    if (etape === 1) {
+
+        session.classList.add(
+            "active"
+        );
+
+    }
+
+
+    if (etape === 2) {
+
+        session.classList.add(
+            "completed"
+        );
+
+        participants.classList.add(
+            "active"
+        );
+
+        line1.classList.add(
+            "completed"
+        );
+
+    }
+
+
+    if (etape === 3) {
+
+        session.classList.add(
+            "completed"
+        );
+
+        participants.classList.add(
+            "completed"
+        );
+
+        recap.classList.add(
+            "active"
+        );
+
+        line1.classList.add(
+            "completed"
+        );
+
+        line2.classList.add(
+            "completed"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   RÉCUPÉRATION DES CHOIX DE GRIST
+===================================================== */
+
+async function chargerChoixDepuisGrist() {
+
+    const metadata =
+        await grist.docApi.fetchTable(
+            "_grist_Tables_column"
+        );
+
+
+    const parentIds =
+        metadata.parentId || [];
+
+    const colIds =
+        metadata.colId || [];
+
+    const types =
+        metadata.type || [];
+
+    const widgetOptions =
+        metadata.widgetOptions || [];
+
+
+    const colonnesRecherchees = [
+
+        COL.annee,
+        COL.type,
+        COL.intitule,
+        COL.langue,
+        COL.formateurs,
+        COL.etablissement,
+        COL.categorie,
+        COL.lieu
+
+    ];
+
+
+    const choix = {};
+
+
+    for (
+        let i = 0;
+        i < parentIds.length;
+        i++
+    ) {
+
+        if (
+            parentIds[i] !== 1
+        ) {
+
+            continue;
+
+        }
+
+
+        const colId =
+            colIds[i];
+
+
+        if (
+            !colonnesRecherchees.includes(
+                colId
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        /*
+         * Les champs classiques sont de type Choice.
+         * Formateur(s) est de type ChoiceList.
+         */
+
+        if (
+            types[i] !== "Choice" &&
+            !(
+                colId === COL.formateurs &&
+                types[i] === "ChoiceList"
+            )
+        ) {
+
+            continue;
+
+        }
+
+
+        let options = {};
+
+
+        try {
+
+            options =
+                JSON.parse(
+                    widgetOptions[i] || "{}"
+                );
+
+        }
+
+        catch(error) {
+
+            console.error(
+                "Erreur de lecture de " +
+                colId,
+                error
+            );
+
+            continue;
+
+        }
+
+
+        choix[colId] =
+            Array.isArray(
+                options.choices
+            )
+                ? options.choices
+                : [];
+
+    }
+
+
+    return choix;
+
+}
+
+
+/* =====================================================
+   FORMATEURS — AFFICHAGE DES CASES À COCHER
+===================================================== */
+
 function afficherFormateursHorizontaux() {
 
     const optionsContainer =
@@ -514,20 +2654,37 @@ function afficherFormateursHorizontaux() {
             "formateurs"
         );
 
-    if (!optionsContainer || !select) {
+
+    if (
+        !optionsContainer ||
+        !select
+    ) {
+
         return;
+
     }
+
 
     optionsContainer.innerHTML = "";
 
-    const options =
-        Array.from(select.options)
-            .filter(option => option.value);
 
-    if (options.length === 0) {
+    const options =
+        Array.from(
+            select.options
+        )
+        .filter(
+            option => option.value
+        );
+
+
+    if (
+        options.length === 0
+    ) {
 
         const empty =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         empty.className =
             "formateurs-menu-empty";
@@ -535,58 +2692,96 @@ function afficherFormateursHorizontaux() {
         empty.textContent =
             "Aucun formateur disponible";
 
-        optionsContainer.appendChild(empty);
-
-        mettreAJourFormateursDropdown();
-        return;
-    }
-
-    options.forEach(option => {
-
-        const label =
-            document.createElement("label");
-
-        label.className =
-            "formateur-option";
-
-        label.dataset.formateur =
-            option.textContent.toLowerCase();
-
-        const checkbox =
-            document.createElement("input");
-
-        checkbox.type = "checkbox";
-        checkbox.value = option.value;
-        checkbox.checked = option.selected;
-
-        const text =
-            document.createElement("span");
-
-        text.textContent =
-            option.textContent;
-
-        label.appendChild(checkbox);
-        label.appendChild(text);
-        optionsContainer.appendChild(label);
-
-        checkbox.addEventListener(
-            "change",
-            () => {
-
-                option.selected =
-                    checkbox.checked;
-
-                mettreAJourFormateursDropdown();
-
-            }
+        optionsContainer.appendChild(
+            empty
         );
 
-    });
+        mettreAJourFormateursDropdown();
+
+        return;
+
+    }
+
+
+    options.forEach(
+        option => {
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+            label.className =
+                "formateur-option";
+
+
+            label.dataset.formateur =
+                option.textContent
+                    .toLowerCase();
+
+
+            const checkbox =
+                document.createElement(
+                    "input"
+                );
+
+            checkbox.type =
+                "checkbox";
+
+            checkbox.value =
+                option.value;
+
+            checkbox.checked =
+                option.selected;
+
+
+            const text =
+                document.createElement(
+                    "span"
+                );
+
+            text.textContent =
+                option.textContent;
+
+
+            label.appendChild(
+                checkbox
+            );
+
+            label.appendChild(
+                text
+            );
+
+
+            optionsContainer.appendChild(
+                label
+            );
+
+
+            checkbox.addEventListener(
+                "change",
+                () => {
+
+                    option.selected =
+                        checkbox.checked;
+
+                    mettreAJourFormateursDropdown();
+
+                }
+            );
+
+        }
+    );
+
 
     mettreAJourFormateursDropdown();
 
 }
 
+
+/* =====================================================
+   MISE À JOUR DU BOUTON FORMATEURS
+===================================================== */
 
 function mettreAJourFormateursDropdown() {
 
@@ -610,20 +2805,37 @@ function mettreAJourFormateursDropdown() {
             "formateursSelectedCount"
         );
 
-    if (!select || !trigger || !triggerText || !count) {
+
+    if (
+        !select ||
+        !trigger ||
+        !triggerText ||
+        !count
+    ) {
+
         return;
+
     }
 
+
     const selected =
-        Array.from(select.selectedOptions)
-            .filter(option => option.value);
+        Array.from(
+            select.selectedOptions
+        )
+        .filter(
+            option => option.value
+        );
+
 
     trigger.classList.toggle(
         "has-selection",
         selected.length > 0
     );
 
-    if (selected.length === 0) {
+
+    if (
+        selected.length === 0
+    ) {
 
         triggerText.textContent =
             "-- Choisir un ou plusieurs formateurs --";
@@ -631,12 +2843,18 @@ function mettreAJourFormateursDropdown() {
         count.textContent =
             "Aucun formateur sélectionné";
 
-    } else {
+    }
+
+    else {
 
         triggerText.textContent =
             selected
-                .map(option => option.textContent)
+                .map(
+                    option =>
+                        option.textContent
+                )
                 .join(", ");
+
 
         count.textContent =
             selected.length === 1
@@ -648,6 +2866,10 @@ function mettreAJourFormateursDropdown() {
 
 }
 
+
+/* =====================================================
+   INITIALISATION MENU FORMATEURS
+===================================================== */
 
 function initialiserDropdownFormateurs() {
 
@@ -671,50 +2893,99 @@ function initialiserDropdownFormateurs() {
             "formateursOptions"
         );
 
-    if (!dropdown || !trigger || !search || !optionsContainer) {
+
+    if (
+        !dropdown ||
+        !trigger ||
+        !search ||
+        !optionsContainer
+    ) {
+
         return;
+
     }
+
+
+    /*
+     * Évite de créer plusieurs écouteurs
+     * si la fonction est appelée plusieurs fois.
+     */
+
+    if (
+        dropdown.dataset.initialized === "true"
+    ) {
+
+        return;
+
+    }
+
+
+    dropdown.dataset.initialized =
+        "true";
+
 
     trigger.addEventListener(
         "click",
         () => {
 
             const ouvert =
-                dropdown.classList.toggle("open");
+                dropdown.classList.toggle(
+                    "open"
+                );
+
 
             trigger.setAttribute(
                 "aria-expanded",
-                ouvert ? "true" : "false"
+                ouvert
+                    ? "true"
+                    : "false"
             );
 
+
             if (ouvert) {
+
                 search.value = "";
+
                 filtrerFormateurs();
+
                 search.focus();
+
             }
 
         }
     );
+
 
     search.addEventListener(
         "input",
         filtrerFormateurs
     );
 
+
     document.addEventListener(
         "click",
         event => {
 
-            if (!dropdown.contains(event.target)) {
-                dropdown.classList.remove("open");
+            if (
+                !dropdown.contains(
+                    event.target
+                )
+            ) {
+
+                dropdown.classList.remove(
+                    "open"
+                );
+
                 trigger.setAttribute(
                     "aria-expanded",
                     "false"
                 );
+
             }
 
         }
     );
+
 
     function filtrerFormateurs() {
 
@@ -723,43 +2994,65 @@ function initialiserDropdownFormateurs() {
                 .trim()
                 .toLowerCase();
 
+
         const lignes =
             optionsContainer.querySelectorAll(
                 ".formateur-option"
             );
 
+
         let visibles = 0;
 
-        lignes.forEach(ligne => {
 
-            const visible =
-                !recherche ||
-                ligne.dataset.formateur.includes(
-                    recherche
-                );
+        lignes.forEach(
+            ligne => {
 
-            ligne.style.display =
-                visible ? "flex" : "none";
+                const visible =
+                    !recherche ||
+                    ligne.dataset.formateur
+                        .includes(
+                            recherche
+                        );
 
-            if (visible) {
-                visibles++;
+
+                ligne.style.display =
+                    visible
+                        ? "flex"
+                        : "none";
+
+
+                if (visible) {
+
+                    visibles++;
+
+                }
+
             }
+        );
 
-        });
 
-        const aucun =
+        const ancienMessage =
             optionsContainer.querySelector(
                 ".formateurs-search-empty"
             );
 
-        if (aucun) {
-            aucun.remove();
+
+        if (ancienMessage) {
+
+            ancienMessage.remove();
+
         }
 
-        if (visibles === 0 && lignes.length > 0) {
+
+        if (
+            visibles === 0 &&
+            lignes.length > 0
+        ) {
 
             const message =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
 
             message.className =
                 "formateurs-menu-empty formateurs-search-empty";
@@ -767,7 +3060,10 @@ function initialiserDropdownFormateurs() {
             message.textContent =
                 "Aucun résultat";
 
-            optionsContainer.appendChild(message);
+
+            optionsContainer.appendChild(
+                message
+            );
 
         }
 
@@ -811,7 +3107,10 @@ function remplirChoixSession() {
 
 
     const selectFormateurs =
-        document.getElementById("formateurs");
+        document.getElementById(
+            "formateurs"
+        );
+
 
     ajouterOptions(
         selectFormateurs,
@@ -819,7 +3118,19 @@ function remplirChoixSession() {
         ""
     );
 
+
+    /*
+     * Création des cases à cocher.
+     */
+
     afficherFormateursHorizontaux();
+
+
+    /*
+     * Activation du bouton déroulant.
+     */
+
+    initialiserDropdownFormateurs();
 
 
     ajouterOptions(
@@ -891,9 +3202,9 @@ async function chargerLaboratoires() {
 
 }
 
+
 /* =====================================================
    AUTOCOMPLÉTION LABORATOIRE
-   Navigation clavier ↑ ↓ Entrée Échap
 ===================================================== */
 
 function initialiserRechercheLaboratoire(
@@ -922,10 +3233,6 @@ function initialiserRechercheLaboratoire(
 
     let indexSelectionne = -1;
 
-
-    /* =================================================
-       AFFICHER LES RÉSULTATS
-    ================================================= */
 
     function afficherResultats() {
 
@@ -976,9 +3283,11 @@ function initialiserRechercheLaboratoire(
             aucun.textContent =
                 "Aucun laboratoire trouvé";
 
+
             results.appendChild(
                 aucun
             );
+
 
             results.style.display =
                 "block";
@@ -996,22 +3305,21 @@ function initialiserRechercheLaboratoire(
                         "div"
                     );
 
+
                 result.className =
                     "laboratoire-result";
+
 
                 result.textContent =
                     labo.nom;
 
-
-                /*
-                 * Clic souris
-                 */
 
                 result.addEventListener(
                     "mousedown",
                     function(event) {
 
                         event.preventDefault();
+
 
                         selectionnerLaboratoire(
                             index
@@ -1034,10 +3342,6 @@ function initialiserRechercheLaboratoire(
 
     }
 
-
-    /* =================================================
-       SÉLECTIONNER UN LABORATOIRE
-    ================================================= */
 
     function selectionnerLaboratoire(
         index
@@ -1074,10 +3378,6 @@ function initialiserRechercheLaboratoire(
 
     }
 
-
-    /* =================================================
-       ACTUALISER LA SÉLECTION VISUELLE
-    ================================================= */
 
     function actualiserSelection() {
 
@@ -1117,12 +3417,6 @@ function initialiserRechercheLaboratoire(
         );
 
 
-        /*
-         * On fait défiler automatiquement
-         * la liste pour garder le résultat
-         * sélectionné visible.
-         */
-
         element.scrollIntoView({
             block: "nearest"
         });
@@ -1130,18 +3424,9 @@ function initialiserRechercheLaboratoire(
     }
 
 
-    /* =================================================
-       SAISIE
-    ================================================= */
-
     searchInput.addEventListener(
         "input",
         function() {
-
-            /*
-             * Une nouvelle saisie invalide
-             * l'ancien laboratoire sélectionné.
-             */
 
             hiddenInput.value = "";
 
@@ -1150,10 +3435,6 @@ function initialiserRechercheLaboratoire(
         }
     );
 
-
-    /* =================================================
-       FOCUS
-    ================================================= */
 
     searchInput.addEventListener(
         "focus",
@@ -1165,18 +3446,9 @@ function initialiserRechercheLaboratoire(
     );
 
 
-    /* =================================================
-       CLAVIER
-    ================================================= */
-
     searchInput.addEventListener(
         "keydown",
         function(event) {
-
-
-            /* -----------------------------------------
-               FLÈCHE BAS
-            ----------------------------------------- */
 
             if (
                 event.key === "ArrowDown"
@@ -1214,10 +3486,6 @@ function initialiserRechercheLaboratoire(
             }
 
 
-            /* -----------------------------------------
-               FLÈCHE HAUT
-            ----------------------------------------- */
-
             if (
                 event.key === "ArrowUp"
             ) {
@@ -1254,18 +3522,9 @@ function initialiserRechercheLaboratoire(
             }
 
 
-            /* -----------------------------------------
-               ENTRÉE
-            ----------------------------------------- */
-
             if (
                 event.key === "Enter"
             ) {
-
-                /*
-                 * Si un résultat est sélectionné
-                 * avec ↑ ou ↓, on le choisit.
-                 */
 
                 if (
                     indexSelectionne >= 0
@@ -1282,11 +3541,6 @@ function initialiserRechercheLaboratoire(
 
                 }
 
-
-                /*
-                 * Si aucun résultat n'est encore
-                 * sélectionné, on prend le premier.
-                 */
 
                 if (
                     correspondances.length > 0
@@ -1306,10 +3560,6 @@ function initialiserRechercheLaboratoire(
 
             }
 
-
-            /* -----------------------------------------
-               ÉCHAP
-            ----------------------------------------- */
 
             if (
                 event.key === "Escape"
@@ -1331,18 +3581,9 @@ function initialiserRechercheLaboratoire(
     );
 
 
-    /* =================================================
-       PERTE DE FOCUS
-    ================================================= */
-
     searchInput.addEventListener(
         "blur",
         function() {
-
-            /*
-             * Petit délai pour permettre
-             * au clic sur un résultat de fonctionner.
-             */
 
             setTimeout(
                 function() {
@@ -1362,37 +3603,38 @@ function initialiserRechercheLaboratoire(
 
 }
 
+
 /* =====================================================
    NAVIGATION CLAVIER PARTICIPANT
 ===================================================== */
 
-function initialiserNavigationClavier(participant) {
+function initialiserNavigationClavier(
+    participant
+) {
 
     const nom =
         participant.querySelector(
             ".participant-name"
         );
 
+
     const laboratoire =
         participant.querySelector(
             ".participant-laboratoire-search"
         );
+
 
     const etablissement =
         participant.querySelector(
             ".participant-etablissement"
         );
 
+
     const categorie =
         participant.querySelector(
             ".participant-categorie"
         );
 
-
-    /*
-     * Entrée dans le champ Catégorie :
-     * crée automatiquement un nouveau participant.
-     */
 
     categorie.addEventListener(
         "keydown",
@@ -1407,20 +3649,11 @@ function initialiserNavigationClavier(participant) {
             }
 
 
-            /*
-             * On empêche le comportement
-             * par défaut du navigateur.
-             */
-
             event.preventDefault();
 
 
-            /*
-             * On vérifie que le participant
-             * actuel est correctement rempli.
-             */
-
             const participantActuel = {
+
                 nom:
                     nom.value.trim(),
 
@@ -1436,6 +3669,7 @@ function initialiserNavigationClavier(participant) {
 
                 categorie:
                     categorie.value
+
             };
 
 
@@ -1456,16 +3690,8 @@ function initialiserNavigationClavier(participant) {
             }
 
 
-            /*
-             * Création du nouveau participant.
-             */
-
             ajouterParticipant();
 
-
-            /*
-             * Récupération du dernier participant.
-             */
 
             const participants =
                 document.querySelectorAll(
@@ -1479,33 +3705,26 @@ function initialiserNavigationClavier(participant) {
                 ];
 
 
-            /*
-             * Placement automatique
-             * du curseur dans Nom, Prénom.
-             */
-
-            const nouveauNom =
-                nouveauParticipant.querySelector(
+            nouveauParticipant
+                .querySelector(
                     ".participant-name"
-                );
-
-
-            nouveauNom.focus();
+                )
+                .focus();
 
         }
     );
 
 
-    /*
-     * Entrée dans les autres champs :
-     * on passe simplement au champ suivant.
-     */
-
     const champs = [
+
         nom,
+
         laboratoire,
+
         etablissement,
+
         categorie
+
     ];
 
 
@@ -1525,11 +3744,6 @@ function initialiserNavigationClavier(participant) {
                     }
 
 
-                    /*
-                     * Pour Catégorie, le traitement
-                     * ci-dessus s'en charge déjà.
-                     */
-
                     if (
                         index ===
                         champs.length - 1
@@ -1543,7 +3757,9 @@ function initialiserNavigationClavier(participant) {
                     event.preventDefault();
 
 
-                    champs[index + 1].focus();
+                    champs[
+                        index + 1
+                    ].focus();
 
                 }
             );
@@ -1552,7 +3768,8 @@ function initialiserNavigationClavier(participant) {
     );
 
 }
-      
+
+
 /* =====================================================
    CRÉATION D'UN PARTICIPANT
 ===================================================== */
@@ -1617,29 +3834,29 @@ function ajouterParticipant() {
 
             <div class="field">
 
-    <label>
-        Laboratoire / Service
-    </label>
+                <label>
+                    Laboratoire / Service
+                </label>
 
-    <div class="laboratoire-autocomplete">
+                <div class="laboratoire-autocomplete">
 
-        <input
-            type="text"
-            class="participant-laboratoire-search"
-            placeholder="Rechercher un laboratoire..."
-            autocomplete="off"
-            required>
+                    <input
+                        type="text"
+                        class="participant-laboratoire-search"
+                        placeholder="Rechercher un laboratoire..."
+                        autocomplete="off"
+                        required>
 
-        <input
-            type="hidden"
-            class="participant-laboratoire"
-            value="">
+                    <input
+                        type="hidden"
+                        class="participant-laboratoire"
+                        value="">
 
-        <div class="laboratoire-results"></div>
+                    <div class="laboratoire-results"></div>
 
-    </div>
+                </div>
 
-</div>
+            </div>
 
 
             <div class="field">
@@ -1685,28 +3902,29 @@ function ajouterParticipant() {
 
         <div class="participant-actions">
 
-    <button
-        type="button"
-        class="duplicate-participant"
-        title="Dupliquer ce participant"
-        aria-label="Dupliquer ce participant">
+            <button
+                type="button"
+                class="duplicate-participant"
+                title="Dupliquer ce participant"
+                aria-label="Dupliquer ce participant">
 
-        ⧉
+                ⧉
 
-    </button>
+            </button>
 
 
-    <button
-        type="button"
-        class="delete-participant"
-        title="Supprimer ce participant"
-        aria-label="Supprimer ce participant">
+            <button
+                type="button"
+                class="delete-participant"
+                title="Supprimer ce participant"
+                aria-label="Supprimer ce participant">
 
-        ×
+                ×
 
-    </button>
+            </button>
 
-</div>
+        </div>
+
     `;
 
 
@@ -1715,21 +3933,23 @@ function ajouterParticipant() {
     );
 
 
-   /*
- * Recherche laboratoire
- */
+    /*
+     * Recherche laboratoire
+     */
 
-initialiserRechercheLaboratoire(
-    participant
-);
+    initialiserRechercheLaboratoire(
+        participant
+    );
 
-      /*
- * Navigation clavier
- */
 
-initialiserNavigationClavier(
-    participant
-);
+    /*
+     * Navigation clavier
+     */
+
+    initialiserNavigationClavier(
+        participant
+    );
+
 
     /*
      * Etablissement
@@ -1786,83 +4006,111 @@ initialiserNavigationClavier(
             }
         );
 
- /*
- * Duplication
- */
 
-participant
-    .querySelector(
-        ".duplicate-participant"
-    )
-    .addEventListener(
-        "click",
-        () => {
+    /*
+     * Duplication
+     */
 
-            const laboratoire =
-                participant.querySelector(
-                    ".participant-laboratoire"
-                ).value;
+    participant
+        .querySelector(
+            ".duplicate-participant"
+        )
+        .addEventListener(
+            "click",
+            () => {
 
-            const etablissement =
-                participant.querySelector(
-                    ".participant-etablissement"
-                ).value;
-
-            const categorie =
-                participant.querySelector(
-                    ".participant-categorie"
-                ).value;
+                const laboratoire =
+                    participant.querySelector(
+                        ".participant-laboratoire"
+                    ).value;
 
 
-            ajouterParticipant();
+                const etablissement =
+                    participant.querySelector(
+                        ".participant-etablissement"
+                    ).value;
 
 
-            const participants =
-                document.querySelectorAll(
-                    ".participant"
-                );
+                const categorie =
+                    participant.querySelector(
+                        ".participant-categorie"
+                    ).value;
 
 
-            const nouveauParticipant =
-                participants[
-                    participants.length - 1
-                ];
+                ajouterParticipant();
 
 
-            nouveauParticipant
-                .querySelector(
-                    ".participant-laboratoire"
-                )
-                .value =
-                laboratoire;
+                const participants =
+                    document.querySelectorAll(
+                        ".participant"
+                    );
 
 
-            nouveauParticipant
-                .querySelector(
-                    ".participant-etablissement"
-                )
-                .value =
-                etablissement;
+                const nouveauParticipant =
+                    participants[
+                        participants.length - 1
+                    ];
 
 
-            nouveauParticipant
-                .querySelector(
-                    ".participant-categorie"
-                )
-                .value =
-                categorie;
+                nouveauParticipant
+                    .querySelector(
+                        ".participant-laboratoire"
+                    )
+                    .value =
+                    laboratoire;
 
 
-            nouveauParticipant
-                .querySelector(
-                    ".participant-name"
-                )
-                .value =
-                "";
+                /*
+                 * Afficher également le nom
+                 * du laboratoire dans le champ visible.
+                 */
 
-        }
-    );
- 
+                const laboTrouve =
+                    laboratoires.find(
+                        labo =>
+                            String(labo.id) ===
+                            String(laboratoire)
+                    );
+
+
+                if (laboTrouve) {
+
+                    nouveauParticipant
+                        .querySelector(
+                            ".participant-laboratoire-search"
+                        )
+                        .value =
+                        laboTrouve.nom;
+
+                }
+
+
+                nouveauParticipant
+                    .querySelector(
+                        ".participant-etablissement"
+                    )
+                    .value =
+                    etablissement;
+
+
+                nouveauParticipant
+                    .querySelector(
+                        ".participant-categorie"
+                    )
+                    .value =
+                    categorie;
+
+
+                nouveauParticipant
+                    .querySelector(
+                        ".participant-name"
+                    )
+                    .value =
+                    "";
+
+            }
+        );
+
 
     mettreAJourCompteur();
 
@@ -1962,8 +4210,10 @@ function dateValide(dateString) {
     const jour =
         Number(match[1]);
 
+
     const mois =
         Number(match[2]);
+
 
     const annee =
         Number(match[3]);
@@ -2034,41 +4284,52 @@ function recupererSession() {
                 "annee"
             ).value,
 
+
         date:
             document.getElementById(
                 "date"
             ).value,
+
 
         type:
             document.getElementById(
                 "type"
             ).value,
 
+
         intitule:
             document.getElementById(
                 "intitule"
             ).value,
+
 
         langue:
             document.getElementById(
                 "langue"
             ).value,
 
+
         formateurs:
             Array.from(
                 document.getElementById(
                     "formateurs"
                 ).selectedOptions
-            ).map(
-                option => option.value
-            ).filter(
-                value => value
+            )
+            .map(
+                option =>
+                    option.value
+            )
+            .filter(
+                value =>
+                    value
             ),
+
 
         duree:
             document.getElementById(
                 "duree"
             ).value,
+
 
         lieu:
             document.getElementById(
@@ -2094,7 +4355,8 @@ function recupererParticipants() {
 
     return Array.from(
         elements
-    ).map(
+    )
+    .map(
         participant => ({
 
             nom:
@@ -2105,6 +4367,7 @@ function recupererParticipants() {
                     .value
                     .trim(),
 
+
             laboratoire:
                 participant
                     .querySelector(
@@ -2112,12 +4375,14 @@ function recupererParticipants() {
                     )
                     .value,
 
+
             etablissement:
                 participant
                     .querySelector(
                         ".participant-etablissement"
                     )
                     .value,
+
 
             categorie:
                 participant
@@ -2142,11 +4407,6 @@ function validerSession() {
         recupererSession();
 
 
-    /*
-     * Si tous les champs obligatoires sont remplis,
-     * on vérifie ensuite la date.
-     */
-
     if (
         !session.annee ||
         !session.type ||
@@ -2167,10 +4427,6 @@ function validerSession() {
     }
 
 
-    /*
-     * Validation de la date
-     */
-
     if (
         !dateValide(
             session.date
@@ -2187,18 +4443,15 @@ function validerSession() {
     }
 
 
-    /*
-     * La date est maintenant correcte :
-     * on efface l'ancien message d'erreur.
-     */
-
     const message =
         document.getElementById(
             "message"
         );
 
+
     message.className =
         "message";
+
 
     message.textContent =
         "";
@@ -2207,6 +4460,7 @@ function validerSession() {
     return true;
 
 }
+
 
 /* =====================================================
    VALIDATION PARTICIPANTS
@@ -2355,6 +4609,7 @@ function afficherRecapitulatif() {
                     "td"
                 );
 
+
             nom.textContent =
                 participant.nom;
 
@@ -2386,6 +4641,7 @@ function afficherRecapitulatif() {
                     "td"
                 );
 
+
             etablissement.textContent =
                 participant.etablissement;
 
@@ -2395,20 +4651,31 @@ function afficherRecapitulatif() {
                     "td"
                 );
 
+
             categorie.textContent =
                 participant.categorie;
 
 
-            row.appendChild(nom);
+            row.appendChild(
+                nom
+            );
 
-            row.appendChild(labo);
+            row.appendChild(
+                labo
+            );
 
-            row.appendChild(etablissement);
+            row.appendChild(
+                etablissement
+            );
 
-            row.appendChild(categorie);
+            row.appendChild(
+                categorie
+            );
 
 
-            tbody.appendChild(row);
+            tbody.appendChild(
+                row
+            );
 
         }
     );
@@ -2546,8 +4813,10 @@ function convertirDate(
     const jour =
         Number(parts[0]);
 
+
     const mois =
         Number(parts[1]);
+
 
     const annee =
         Number(parts[2]);
@@ -2611,22 +4880,35 @@ async function confirmerEnregistrement() {
                     [COL.annee]:
                         session.annee,
 
+
                     [COL.date]:
                         convertirDate(
                             session.date
                         ),
 
+
                     [COL.type]:
                         session.type,
+
 
                     [COL.intitule]:
                         session.intitule,
 
+
                     [COL.langue]:
                         session.langue,
 
+
+                    /*
+                     * ChoiceList Grist
+                     */
+
                     [COL.formateurs]:
-                        ["L", ...session.formateurs],
+                        [
+                            "L",
+                            ...session.formateurs
+                        ],
+
 
                     [COL.duree]:
                         session.duree
@@ -2635,19 +4917,33 @@ async function confirmerEnregistrement() {
                             )
                             : null,
 
+
                     [COL.nomPrenom]:
                         participant.nom,
 
+
+                    /*
+                     * RefList Grist
+                     */
+
                     [COL.laboratoire]:
                         participant.laboratoire
-        ? ["L", Number(participant.laboratoire)]
-        : null,
+                            ? [
+                                "L",
+                                Number(
+                                    participant.laboratoire
+                                )
+                            ]
+                            : null,
+
 
                     [COL.etablissement]:
                         participant.etablissement,
 
+
                     [COL.categorie]:
                         participant.categorie,
+
 
                     [COL.lieu]:
                         session.lieu
@@ -2657,8 +4953,7 @@ async function confirmerEnregistrement() {
 
 
         /*
-         * C'EST ICI SEULEMENT que les données
-         * sont envoyées dans Grist.
+         * Envoi des données dans Grist.
          */
 
         await grist.docApi.applyUserActions(
@@ -2701,8 +4996,8 @@ async function confirmerEnregistrement() {
 
         mettreAJourProgression(3);
 
-
     }
+
 
     catch(error) {
 
@@ -2764,15 +5059,62 @@ function nouvelleSession() {
     ).value = "";
 
 
+    /*
+     * Désélectionner tous les formateurs.
+     */
+
     Array.from(
         document.getElementById(
             "formateurs"
         ).options
-    ).forEach(
-        option => option.selected = false
+    )
+    .forEach(
+        option =>
+            option.selected = false
     );
 
+
     afficherFormateursHorizontaux();
+
+
+    /*
+     * Fermer le menu.
+     */
+
+    const dropdown =
+        document.getElementById(
+            "formateursDropdown"
+        );
+
+
+    const trigger =
+        document.getElementById(
+            "formateursTrigger"
+        );
+
+
+    if (dropdown) {
+
+        dropdown.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    if (trigger) {
+
+        trigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+
+
+    document.getElementById(
+        "formateursSearch"
+    ).value = "";
 
 
     document.getElementById(
@@ -2876,11 +5218,6 @@ document
     );
 
 
-/*
- * Ce bouton ouvre le récapitulatif.
- * Il n'écrit rien dans Grist.
- */
-
 document
     .getElementById(
         "saveButton"
@@ -2890,23 +5227,32 @@ document
         passerAuRecapitulatif
     );
 
+
 document
-    .getElementById("date")
+    .getElementById(
+        "date"
+    )
     .addEventListener(
         "input",
         () => {
 
             if (
                 dateValide(
-                    document.getElementById("date").value
+                    document.getElementById(
+                        "date"
+                    ).value
                 )
             ) {
 
                 const message =
-                    document.getElementById("message");
+                    document.getElementById(
+                        "message"
+                    );
+
 
                 message.className =
                     "message";
+
 
                 message.textContent =
                     "";
@@ -2915,7 +5261,8 @@ document
 
         }
     );
-      
+
+
 document
     .getElementById(
         "confirmButton"
@@ -2957,6 +5304,10 @@ document
         mettreAJourProgression(1);
 
 
+        /*
+         * Chargement des choix depuis Grist.
+         */
+
         const choix =
             await chargerChoixDepuisGrist();
 
@@ -2993,18 +5344,28 @@ document
             choix[COL.lieu] || [];
 
 
+        /*
+         * Remplissage du formulaire.
+         */
+
         remplirChoixSession();
 
 
-        initialiserDropdownFormateurs();
-
+        /*
+         * Chargement des laboratoires.
+         */
 
         await chargerLaboratoires();
 
 
+        /*
+         * Premier participant.
+         */
+
         ajouterParticipant();
 
     }
+
 
     catch(error) {
 
