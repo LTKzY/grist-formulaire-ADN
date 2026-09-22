@@ -501,6 +501,33 @@ input::placeholder {
 
 }
 
+
+select[multiple] {
+
+    min-height: 100px;
+
+    padding: 6px 8px;
+
+}
+
+
+select[multiple] option {
+
+    padding: 5px 6px;
+
+}
+
+
+.field-hint {
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    line-height: 1.35;
+
+}
+
 /* =====================================================
    AUTOCOMPLÉTION LABORATOIRES
 ===================================================== */
@@ -1638,17 +1665,46 @@ input::placeholder {
 
 
             <div class="field">
-                <label for="domaine">
-                    Domaine
+
+                <label for="langue">
+                    Langue
                 </label>
 
                 <select
-                    id="domaine"
+                    id="langue"
                     required>
+
                     <option value="">
                         -- Choisir --
                     </option>
+
                 </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="formateurs">
+                    Formateur(s)
+                </label>
+
+                <select
+                    id="formateurs"
+                    multiple
+                    size="4"
+                    required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+                <small class="field-hint">
+                    Maintenez Ctrl (ou Cmd sur Mac) pour sélectionner plusieurs formateurs.
+                </small>
+
             </div>
 
 
@@ -1671,7 +1727,7 @@ input::placeholder {
             <div class="field">
 
                 <label for="duree">
-                    Durée (h)
+                    Durée (heures)
                 </label>
 
                 <input
@@ -1816,14 +1872,30 @@ input::placeholder {
 
 
                 <div class="recap-item">
+
                     <span class="recap-label">
-                        Domaine
+                        Langue
                     </span>
 
                     <span
                         class="recap-value"
-                        id="recapDomaine">
+                        id="recapLangue">
                     </span>
+
+                </div>
+
+
+                <div class="recap-item">
+
+                    <span class="recap-label">
+                        Formateur(s)
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapFormateurs">
+                    </span>
+
                 </div>
 
 
@@ -2018,8 +2090,14 @@ const COL = {
     intitule:
         "Intitule",
 
+    langue:
+        "Langue",
+
+    formateurs:
+        "Formateur_s_",
+
     duree:
-        "Duree_h_",
+        "Duree_heures_",
 
     nomPrenom:
         "Nom_Prenom",
@@ -2034,9 +2112,7 @@ const COL = {
         "Categorie",
 
     lieu:
-        "Lieu",
-    domaine:
-        "Domaine"
+        "Lieu"
 
 };
 
@@ -2051,13 +2127,15 @@ let CHOIX_TYPE = [];
 
 let CHOIX_INTITULE = [];
 
+let CHOIX_LANGUE = [];
+
+let CHOIX_FORMATEURS = [];
+
 let CHOIX_ETABLISSEMENT = [];
 
 let CHOIX_CATEGORIE = [];
 
 let CHOIX_LIEU = [];
-
-let CHOIX_DOMAINE = [];
 
 
 /* =====================================================
@@ -2260,10 +2338,11 @@ async function chargerChoixDepuisGrist() {
         COL.annee,
         COL.type,
         COL.intitule,
+        COL.langue,
+        COL.formateurs,
         COL.etablissement,
         COL.categorie,
-        COL.lieu,
-        COL.domaine
+        COL.lieu
 
     ];
 
@@ -2302,7 +2381,11 @@ async function chargerChoixDepuisGrist() {
 
 
         if (
-            types[i] !== "Choice"
+            types[i] !== "Choice" &&
+            !(
+                colId === COL.formateurs &&
+                types[i] === "ChoiceList"
+            )
         ) {
 
             continue;
@@ -2378,8 +2461,15 @@ function remplirChoixSession() {
 
 
     ajouterOptions(
-        document.getElementById("domaine"),
-        CHOIX_DOMAINE,
+        document.getElementById("langue"),
+        CHOIX_LANGUE,
+        "-- Choisir --"
+    );
+
+
+    ajouterOptions(
+        document.getElementById("formateurs"),
+        CHOIX_FORMATEURS,
         "-- Choisir --"
     );
 
@@ -3611,10 +3701,19 @@ function recupererSession() {
                 "intitule"
             ).value,
 
-        domaine:
+        langue:
             document.getElementById(
-                "domaine"
+                "langue"
             ).value,
+
+        formateurs:
+            Array.from(
+                document.getElementById(
+                    "formateurs"
+                ).selectedOptions
+            ).map(
+                option => option.value
+            ),
 
         duree:
             document.getElementById(
@@ -3702,7 +3801,8 @@ function validerSession() {
         !session.annee ||
         !session.type ||
         !session.intitule ||
-        !session.domaine ||
+        !session.langue ||
+        session.formateurs.length === 0 ||
         !session.date ||
         !session.lieu
     ) {
@@ -3851,9 +3951,15 @@ function afficherRecapitulatif() {
 
 
     document.getElementById(
-        "recapDomaine"
+        "recapLangue"
     ).textContent =
-        session.domaine;
+        session.langue;
+
+
+    document.getElementById(
+        "recapFormateurs"
+    ).textContent =
+        session.formateurs.join(", ");
 
 
     document.getElementById(
@@ -4166,8 +4272,11 @@ async function confirmerEnregistrement() {
                     [COL.intitule]:
                         session.intitule,
 
-                    [COL.domaine]:
-                        session.domaine,
+                    [COL.langue]:
+                        session.langue,
+
+                    [COL.formateurs]:
+                        ["L", ...session.formateurs],
 
                     [COL.duree]:
                         session.duree
@@ -4301,8 +4410,17 @@ function nouvelleSession() {
 
 
     document.getElementById(
-        "domaine"
+        "langue"
     ).value = "";
+
+
+    Array.from(
+        document.getElementById(
+            "formateurs"
+        ).options
+    ).forEach(
+        option => option.selected = false
+    );
 
 
     document.getElementById(
@@ -4503,8 +4621,12 @@ document
             choix[COL.intitule] || [];
 
 
-        CHOIX_DOMAINE =
-            choix[COL.domaine] || [];
+        CHOIX_LANGUE =
+            choix[COL.langue] || [];
+
+
+        CHOIX_FORMATEURS =
+            choix[COL.formateurs] || [];
 
 
         CHOIX_ETABLISSEMENT =
