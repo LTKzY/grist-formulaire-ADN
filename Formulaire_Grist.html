@@ -3860,8 +3860,7 @@ function ajouterParticipant() {
                 <input
                     type="text"
                     class="participant-name"
-                    placeholder="Nom, Prénom"
-                    >
+                    placeholder="Nom, Prénom">
 
             </div>
 
@@ -4402,8 +4401,9 @@ function recupererParticipants() {
                     .querySelector(
                         ".participant-name"
                     )
-                    ).value.trim() ||
-    "Non récolté ou supprimé",
+                    .value
+                    .trim() ||
+                    "Non récolté ou supprimé",
 
 
             laboratoire:
@@ -4536,7 +4536,6 @@ function validerParticipants() {
 
 
         if (
-            !p.nom ||
             !p.laboratoire ||
             !p.etablissement ||
             !p.categorie
