@@ -1786,7 +1786,21 @@ input::placeholder {
 
             </div>
 
+            <div class="field">
 
+                <label for="domaine">
+                    Domaine
+                </label>
+
+                <select id="domaine" required>
+
+                    <option value="">
+                        -- Choisir --
+                    </option>
+
+                </select>
+
+            </div>
             <div class="field">
 
                 <label for="type">
@@ -2054,6 +2068,18 @@ input::placeholder {
 
                 </div>
 
+                  <div class="recap-item">
+
+                    <span class="recap-label">
+                        Domaine
+                    </span>
+
+                    <span
+                        class="recap-value"
+                        id="recapDomaine">
+                    </span>
+
+                </div>
 
                 <div class="recap-item">
 
@@ -2281,6 +2307,9 @@ const COL = {
     annee:
         "Annee",
 
+    domaine:
+        "Domaine",  
+      
     date:
         "Date",
 
@@ -2324,6 +2353,8 @@ const COL = {
 let CHOIX_ANNEE = [];
 
 let CHOIX_TYPE = [];
+
+let CHOIX_DOMAINE = [];
 
 let CHOIX_INTITULE = [];
 
@@ -2537,6 +2568,7 @@ async function chargerChoixDepuisGrist() {
 
         COL.annee,
         COL.type,
+        COL.domaine,  
         COL.intitule,
         COL.langue,
         COL.formateurs,
@@ -3083,21 +3115,24 @@ function remplirChoixSession() {
         CHOIX_ANNEE,
         "-- Choisir --"
     );
-
-
+        
     ajouterOptions(
         document.getElementById("type"),
         CHOIX_TYPE,
         "-- Choisir --"
     );
 
+    ajouterOptions(
+        document.getElementById("domaine"),
+        CHOIX_DOMAINE,
+        "-- Choisir --"
+    ); 
 
     ajouterOptions(
         document.getElementById("intitule"),
         CHOIX_INTITULE,
         "-- Choisir --"
     );
-
 
     ajouterOptions(
         document.getElementById("langue"),
@@ -4295,7 +4330,11 @@ function recupererSession() {
             document.getElementById(
                 "type"
             ).value,
-
+        
+        domaine:
+            document.getElementById(
+                "domaine"
+            ).value,
 
         intitule:
             document.getElementById(
@@ -4410,6 +4449,7 @@ function validerSession() {
     if (
         !session.annee ||
         !session.type ||
+        !session.domaine ||  
         !session.intitule ||
         !session.langue ||
         session.formateurs.length === 0 ||
@@ -4547,7 +4587,11 @@ function afficherRecapitulatif() {
     ).textContent =
         session.type;
 
-
+    document.getElementById(
+        "recapDomaine"
+    ).textContent =
+        session.domaine;
+      
     document.getElementById(
         "recapIntitule"
     ).textContent =
@@ -4890,6 +4934,8 @@ async function confirmerEnregistrement() {
                     [COL.type]:
                         session.type,
 
+                    [COL.domaine]:
+                        session.domaine,  
 
                     [COL.intitule]:
                         session.intitule,
@@ -5048,6 +5094,9 @@ function nouvelleSession() {
         "type"
     ).value = "";
 
+    document.getElementById(
+        "domaine"
+    ).value = "";  
 
     document.getElementById(
         "intitule"
@@ -5319,6 +5368,8 @@ document
         CHOIX_TYPE =
             choix[COL.type] || [];
 
+        CHOIX_DOMAINE =
+            choix[COL.domaine] || [];  
 
         CHOIX_INTITULE =
             choix[COL.intitule] || [];
