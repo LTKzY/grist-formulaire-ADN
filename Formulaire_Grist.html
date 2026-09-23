@@ -3709,7 +3709,6 @@ function initialiserNavigationClavier(
 
 
             if (
-                !participantActuel.nom ||
                 !participantActuel.laboratoire ||
                 !participantActuel.etablissement ||
                 !participantActuel.categorie
@@ -3862,7 +3861,7 @@ function ajouterParticipant() {
                     type="text"
                     class="participant-name"
                     placeholder="Nom, Prénom"
-                    required>
+                    >
 
             </div>
 
@@ -4403,8 +4402,8 @@ function recupererParticipants() {
                     .querySelector(
                         ".participant-name"
                     )
-                    .value
-                    .trim(),
+                    ).value.trim() ||
+    "Non récolté ou supprimé",
 
 
             laboratoire:
