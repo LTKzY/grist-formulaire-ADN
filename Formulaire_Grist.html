@@ -5015,28 +5015,25 @@ async function confirmerEnregistrement() {
                         participant.nom,
 
 
-                    /*
-                     * RefList Grist
+  /*
+                     * RefList Grist :
+                     * - Laboratoire existant : identifiant de la ligne.
+                     * - Laboratoire inexistant : recherche de référence
+                     *   avec conservation du texte comme référence invalide.
                      */
 
                     [COL.laboratoire]:
                         participant.laboratoire
                             ? [
                                 "L",
-                                Number(
-                                    participant.laboratoire
-                                )
+                                Number(participant.laboratoire)
                             ]
                             : participant.laboratoireNom
                                 ? [
                                     "L",
                                     [
                                         "l",
-                                        participant.laboratoireNom,
-                                        {
-                                            column: "Nom_abrege",
-                                            raw: participant.laboratoireNom
-                                        }
+                                        participant.laboratoireNom
                                     ]
                                 ]
                                 : null,
