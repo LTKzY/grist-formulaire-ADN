@@ -5022,21 +5022,22 @@ async function confirmerEnregistrement() {
                      *   avec conservation du texte comme référence invalide.
                      */
 
-                    [COL.laboratoire]:
-                        participant.laboratoire
-                            ? [
-                                "L",
-                                Number(participant.laboratoire)
-                            ]
-                            : participant.laboratoireNom
-                                ? [
-                                    "L",
-                                    [
-                                        "l",
-                                        participant.laboratoireNom
-                                    ]
-                                ]
-                                : null,
+[COL.laboratoire]:
+    participant.laboratoire
+        ? [
+            "L",
+            Number(participant.laboratoire)
+        ]
+        : participant.laboratoireNom
+            ? [
+                "l",
+                participant.laboratoireNom,
+                {
+                    column: "Nom_abrege",
+                    raw: participant.laboratoireNom
+                }
+            ]
+            : null,
 
 
                     [COL.etablissement]:
