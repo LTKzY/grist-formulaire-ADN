@@ -2387,6 +2387,51 @@ let participantCounter = 0;
    OUTILS
 ===================================================== */
 
+function ajouterOptionsFormateurs(
+    select,
+    formateurs,
+    placeholder
+) {
+
+    select.innerHTML = "";
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = placeholder;
+    select.appendChild(first);
+
+    formateurs.forEach(formateur => {
+        const option = document.createElement("option");
+        option.value = String(formateur.id);
+        option.textContent = formateur.nom;
+        select.appendChild(option);
+    });
+
+}
+
+
+async function chargerFormateurs() {
+
+    const data = await grist.docApi.fetchTable("Liste_des_formateurs");
+    const ids = data.id || [];
+    const noms = data.Nom_Prenom || [];
+
+    CHOIX_FORMATEURS = [];
+
+    for (let i = 0; i < ids.length; i++) {
+        if (noms[i] !== undefined && noms[i] !== null && String(noms[i]).trim() !== "") {
+            CHOIX_FORMATEURS.push({
+                id: Number(ids[i]),
+                nom: String(noms[i]).trim()
+            });
+        }
+    }
+
+    CHOIX_FORMATEURS.sort((a, b) => a.nom.localeCompare(b.nom, "fr"));
+
+}
+
+
 function ajouterOptions(
     select,
     options,
@@ -2571,7 +2616,6 @@ async function chargerChoixDepuisGrist() {
         COL.domaine,  
         COL.intitule,
         COL.langue,
-        COL.formateurs,
         COL.etablissement,
         COL.categorie,
         COL.lieu
@@ -2612,18 +2656,9 @@ async function chargerChoixDepuisGrist() {
         }
 
 
-        /*
-         * Les champs classiques sont de type Choice.
-         * Formateur(s) est de type ChoiceList.
-         */
+        /* Les champs chargés ici sont des colonnes Choice. */
 
-        if (
-            types[i] !== "Choice" &&
-            !(
-                colId === COL.formateurs &&
-                types[i] === "ChoiceList"
-            )
-        ) {
+        if (types[i] !== "Choice") {
 
             continue;
 
@@ -3147,7 +3182,7 @@ function remplirChoixSession() {
         );
 
 
-    ajouterOptions(
+    ajouterOptionsFormateurs(
         selectFormateurs,
         CHOIX_FORMATEURS,
         ""
@@ -4605,7 +4640,12 @@ function afficherRecapitulatif() {
     document.getElementById(
         "recapFormateurs"
     ).textContent =
-        session.formateurs.join(", ");
+        Array.from(
+            document.getElementById("formateurs").selectedOptions
+        )
+        .filter(option => option.value)
+        .map(option => option.textContent)
+        .join(", ");
 
 
     document.getElementById(
@@ -4944,13 +4984,13 @@ async function confirmerEnregistrement() {
 
 
                     /*
-                     * ChoiceList Grist
+                     * RefList Grist : identifiants des formateurs
                      */
 
                     [COL.formateurs]:
                         [
                             "L",
-                            ...session.formateurs
+                            ...session.formateurs.map(Number)
                         ],
 
 
@@ -5377,10 +5417,6 @@ document
             choix[COL.langue] || [];
 
 
-        CHOIX_FORMATEURS =
-            choix[COL.formateurs] || [];
-
-
         CHOIX_ETABLISSEMENT =
             choix[COL.etablissement] || [];
 
@@ -5391,6 +5427,13 @@ document
 
         CHOIX_LIEU =
             choix[COL.lieu] || [];
+
+
+        /*
+         * Chargement des formateurs depuis leur table de référence.
+         */
+
+        await chargerFormateurs();
 
 
         /*
