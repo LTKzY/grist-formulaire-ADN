@@ -3912,8 +3912,7 @@ function ajouterParticipant() {
                         type="text"
                         class="participant-laboratoire-search"
                         placeholder="Rechercher un laboratoire..."
-                        autocomplete="off"
-                        required>
+                        autocomplete="off">
 
                     <input
                         type="hidden"
@@ -4092,6 +4091,11 @@ function ajouterParticipant() {
                         ".participant-laboratoire"
                     ).value;
 
+                const laboratoireNom =
+                    participant.querySelector(
+                        ".participant-laboratoire-search"
+                    ).value;
+
 
                 const etablissement =
                     participant.querySelector(
@@ -4141,16 +4145,14 @@ function ajouterParticipant() {
                     );
 
 
-                if (laboTrouve) {
-
-                    nouveauParticipant
-                        .querySelector(
-                            ".participant-laboratoire-search"
-                        )
-                        .value =
-                        laboTrouve.nom;
-
-                }
+                nouveauParticipant
+                    .querySelector(
+                        ".participant-laboratoire-search"
+                    )
+                    .value =
+                    laboTrouve
+                        ? laboTrouve.nom
+                        : laboratoireNom;
 
 
                 nouveauParticipant
@@ -4448,6 +4450,14 @@ function recupererParticipants() {
                     )
                     .value,
 
+            laboratoireNom:
+                participant
+                    .querySelector(
+                        ".participant-laboratoire-search"
+                    )
+                    .value
+                    .trim(),
+
 
             etablissement:
                 participant
@@ -4571,7 +4581,6 @@ function validerParticipants() {
 
 
         if (
-            !p.laboratoire ||
             !p.etablissement ||
             !p.categorie
         ) {
@@ -4715,7 +4724,7 @@ function afficherRecapitulatif() {
             labo.textContent =
                 laboTrouve
                     ? laboTrouve.nom
-                    : participant.laboratoire;
+                    : participant.laboratoireNom;
 
 
             const etablissement =
@@ -5018,7 +5027,19 @@ async function confirmerEnregistrement() {
                                     participant.laboratoire
                                 )
                             ]
-                            : null,
+                            : participant.laboratoireNom
+                                ? [
+                                    "L",
+                                    [
+                                        "l",
+                                        participant.laboratoireNom,
+                                        {
+                                            column: "Nom_abrege",
+                                            raw: participant.laboratoireNom
+                                        }
+                                    ]
+                                ]
+                                : null,
 
 
                     [COL.etablissement]:
